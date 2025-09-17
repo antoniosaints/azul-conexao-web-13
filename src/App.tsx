@@ -8,6 +8,13 @@ import CitySelector from "./pages/CitySelector";
 import CityHome from "./pages/CityHome";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import TermsOfService from "./pages/TermsOfService";
+import Regulations from "./pages/Regulations";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ConsumerDefense from "./pages/ConsumerDefense";
+import BlogPost from "./pages/BlogPost";
+import Plans from "./pages/Plans";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -20,8 +27,15 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<CitySelector />} />
-            <Route path="/:citySlug" element={<CityHome />} />
+            <Route path="/termos-de-uso" element={<TermsOfService />} />
+            <Route path="/regulamento" element={<Regulations />} />
+            <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
+            <Route path="/codigo-de-defesa" element={<ConsumerDefense />} />
+            <Route path="/blog/:postId" element={<BlogPost />} />
+            <Route path="/planos" element={<Plans />} />
+            <Route path="/contato" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/:citySlug" element={<CityHome />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
