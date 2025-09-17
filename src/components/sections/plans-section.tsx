@@ -140,7 +140,7 @@ export function PlansSection() {
 
                 <CardHeader className="text-center pb-2">
                   <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${plan.color} flex items-center justify-center ${plan.isPremium ? 'shadow-glow' : ''}`}>
-                    <Icon className="w-8 h-8 text-white" />
+                    <img src="/assets/logo.png" alt="Logo" className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold">{plan.name}</h3>
                   <div className={`font-bold text-4xl ${plan.isPremium ? 'bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent' : 'text-primary'}`}>

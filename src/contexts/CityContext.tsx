@@ -9,14 +9,14 @@ export interface City {
 
 // Dados mockados das cidades
 export const mockCities: City[] = [
-  { id: '1', name: 'São Paulo', state: 'SP', isActive: true },
-  { id: '2', name: 'Rio de Janeiro', state: 'RJ', isActive: true },
-  { id: '3', name: 'Belo Horizonte', state: 'MG', isActive: true },
-  { id: '4', name: 'Salvador', state: 'BA', isActive: true },
-  { id: '5', name: 'Fortaleza', state: 'CE', isActive: true },
-  { id: '6', name: 'Brasília', state: 'DF', isActive: true },
-  { id: '7', name: 'Curitiba', state: 'PR', isActive: true },
-  { id: '8', name: 'Recife', state: 'PE', isActive: true },
+  { id: '1', name: 'Arari', state: 'MA', isActive: true },
+  { id: '2', name: 'Bacabal', state: 'MA', isActive: true },
+  { id: '3', name: 'Cantanhede', state: 'MA', isActive: true },
+  { id: '4', name: 'Coroata', state: 'MA', isActive: true },
+  { id: '5', name: 'Alto alegre', state: 'MA', isActive: true },
+  { id: '6', name: 'Pirapemas', state: 'MA', isActive: true },
+  { id: '7', name: 'São Luis Gonzaga', state: 'MA', isActive: true },
+  { id: '8', name: 'Peritoró', state: 'MA', isActive: true },
 ];
 
 interface CityContextData {

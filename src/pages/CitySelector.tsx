@@ -27,22 +27,16 @@ export default function CitySelector() {
       <div className="max-w-md w-full">
         {/* Logo e título */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-3 mb-4">
-            <div className="p-3 bg-gradient-primary rounded-xl shadow-lg">
-              <Wifi className="w-8 h-8 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold text-primary">CAS Internet</h1>
-          </div>
           <p className="text-muted-foreground text-lg">
-            Bem-vindo! Selecione sua cidade para continuar
+            Bem-vindo à CAS Internet! Selecione sua cidade para continuar
           </p>
         </div>
 
         {/* Card de seleção */}
         <Card className="shadow-xl border-0 bg-background/95 backdrop-blur">
           <CardHeader className="text-center pb-4">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center">
-              <MapPin className="w-8 h-8 text-white" />
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center">
+              <img src="/assets/logo.png" alt="Logo" />
             </div>
             <CardTitle className="text-2xl">Escolha sua cidade</CardTitle>
           </CardHeader>

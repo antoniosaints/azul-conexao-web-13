@@ -2,14 +2,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Menu, Wifi, MapPin, ChevronDown } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useCity } from "@/contexts/CityContext";
 
 const navigation = [
-  { name: "Início", href: "/" },
+  { name: "Início", href: "#inicio" },
   { name: "Planos", href: "#planos" },
   { name: "Sobre", href: "#sobre" },
   { name: "Blog", href: "#blog" },
@@ -25,7 +30,11 @@ export function Header() {
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
       const element = document.querySelector(href);
-      element?.scrollIntoView({ behavior: "smooth" });
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const y = rect.top + window.scrollY - 40;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
     }
     setIsOpen(false);
   };
@@ -37,13 +46,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-24 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="p-2 bg-gradient-primary rounded-lg">
-              <Wifi className="w-6 h-6 text-white" />
+            <div className="p-2 rounded-lg">
+              <img src="/assets/logo.png" alt="logo" className="w-16 h-16" />
             </div>
-            <span className="text-xl font-bold text-primary">CAS Internet</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -56,21 +64,19 @@ export function Header() {
                   "text-sm font-medium transition-colors hover:text-primary relative",
                   "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary",
                   "after:transition-all after:duration-300 hover:after:w-full",
-                  location.pathname === item.href ? "text-primary" : "text-muted-foreground"
+                  location.pathname === item.href
+                    ? "text-primary"
+                    : "text-muted-foreground"
                 )}
               >
                 {item.name}
               </button>
             ))}
-          </nav>
-
-          {/* Actions */}
-          <div className="flex items-center gap-4">
             {selectedCity && (
               <div className="hidden md:flex items-center gap-2">
-                <Badge 
-                  variant="outline" 
-                  className="flex items-center gap-1 cursor-pointer hover:bg-accent transition-colors" 
+                <Badge
+                  variant="outline"
+                  className="flex items-center gap-1 cursor-pointer hover:bg-accent transition-colors"
                   onClick={handleCityClick}
                 >
                   <MapPin className="w-3 h-3" />
@@ -78,16 +84,26 @@ export function Header() {
                 </Badge>
               </div>
             )}
-            
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
                     Menu
                     <ChevronDown className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-background border shadow-lg">
+                <DropdownMenuContent
+                  align="end"
+                  className="w-48 bg-background border shadow-lg"
+                >
                   <DropdownMenuItem className="cursor-pointer hover:bg-accent">
                     Teste de Velocidade
                   </DropdownMenuItem>
@@ -99,7 +115,7 @@ export function Header() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              
+
               <Button size="sm" className="bg-gradient-primary">
                 Contratar
               </Button>
@@ -118,7 +134,9 @@ export function Header() {
                     <div className="p-2 bg-gradient-primary rounded-lg">
                       <Wifi className="w-6 h-6 text-white" />
                     </div>
-                    <span className="text-xl font-bold text-primary">CAS Internet</span>
+                    <span className="text-xl font-bold text-primary">
+                      CAS Internet
+                    </span>
                   </div>
 
                   <nav className="flex flex-col gap-4">
@@ -135,10 +153,12 @@ export function Header() {
 
                   {selectedCity && (
                     <div className="flex flex-col gap-2 pt-4 border-t">
-                      <span className="text-sm text-muted-foreground">Cidade atual:</span>
-                      <Badge 
-                        variant="outline" 
-                        className="flex items-center gap-1 cursor-pointer hover:bg-accent transition-colors w-fit" 
+                      <span className="text-sm text-muted-foreground">
+                        Cidade atual:
+                      </span>
+                      <Badge
+                        variant="outline"
+                        className="flex items-center gap-1 cursor-pointer hover:bg-accent transition-colors w-fit"
                         onClick={handleCityClick}
                       >
                         <MapPin className="w-3 h-3" />

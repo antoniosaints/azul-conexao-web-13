@@ -43,7 +43,9 @@ const CityHome = () => {
     <div className="min-h-screen">
       <Header />
       <main>
+        <section id="inicio">
         <HeroCarousel />
+        </section>
         <section id="planos">
           <PlansSection />
         </section>
