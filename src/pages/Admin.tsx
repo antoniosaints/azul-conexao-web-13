@@ -13,7 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Users, FileText, MessageSquare, Settings, Trash2, Edit, Eye, Wifi, Star, MapPin } from "lucide-react";
 import { mockCities } from "@/contexts/CityContext";
-import { mockPlans, mockTestimonials, mockBlogPosts, mockCarouselSlides, getAvailableCitiesForItem } from "@/data/mockData";
+import { mockPlans, mockTestimonials, mockBlogPosts, mockCarouselSlides } from "@/data/mockData";
+import { cn } from "@/lib/utils";
 
 // Mock data - Em uma aplicação real, isso viria do backend
 const mockRegistrations = [
@@ -56,16 +57,25 @@ const mockPosts = [
   },
 ];
 
+const adminNavigation = [
+  { id: "registrations", name: "Cadastros", icon: Users },
+  { id: "plans", name: "Planos", icon: Wifi },
+  { id: "testimonials", name: "Depoimentos", icon: Star },
+  { id: "blog", name: "Blog", icon: FileText },
+  { id: "cities", name: "Cidades", icon: MapPin },
+  { id: "settings", name: "Configurações", icon: Settings },
+];
+
 export default function Admin() {
-  const [activeTab, setActiveTab] = useState("registrations");
+  const [activeSection, setActiveSection] = useState("registrations");
   const { logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-secondary/30">
       {/* Header */}
       <div className="bg-background border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold">Painel Administrativo</h1>
             <div className="flex gap-2">
               <Button variant="outline" asChild>
@@ -76,6 +86,29 @@ export default function Admin() {
               </Button>
             </div>
           </div>
+          
+          {/* Navigation */}
+          <nav className="flex flex-wrap gap-2">
+            {adminNavigation.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Button
+                  key={item.id}
+                  variant={activeSection === item.id ? "default" : "ghost"}
+                  onClick={() => setActiveSection(item.id)}
+                  className={cn(
+                    "flex items-center gap-2",
+                    activeSection === item.id 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  )}
+                >
+                  <Icon className="w-4 h-4" />
+                  {item.name}
+                </Button>
+              );
+            })}
+          </nav>
         </div>
       </div>
 
@@ -140,51 +173,102 @@ export default function Admin() {
         </div>
 
         {/* Main Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="registrations">Cadastros</TabsTrigger>
-            <TabsTrigger value="plans">Planos</TabsTrigger>
-            <TabsTrigger value="testimonials">Depoimentos</TabsTrigger>
-            <TabsTrigger value="blog">Blog</TabsTrigger>
-            <TabsTrigger value="cities">Cidades</TabsTrigger>
-            <TabsTrigger value="settings">Configurações</TabsTrigger>
-          </TabsList>
+        {/* Cadastros */}
+        {activeSection === "registrations" && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Cadastros de Contratação</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nome</TableHead>
+                    <TableHead>E-mail</TableHead>
+                    <TableHead>Plano</TableHead>
+                    <TableHead>Data</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Ações</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {mockRegistrations.map((registration) => (
+                    <TableRow key={registration.id}>
+                      <TableCell className="font-medium">{registration.name}</TableCell>
+                      <TableCell>{registration.email}</TableCell>
+                      <TableCell>{registration.plan}</TableCell>
+                      <TableCell>{registration.date}</TableCell>
+                      <TableCell>
+                        <Badge variant={registration.status === "Aprovado" ? "default" : "secondary"}>
+                          {registration.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
 
-          {/* Cadastros */}
-          <TabsContent value="registrations">
+        {/* Planos */}
+        {activeSection === "plans" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Cadastros de Contratação</CardTitle>
+                <CardTitle>Planos de Internet</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Nome</TableHead>
-                      <TableHead>E-mail</TableHead>
-                      <TableHead>Plano</TableHead>
-                      <TableHead>Data</TableHead>
+                      <TableHead>Velocidade</TableHead>
+                      <TableHead>Preço</TableHead>
+                      <TableHead>Visível</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Ações</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockRegistrations.map((registration) => (
-                      <TableRow key={registration.id}>
-                        <TableCell className="font-medium">{registration.name}</TableCell>
-                        <TableCell>{registration.email}</TableCell>
-                        <TableCell>{registration.plan}</TableCell>
-                        <TableCell>{registration.date}</TableCell>
+                    {mockPlans.slice(0, 3).map((plan) => (
+                      <TableRow key={plan.id}>
+                        <TableCell className="font-medium">{plan.name}</TableCell>
+                        <TableCell>{plan.speed}</TableCell>
+                        <TableCell>R$ {plan.price.toFixed(2)}</TableCell>
                         <TableCell>
-                          <Badge variant={registration.status === "Aprovado" ? "default" : "secondary"}>
-                            {registration.status}
-                          </Badge>
+                          <Switch checked={plan.isVisible} />
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex gap-1">
+                            {plan.isHighlight && (
+                              <Badge variant="secondary" className="text-xs">
+                                <Star className="w-3 h-3 mr-1" />
+                                Destaque
+                              </Badge>
+                            )}
+                            {plan.isPremium && (
+                              <Badge className="text-xs bg-gradient-to-r from-primary to-primary/80">
+                                Premium
+                              </Badge>
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
-                            <Button size="sm" variant="outline">
-                              <Eye className="w-4 h-4" />
-                            </Button>
                             <Button size="sm" variant="outline">
                               <Edit className="w-4 h-4" />
                             </Button>
@@ -199,233 +283,173 @@ export default function Admin() {
                 </Table>
               </CardContent>
             </Card>
-          </TabsContent>
 
-          {/* Planos */}
-          <TabsContent value="plans">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Planos de Internet</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Nome</TableHead>
-                        <TableHead>Velocidade</TableHead>
-                        <TableHead>Preço</TableHead>
-                        <TableHead>Visível</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Ações</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockPlans.slice(0, 3).map((plan) => (
-                        <TableRow key={plan.id}>
-                          <TableCell className="font-medium">{plan.name}</TableCell>
-                          <TableCell>{plan.speed}</TableCell>
-                          <TableCell>R$ {plan.price.toFixed(2)}</TableCell>
-                          <TableCell>
-                            <Switch checked={plan.isVisible} />
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex gap-1">
-                              {plan.isHighlight && (
-                                <Badge variant="secondary" className="text-xs">
-                                  <Star className="w-3 h-3 mr-1" />
-                                  Destaque
-                                </Badge>
-                              )}
-                              {plan.isPremium && (
-                                <Badge className="text-xs bg-gradient-to-r from-primary to-primary/80">
-                                  Premium
-                                </Badge>
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex gap-2">
-                              <Button size="sm" variant="outline">
-                                <Edit className="w-4 h-4" />
-                              </Button>
-                              <Button size="sm" variant="outline">
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Adicionar/Editar Plano</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="space-y-4">
-                    <div>
-                      <Label htmlFor="plan-name">Nome do Plano</Label>
-                      <Input id="plan-name" placeholder="Ex: Básico, Plus, Premium" />
-                    </div>
-                    <div>
-                      <Label htmlFor="plan-speed">Velocidade</Label>
-                      <Input id="plan-speed" placeholder="Ex: 100MB, 300MB, 600MB" />
-                    </div>
-                    <div>
-                      <Label htmlFor="plan-price">Preço (R$)</Label>
-                      <Input id="plan-price" type="number" step="0.01" placeholder="59.90" />
-                    </div>
-                    <div>
-                      <Label htmlFor="plan-features">Características (uma por linha)</Label>
-                      <Textarea 
-                        id="plan-features" 
-                        rows={4}
-                        placeholder="Wi-Fi grátis&#10;Suporte 24h&#10;Instalação grátis&#10;Netflix incluído"
-                      />
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-2">
-                        <Switch id="plan-visible" />
-                        <Label htmlFor="plan-visible">Mostrar no site</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Switch id="plan-highlight" />
-                        <Label htmlFor="plan-highlight">Marcar como destaque</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Switch id="plan-premium" />
-                        <Label htmlFor="plan-premium">Plano Premium</Label>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button>Salvar Plano</Button>
-                      <Button variant="outline">Cancelar</Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* Depoimentos */}
-          <TabsContent value="testimonials">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Depoimentos</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockTestimonials.slice(0, 2).map((testimonial) => (
-                      <div key={testimonial.id} className="p-4 border rounded-lg">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-semibold">{testimonial.name}</h4>
-                          <Badge variant="default">
-                            Publicado
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-2">{testimonial.comment}</p>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline">Aprovar</Button>
-                          <Button size="sm" variant="outline">Editar</Button>
-                          <Button size="sm" variant="outline">Excluir</Button>
-                        </div>
-                      </div>
-                    ))}
+            <Card>
+              <CardHeader>
+                <CardTitle>Adicionar/Editar Plano</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-4">
+                  <div>
+                    <Label htmlFor="plan-name">Nome do Plano</Label>
+                    <Input id="plan-name" placeholder="Ex: Básico, Plus, Premium" />
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Adicionar Depoimento</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="space-y-4">
-                    <div>
-                      <Label htmlFor="testimonial-name">Nome</Label>
-                      <Input id="testimonial-name" placeholder="Nome do cliente" />
-                    </div>
-                    <div>
-                      <Label htmlFor="testimonial-location">Localização</Label>
-                      <Input id="testimonial-location" placeholder="Cidade, Estado" />
-                    </div>
-                    <div>
-                      <Label htmlFor="testimonial-comment">Depoimento</Label>
-                      <Textarea id="testimonial-comment" placeholder="Comentário do cliente" />
-                    </div>
-                    <Button>Adicionar Depoimento</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* Blog */}
-          <TabsContent value="blog">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Posts do Blog</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockPosts.map((post) => (
-                      <div key={post.id} className="p-4 border rounded-lg">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-semibold">{post.title}</h4>
-                          <Badge variant={post.status === "Publicado" ? "default" : "secondary"}>
-                            {post.status}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Por {post.author} em {post.date}
-                        </p>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline">Editar</Button>
-                          <Button size="sm" variant="outline">Ver</Button>
-                          <Button size="sm" variant="outline">Excluir</Button>
-                        </div>
-                      </div>
-                    ))}
+                  <div>
+                    <Label htmlFor="plan-speed">Velocidade</Label>
+                    <Input id="plan-speed" placeholder="Ex: 100MB, 300MB, 600MB" />
                   </div>
-                </CardContent>
-              </Card>
+                  <div>
+                    <Label htmlFor="plan-price">Preço (R$)</Label>
+                    <Input id="plan-price" type="number" step="0.01" placeholder="59.90" />
+                  </div>
+                  <div>
+                    <Label htmlFor="plan-features">Características (uma por linha)</Label>
+                    <Textarea 
+                      id="plan-features" 
+                      rows={4}
+                      placeholder="Wi-Fi grátis&#10;Suporte 24h&#10;Instalação grátis&#10;Netflix incluído"
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Switch id="plan-visible" />
+                      <Label htmlFor="plan-visible">Mostrar no site</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Switch id="plan-highlight" />
+                      <Label htmlFor="plan-highlight">Marcar como destaque</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Switch id="plan-premium" />
+                      <Label htmlFor="plan-premium">Plano Premium</Label>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button>Salvar Plano</Button>
+                    <Button variant="outline">Cancelar</Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Novo Post</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form className="space-y-4">
-                    <div>
-                      <Label htmlFor="post-title">Título</Label>
-                      <Input id="post-title" placeholder="Título do post" />
+        {/* Depoimentos */}
+        {activeSection === "testimonials" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Depoimentos</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {mockTestimonials.slice(0, 2).map((testimonial) => (
+                    <div key={testimonial.id} className="p-4 border rounded-lg">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-semibold">{testimonial.name}</h4>
+                        <Badge variant="default">
+                          Publicado
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">{testimonial.comment}</p>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline">Aprovar</Button>
+                        <Button size="sm" variant="outline">Editar</Button>
+                        <Button size="sm" variant="outline">Excluir</Button>
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="post-excerpt">Resumo</Label>
-                      <Textarea id="post-excerpt" placeholder="Breve descrição do post" />
-                    </div>
-                    <div>
-                      <Label htmlFor="post-content">Conteúdo</Label>
-                      <Textarea id="post-content" rows={8} placeholder="Conteúdo completo do post" />
-                    </div>
-                    <div className="flex gap-2">
-                      <Button>Publicar</Button>
-                      <Button variant="outline">Salvar Rascunho</Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* Cidades */}
-          <TabsContent value="cities">
+            <Card>
+              <CardHeader>
+                <CardTitle>Adicionar Depoimento</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-4">
+                  <div>
+                    <Label htmlFor="testimonial-name">Nome</Label>
+                    <Input id="testimonial-name" placeholder="Nome do cliente" />
+                  </div>
+                  <div>
+                    <Label htmlFor="testimonial-location">Localização</Label>
+                    <Input id="testimonial-location" placeholder="Cidade, Estado" />
+                  </div>
+                  <div>
+                    <Label htmlFor="testimonial-comment">Depoimento</Label>
+                    <Textarea id="testimonial-comment" placeholder="Comentário do cliente" />
+                  </div>
+                  <Button>Adicionar Depoimento</Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Blog */}
+        {activeSection === "blog" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Posts do Blog</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {mockPosts.map((post) => (
+                    <div key={post.id} className="p-4 border rounded-lg">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-semibold">{post.title}</h4>
+                        <Badge variant={post.status === "Publicado" ? "default" : "secondary"}>
+                          {post.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Por {post.author} em {post.date}
+                      </p>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline">Editar</Button>
+                        <Button size="sm" variant="outline">Ver</Button>
+                        <Button size="sm" variant="outline">Excluir</Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Novo Post</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-4">
+                  <div>
+                    <Label htmlFor="post-title">Título</Label>
+                    <Input id="post-title" placeholder="Título do post" />
+                  </div>
+                  <div>
+                    <Label htmlFor="post-excerpt">Resumo</Label>
+                    <Textarea id="post-excerpt" placeholder="Breve descrição do post" />
+                  </div>
+                  <div>
+                    <Label htmlFor="post-content">Conteúdo</Label>
+                    <Textarea id="post-content" rows={8} placeholder="Conteúdo completo do post" />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button>Publicar</Button>
+                    <Button variant="outline">Salvar Rascunho</Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Cidades */}
+        {activeSection === "cities" && (
+          <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
@@ -507,33 +531,9 @@ export default function Admin() {
                           <SelectValue placeholder="Selecione o estado" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="AC">Acre</SelectItem>
-                          <SelectItem value="AL">Alagoas</SelectItem>
-                          <SelectItem value="AP">Amapá</SelectItem>
-                          <SelectItem value="AM">Amazonas</SelectItem>
-                          <SelectItem value="BA">Bahia</SelectItem>
-                          <SelectItem value="CE">Ceará</SelectItem>
-                          <SelectItem value="DF">Distrito Federal</SelectItem>
-                          <SelectItem value="ES">Espírito Santo</SelectItem>
-                          <SelectItem value="GO">Goiás</SelectItem>
-                          <SelectItem value="MA">Maranhão</SelectItem>
-                          <SelectItem value="MT">Mato Grosso</SelectItem>
-                          <SelectItem value="MS">Mato Grosso do Sul</SelectItem>
-                          <SelectItem value="MG">Minas Gerais</SelectItem>
-                          <SelectItem value="PA">Pará</SelectItem>
-                          <SelectItem value="PB">Paraíba</SelectItem>
-                          <SelectItem value="PR">Paraná</SelectItem>
-                          <SelectItem value="PE">Pernambuco</SelectItem>
-                          <SelectItem value="PI">Piauí</SelectItem>
-                          <SelectItem value="RJ">Rio de Janeiro</SelectItem>
-                          <SelectItem value="RN">Rio Grande do Norte</SelectItem>
-                          <SelectItem value="RS">Rio Grande do Sul</SelectItem>
-                          <SelectItem value="RO">Rondônia</SelectItem>
-                          <SelectItem value="RR">Roraima</SelectItem>
-                          <SelectItem value="SC">Santa Catarina</SelectItem>
                           <SelectItem value="SP">São Paulo</SelectItem>
-                          <SelectItem value="SE">Sergipe</SelectItem>
-                          <SelectItem value="TO">Tocantins</SelectItem>
+                          <SelectItem value="RJ">Rio de Janeiro</SelectItem>
+                          <SelectItem value="MG">Minas Gerais</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -548,7 +548,7 @@ export default function Admin() {
             </div>
 
             {/* Associação de Conteúdos */}
-            <Card className="mt-6">
+            <Card>
               <CardHeader>
                 <CardTitle>Associar Conteúdos às Cidades</CardTitle>
               </CardHeader>
@@ -602,7 +602,7 @@ export default function Admin() {
                           <div className="flex justify-between items-start mb-3">
                             <div>
                               <h4 className="font-semibold">{testimonial.name}</h4>
-                            <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                              <p className="text-sm text-muted-foreground">{testimonial.location}</p>
                               <p className="text-sm mt-1">{testimonial.comment}</p>
                             </div>
                             <div className="flex gap-1">
@@ -694,58 +694,58 @@ export default function Admin() {
                 </Tabs>
               </CardContent>
             </Card>
-          </TabsContent>
+          </div>
+        )}
 
-          {/* Configurações */}
-          <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Configurações do Site</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Informações Gerais</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="company-name">Nome da Empresa</Label>
-                        <Input id="company-name" defaultValue="CAS Internet" />
-                      </div>
-                      <div>
-                        <Label htmlFor="company-phone">Telefone</Label>
-                        <Input id="company-phone" defaultValue="(11) 3000-0000" />
-                      </div>
-                      <div>
-                        <Label htmlFor="company-email">E-mail</Label>
-                        <Input id="company-email" defaultValue="contato@casinternet.com.br" />
-                      </div>
-                      <div>
-                        <Label htmlFor="company-address">Endereço</Label>
-                        <Input id="company-address" defaultValue="Av. Paulista, 1000 - São Paulo, SP" />
-                      </div>
+        {/* Configurações */}
+        {activeSection === "settings" && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Configurações do Site</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Informações Gerais</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="company-name">Nome da Empresa</Label>
+                      <Input id="company-name" defaultValue="CAS Internet" />
+                    </div>
+                    <div>
+                      <Label htmlFor="company-phone">Telefone</Label>
+                      <Input id="company-phone" defaultValue="(11) 3000-0000" />
+                    </div>
+                    <div>
+                      <Label htmlFor="company-email">E-mail</Label>
+                      <Input id="company-email" defaultValue="contato@casinternet.com.br" />
+                    </div>
+                    <div>
+                      <Label htmlFor="company-address">Endereço</Label>
+                      <Input id="company-address" defaultValue="Av. Paulista, 1000 - São Paulo, SP" />
                     </div>
                   </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Redes Sociais</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="facebook">Facebook</Label>
-                        <Input id="facebook" placeholder="URL do Facebook" />
-                      </div>
-                      <div>
-                        <Label htmlFor="instagram">Instagram</Label>
-                        <Input id="instagram" placeholder="URL do Instagram" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button>Salvar Configurações</Button>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Redes Sociais</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="facebook">Facebook</Label>
+                      <Input id="facebook" placeholder="URL do Facebook" />
+                    </div>
+                    <div>
+                      <Label htmlFor="instagram">Instagram</Label>
+                      <Input id="instagram" placeholder="URL do Instagram" />
+                    </div>
+                  </div>
+                </div>
+
+                <Button>Salvar Configurações</Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
