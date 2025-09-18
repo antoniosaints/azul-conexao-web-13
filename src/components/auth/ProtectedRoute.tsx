@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import { Navigate } from "react-router-dom";
 import Login from "./Login";
 
 interface ProtectedRouteProps {
@@ -11,8 +12,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   console.log("ProtectedRoute - isAuthenticated:", isAuthenticated);
 
   if (!isAuthenticated) {
-    console.log("User not authenticated, showing login");
-    return <Login />;
+    console.log("User not authenticated, redirecting to login");
+    return <Navigate to="/admin/login" replace />;
   }
 
   console.log("User authenticated, showing protected content");

@@ -7,6 +7,7 @@ import { CityProvider } from "@/contexts/CityContext";
 import CitySelector from "./pages/CitySelector";
 import CityHome from "./pages/CityHome";
 import Admin from "./pages/Admin";
+import Login from "./components/auth/Login";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/blog/:postId" element={<BlogPost />} />
             <Route path="/planos" element={<Plans />} />
             <Route path="/contato" element={<Contact />} />
+            <Route path="/admin/login" element={<Login />} />
             <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
             <Route path="/:citySlug" element={<CityHome />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
