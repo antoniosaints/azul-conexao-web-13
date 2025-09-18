@@ -25,7 +25,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedCity } = useCity();
+  const { selectedCity, getCitySlug } = useCity();
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -43,12 +43,14 @@ export function Header() {
     navigate("/");
   };
 
+  const slug = getCitySlug(selectedCity);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-24 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <Link to={`/${slug}`} className="flex items-center gap-2">
             <div className="p-2 rounded-lg">
               <img src="/assets/logo.png" alt="logo" className="w-16 h-16" />
             </div>

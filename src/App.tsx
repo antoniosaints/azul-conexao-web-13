@@ -28,10 +28,10 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<CitySelector />} />
-            <Route path="/termos-de-uso" element={<TermsOfService />} />
+            <Route path="/termos" element={<TermsOfService />} />
             <Route path="/regulamento" element={<Regulations />} />
-            <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
-            <Route path="/codigo-de-defesa" element={<ConsumerDefense />} />
+            <Route path="/privacidade" element={<PrivacyPolicy />} />
+            <Route path="/defesa" element={<ConsumerDefense />} />
             <Route path="/blog/:postId" element={<BlogPost />} />
             <Route path="/planos" element={<Plans />} />
             <Route path="/contato" element={<Contact />} />
