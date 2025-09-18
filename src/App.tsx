@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CityProvider } from "@/contexts/CityContext";
+import { AuthProvider } from "@/hooks/useAuth";
 import CitySelector from "./pages/CitySelector";
 import CityHome from "./pages/CityHome";
 import Admin from "./pages/Admin";
@@ -24,9 +25,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <CityProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+        <AuthProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           <Routes>
             <Route path="/" element={<CitySelector />} />
             <Route path="/termos-de-uso" element={<TermsOfService />} />
@@ -43,6 +45,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        </AuthProvider>
       </CityProvider>
     </TooltipProvider>
   </QueryClientProvider>
