@@ -11,8 +11,10 @@ export const useAuth = () => {
   }, []);
 
   const login = () => {
+    console.log("Setting localStorage and authentication state");
     localStorage.setItem(AUTH_KEY, "true");
     setIsAuthenticated(true);
+    console.log("Authentication state updated:", true);
   };
 
   const logout = () => {

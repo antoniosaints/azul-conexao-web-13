@@ -16,9 +16,13 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
+    console.log("Login attempt:", { username, password });
+
     if (username === "admin" && password === "admin") {
+      console.log("Login successful, calling login()");
       login();
     } else {
+      console.log("Login failed - invalid credentials");
       setError("Usuário ou senha incorretos");
     }
   };
