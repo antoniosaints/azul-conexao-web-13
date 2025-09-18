@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -60,12 +59,6 @@ const mockPosts = [
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("registrations");
   const { logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/admin/login");
-  };
 
   return (
     <div className="min-h-screen bg-secondary/30">
@@ -78,7 +71,7 @@ export default function Admin() {
               <Button variant="outline" asChild>
                 <a href="/">Voltar ao Site</a>
               </Button>
-              <Button variant="outline" onClick={handleLogout}>
+              <Button variant="outline" onClick={logout}>
                 Sair
               </Button>
             </div>
