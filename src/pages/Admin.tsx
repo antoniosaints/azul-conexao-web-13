@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -57,6 +58,7 @@ const mockPosts = [
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("registrations");
+  const { logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-secondary/30">
@@ -65,9 +67,14 @@ export default function Admin() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold">Painel Administrativo</h1>
-            <Button variant="outline" asChild>
-              <a href="/">Voltar ao Site</a>
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" asChild>
+                <a href="/">Voltar ao Site</a>
+              </Button>
+              <Button variant="outline" onClick={logout}>
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
       </div>
