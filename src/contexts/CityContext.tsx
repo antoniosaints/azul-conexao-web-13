@@ -25,7 +25,7 @@ interface CityContextData {
   setSelectedCity: (city: City | null) => void;
   getCityById: (id: string) => City | undefined;
   getCityBySlug: (slug: string) => City | undefined;
-  getCitySlug: (city: City) => string;
+  getCitySlug: (city: City | null) => string;
 }
 
 const CityContext = createContext<CityContextData>({} as CityContextData);
@@ -51,7 +51,8 @@ export function CityProvider({ children }: CityProviderProps) {
     return availableCities.find(city => city.id === id);
   };
 
-  const getCitySlug = (city: City): string => {
+  const getCitySlug = (city: City | null): string => {
+    if (!city) return '';
     return city.name.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
