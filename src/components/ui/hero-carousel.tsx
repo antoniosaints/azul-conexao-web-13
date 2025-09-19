@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, Wifi, Zap, Shield } from "lucide-react";
+import { ChevronLeft, ChevronRight} from "lucide-react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
 import { useCity } from "@/contexts/CityContext";
@@ -8,14 +8,6 @@ import { mockCarouselSlides, filterByCity } from "@/data/mockData";
 const slides = [
   {
     id: 1,
-    title: "Internet Fibra Ótica",
-    subtitle: "Velocidade incomparável para sua casa",
-    description:
-      "Experimente a internet mais rápida e estável do mercado com nossa tecnologia de fibra ótica.",
-    imgUrl: "/assets/banner1.png",
-  },
-  {
-    id: 2,
     title: "Velocidade Garantida",
     subtitle: "Sem oscilações, sem frustrações",
     description:
@@ -23,7 +15,15 @@ const slides = [
     imgUrl: "/assets/banner2.png",
   },
   {
-    id: 3,
+    id: 2,
+    title: "Segurança Total",
+    subtitle: "Proteção completa para sua conexão",
+    description:
+      "Navegue com tranquilidade com nossa tecnologia de segurança avançada.",
+    imgUrl: "/assets/banner3.png",
+  },
+  {
+    id: 2,
     title: "Segurança Total",
     subtitle: "Proteção completa para sua conexão",
     description:
@@ -85,7 +85,7 @@ export function HeroCarousel() {
     >
       {slides.map((slide, index) => (
         <div
-          key={slide.id}
+          key={index}
           className={cn(
             "absolute inset-0 transition-opacity duration-700 ease-in-out",
             index === currentSlide ? "opacity-100 z-20" : "opacity-0 z-10"

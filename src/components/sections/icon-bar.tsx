@@ -34,7 +34,7 @@ export function IconBar() {
               key={index}
               className="flex flex-col transition-all duration-300 hover:scale-105 items-center justify-between text-white"
             >
-              <img src={icon.icon} className="w-12" alt={icon.name} /> {icon.name}
+              <img src={icon.icon} className="w-12 text-white" alt={icon.name} /> {icon.name}
             </div>
           ))}
         </div>

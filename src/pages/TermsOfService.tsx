@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileCheck2 } from "lucide-react";
 
 export default function TermsOfService() {
   return (
@@ -10,6 +11,11 @@ export default function TermsOfService() {
       <main className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
+            <div className="flex justify-center mb-6">
+              <div className="p-4 bg-primary/10 rounded-full">
+                <FileCheck2 className="w-12 h-12 text-primary" />
+              </div>
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Termos de Uso
             </h1>

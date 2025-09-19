@@ -10,6 +10,7 @@ import { AboutSection } from "@/components/sections/about-section";
 import { BlogSection } from "@/components/sections/blog-section";
 import { useCity } from "@/contexts/CityContext";
 import { IconBar } from "@/components/sections/icon-bar";
+import { CoverageSection } from "@/components/sections/cobertura-cas";
 
 const CityHome = () => {
   const { citySlug } = useParams<{ citySlug: string }>();
@@ -50,6 +51,9 @@ const CityHome = () => {
         <IconBar />
         <section id="planos">
           <PlansSection />
+        </section>
+        <section id="cobertura">
+          <CoverageSection />
         </section>
         <section id="contato">
           <ContactForm />

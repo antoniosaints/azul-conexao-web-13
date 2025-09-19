@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Wifi, Facebook, Instagram, Twitter, Youtube, Phone, Mail, MapPin, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Wifi,
+  Facebook,
+  Instagram,
+  Twitter,
+  Youtube,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const quickLinks = [
   { name: "Planos Residenciais", href: "#planos" },
@@ -21,11 +31,16 @@ const company = [
 const legal = [
   { name: "Política de Privacidade", href: "/privacidade" },
   { name: "Termos de Uso", href: "/termos" },
-  { name: "Regulamento", href: "/regulamento" },
-  { name: "Código de Defesa", href: "/defesa" },
+  // { name: "Regulamento", href: "/regulamento" },
+  // { name: "Código de Defesa", href: "/defesa" },
 ];
 
 export function Footer() {
+  const navigate = useNavigate();
+  function goToTop(url: string) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate(url);
+  }
   return (
     <footer className="bg-gradient-to-r from-primary to-success text-background">
       <div className="container mx-auto px-4">
@@ -36,23 +51,42 @@ export function Footer() {
             <div className="">
               <div className="flex items-center gap-2 mb-6">
                 <div className="p-2 rounded-lg">
-                  <img src="/assets/logo_branca.png" alt="logo_cas" className="w-28" />
+                  <img
+                    src="/assets/logo_branca.png"
+                    alt="logo_cas"
+                    className="w-28"
+                  />
                 </div>
               </div>
-              
 
               {/* Social Media */}
               <div className="flex gap-4">
-                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="border-background/20 bg-success/70 hover:border-primary"
+                >
                   <Facebook className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="border-background/20 bg-success/70 hover:border-primary"
+                >
                   <Instagram className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="border-background/20 bg-success/70 hover:border-primary"
+                >
                   <Twitter className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="border-background/20 bg-success/70 hover:border-primary"
+                >
                   <Youtube className="w-5 h-5" />
                 </Button>
               </div>
@@ -124,16 +158,17 @@ export function Footer() {
             <div className="text-background/80 text-sm">
               © 2024 CAS Internet. Todos os direitos reservados.
             </div>
-            
-            <div className="flex flex-wrap gap-6">
+
+            <div className="flex flex-wrap gap-2">
               {legal.map((link) => (
-                <Link
+                <Button
+                  variant="link"
                   key={link.name}
-                  to={link.href}
-                  className="text-background/80 hover:text-primary transition-colors text-sm"
+                  onClick={() => goToTop(link.href)}
+                  className="text-background/80 hover:text-blue-200 transition-colors text-sm"
                 >
                   {link.name}
-                </Link>
+                </Button>
               ))}
             </div>
           </div>

@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, Wifi, MapPin, ChevronDown } from "lucide-react";
+import { Menu, Wifi, MapPin } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useCity } from "@/contexts/CityContext";
@@ -17,7 +17,7 @@ const navigation = [
   { name: "Início", href: "#inicio" },
   { name: "Planos", href: "#planos" },
   { name: "Sobre", href: "#sobre" },
-  { name: "Blog", href: "#blog" },
+  { name: "Cobertura", href: "#cobertura" },
   { name: "Contato", href: "#contato" },
 ];
 
@@ -46,7 +46,7 @@ export function Header() {
   const slug = getCitySlug(selectedCity);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-gradient-to-l from-success/100 to-primary/100">
+    <header className="sticky top-0 z-[9999] w-full bg-gradient-to-l from-success to-primary">
       <div className="container mx-auto px-4">
         <div className="flex h-24 items-center justify-between">
           {/* Logo */}
@@ -127,10 +127,10 @@ export function Header() {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="md:hidden">
                 <Button variant="ghost" size="icon">
-                  <Menu className="w-5 h-5" />
+                  <Menu className="w-5 h-5 text-white" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80">
+              <SheetContent side="right" className="w-80 z-[9999]">
                 <div className="flex flex-col gap-6 mt-8">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gradient-primary rounded-lg">
