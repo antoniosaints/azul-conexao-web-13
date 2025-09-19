@@ -1,132 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { MapPin, Settings } from "lucide-react";
+import { MapPin, Wifi, Users, Signal } from "lucide-react";
 
 const cities = [
-  {
-    name: "São Mateus do Maranhão",
-    coordinates: [-44.46985003602947, -4.0322232706298] as [number, number],
-  },
-  {
-    name: "São Luis Gonzaga",
-    coordinates: [-44.6705205819622, -4.3779435442874615] as [number, number],
-  },
-  {
-    name: "Cantanhede",
-    coordinates: [-44.38027176945364, -3.635930954743144] as [number, number],
-  },
-  {
-    name: "Miranda",
-    coordinates: [-44.5864563044567, -3.563637481379419] as [number, number],
-  },
-  {
-    name: "Matões do Norte",
-    coordinates: [-44.55770210882281, -3.6319673940162565] as [number, number],
-  },
-  {
-    name: "Pirapemas",
-    coordinates: [-44.227709394853946, -3.725739016411464] as [number, number],
-  },
-  {
-    name: "Coroata",
-    coordinates: [-44.1298739299053, -4.128798012061277] as [number, number],
-  },
-  {
-    name: "Peritoró",
-    coordinates: [-44.339285848196056, -4.373141955392519] as [number, number],
-  },
-  {
-    name: "Alto Alegre",
-    coordinates: [-44.45421701016184, -4.212277790131448] as [number, number],
-  },
-  {
-    name: "Bacabal",
-    coordinates: [-44.78503776027442, -4.226223997432526] as [number, number],
-  },
-  {
-    name: "Arari",
-    coordinates: [-44.77572133456607, -3.4558816556280654] as [number, number],
-  },
+  { name: "São Mateus do Maranhão", region: "Norte" },
+  { name: "São Luis Gonzaga", region: "Norte" },
+  { name: "Cantanhede", region: "Norte" },
+  { name: "Miranda", region: "Norte" },
+  { name: "Matões do Norte", region: "Norte" },
+  { name: "Pirapemas", region: "Centro" },
+  { name: "Coroata", region: "Centro" },
+  { name: "Peritoró", region: "Centro" },
+  { name: "Alto Alegre", region: "Centro" },
+  { name: "Bacabal", region: "Sul" },
+  { name: "Arari", region: "Sul" },
+];
+
+const regions = [
+  { name: "Norte", cities: cities.filter(c => c.region === "Norte"), color: "bg-blue-500" },
+  { name: "Centro", cities: cities.filter(c => c.region === "Centro"), color: "bg-green-500" },
+  { name: "Sul", cities: cities.filter(c => c.region === "Sul"), color: "bg-purple-500" },
 ];
 
 export function CoverageMap() {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const [mapboxToken, setMapboxToken] = useState('');
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [showTokenInput, setShowTokenInput] = useState(true);
-
-  const initializeMap = () => {
-    if (!mapContainer.current || !mapboxToken) return;
-
-    try {
-      mapboxgl.accessToken = mapboxToken;
-      
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
-        center: [-44.61432162124399, -3.9506567657767384], // Maranhão center
-        zoom: 8,
-        pitch: 0,
-      });
-
-      // Add navigation controls
-      map.current.addControl(
-        new mapboxgl.NavigationControl(),
-        'top-right'
-      );
-
-      map.current.on('load', () => {
-        setMapLoaded(true);
-        
-        // Add markers for each city
-        cities.forEach(city => {
-          if (!map.current) return;
-          
-          // Create custom marker element
-          const el = document.createElement('div');
-          el.className = 'custom-marker';
-          el.style.backgroundColor = 'hsl(var(--primary))';
-          el.style.width = '20px';
-          el.style.height = '20px';
-          el.style.borderRadius = '50%';
-          el.style.border = '3px solid white';
-          el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
-          el.style.cursor = 'pointer';
-
-          // Create popup
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<div class="p-2">
-              <div class="font-semibold text-sm">CAS Internet</div>
-              <div class="text-xs text-muted-foreground">${city.name}</div>
-            </div>`
-          );
-
-          // Add marker to map
-          new mapboxgl.Marker(el)
-            .setLngLat(city.coordinates)
-            .setPopup(popup)
-            .addTo(map.current!);
-        });
-      });
-
-      setShowTokenInput(false);
-    } catch (error) {
-      console.error('Erro ao inicializar o mapa:', error);
-      alert('Token inválido. Verifique seu token do Mapbox.');
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      map.current?.remove();
-    };
-  }, []);
-
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -135,82 +31,168 @@ export function CoverageMap() {
             Cobertura da CAS Internet
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Nossa cobertura se estende por todo o Estado do Maranhão. Confira as cidades atendidas no mapa interativo
+            Nossa cobertura se estende por todo o Estado do Maranhão. Confira as cidades atendidas organizadas por região
           </p>
         </div>
 
-        <Card className="max-w-6xl mx-auto shadow-lg">
+        {/* Mapa Visual do Maranhão */}
+        <Card className="max-w-6xl mx-auto shadow-lg mb-12">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="w-5 h-5" />
-              Mapa de Cobertura
+              Mapa de Cobertura - Maranhão
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            {showTokenInput && (
-              <div className="p-6 bg-muted/30">
-                <div className="max-w-md mx-auto space-y-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Settings className="w-4 h-4" />
-                    <span>Configure seu token do Mapbox para visualizar o mapa</span>
+          <CardContent>
+            <div className="relative bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-8 h-[400px] overflow-hidden">
+              {/* Representação visual do estado */}
+              <div className="absolute inset-4 bg-white/80 rounded-lg shadow-inner border-2 border-dashed border-primary/30">
+                {/* Norte do Maranhão */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-20 bg-blue-100 rounded-lg border-2 border-blue-300 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-blue-700 mb-1">REGIÃO NORTE</div>
+                    <div className="flex justify-center gap-1">
+                      {regions[0].cities.slice(0, 3).map((_, i) => (
+                        <div key={i} className="w-2 h-2 bg-blue-500 rounded-full" />
+                      ))}
+                    </div>
+                    <div className="text-xs text-blue-600 mt-1">{regions[0].cities.length} cidades</div>
                   </div>
-                  <div className="space-y-2">
-                    <Input
-                      type="text"
-                      placeholder="Cole seu token público do Mapbox aqui"
-                      value={mapboxToken}
-                      onChange={(e) => setMapboxToken(e.target.value)}
-                      className="text-sm"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Obtenha seu token em{' '}
-                      <a 
-                        href="https://mapbox.com" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline"
-                      >
-                        mapbox.com
-                      </a>
-                      {' '}na seção Tokens
-                    </p>
+                </div>
+
+                {/* Centro do Maranhão */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-24 bg-green-100 rounded-lg border-2 border-green-300 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-green-700 mb-1">REGIÃO CENTRO</div>
+                    <div className="flex justify-center gap-1">
+                      {regions[1].cities.slice(0, 4).map((_, i) => (
+                        <div key={i} className="w-2 h-2 bg-green-500 rounded-full" />
+                      ))}
+                    </div>
+                    <div className="text-xs text-green-600 mt-1">{regions[1].cities.length} cidades</div>
                   </div>
-                  <Button 
-                    onClick={initializeMap}
-                    disabled={!mapboxToken}
-                    className="w-full"
-                  >
-                    Carregar Mapa
-                  </Button>
+                </div>
+
+                {/* Sul do Maranhão */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-28 h-18 bg-purple-100 rounded-lg border-2 border-purple-300 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-purple-700 mb-1">REGIÃO SUL</div>
+                    <div className="flex justify-center gap-1">
+                      {regions[2].cities.slice(0, 2).map((_, i) => (
+                        <div key={i} className="w-2 h-2 bg-purple-500 rounded-full" />
+                      ))}
+                    </div>
+                    <div className="text-xs text-purple-600 mt-1">{regions[2].cities.length} cidades</div>
+                  </div>
+                </div>
+
+                {/* Linhas de conexão */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="hsl(var(--success))" stopOpacity="0.3" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M50 25 L50 50 L50 75" stroke="url(#connectionGradient)" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+                    <path d="M35 40 L50 50 L65 40" stroke="url(#connectionGradient)" strokeWidth="1.5" strokeDasharray="3,3" fill="none" />
+                  </svg>
                 </div>
               </div>
-            )}
-            
-            {!showTokenInput && (
-              <div className="w-full h-[500px] rounded-b-lg overflow-hidden">
-                <div ref={mapContainer} className="w-full h-full" />
-              </div>
-            )}
-            
-            {showTokenInput && (
-              <div className="h-[400px] flex items-center justify-center bg-muted/20 rounded-b-lg">
-                <div className="text-center text-muted-foreground">
-                  <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>Configure o token do Mapbox para visualizar o mapa interativo</p>
+
+              {/* Logo CAS no centro */}
+              <div className="absolute top-1/2 right-8 transform -translate-y-1/2">
+                <div className="bg-white p-4 rounded-full shadow-lg border-2 border-primary/20">
+                  <img src="/assets/logo.png" alt="CAS Internet" className="w-12 h-12" />
                 </div>
               </div>
-            )}
+            </div>
           </CardContent>
         </Card>
 
-        {/* Cities Grid */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          {cities.map((city) => (
-            <div key={city.name} className="flex items-center gap-2 p-3 bg-card rounded-lg border">
-              <div className="w-3 h-3 bg-primary rounded-full flex-shrink-0" />
-              <span className="text-sm font-medium">{city.name}</span>
-            </div>
+        {/* Lista de Cidades por Região */}
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {regions.map((region) => (
+            <Card key={region.name} className="shadow-lg hover:shadow-xl transition-shadow">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3">
+                  <div className={`w-4 h-4 rounded-full ${region.color}`} />
+                  <span>Região {region.name}</span>
+                  <span className="text-sm font-normal text-muted-foreground">
+                    ({region.cities.length} {region.cities.length === 1 ? 'cidade' : 'cidades'})
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {region.cities.map((city) => (
+                  <div key={city.name} className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                    <Wifi className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium">{city.name}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           ))}
+        </div>
+
+        {/* Estatísticas */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          <Card className="text-center p-6 bg-gradient-to-br from-primary/10 to-primary/5">
+            <div className="flex justify-center mb-3">
+              <MapPin className="w-8 h-8 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-primary mb-1">{cities.length}</div>
+            <div className="text-sm text-muted-foreground">Cidades Atendidas</div>
+          </Card>
+
+          <Card className="text-center p-6 bg-gradient-to-br from-success/10 to-success/5">
+            <div className="flex justify-center mb-3">
+              <Signal className="w-8 h-8 text-success" />
+            </div>
+            <div className="text-2xl font-bold text-success mb-1">100%</div>
+            <div className="text-sm text-muted-foreground">Fibra Ótica</div>
+          </Card>
+
+          <Card className="text-center p-6 bg-gradient-to-br from-blue-500/10 to-blue-500/5">
+            <div className="flex justify-center mb-3">
+              <Users className="w-8 h-8 text-blue-500" />
+            </div>
+            <div className="text-2xl font-bold text-blue-500 mb-1">10k+</div>
+            <div className="text-sm text-muted-foreground">Clientes Ativos</div>
+          </Card>
+
+          <Card className="text-center p-6 bg-gradient-to-br from-purple-500/10 to-purple-500/5">
+            <div className="flex justify-center mb-3">
+              <Wifi className="w-8 h-8 text-purple-500" />
+            </div>
+            <div className="text-2xl font-bold text-purple-500 mb-1">24/7</div>
+            <div className="text-sm text-muted-foreground">Suporte Técnico</div>
+          </Card>
+        </div>
+
+        {/* Informações adicionais */}
+        <div className="text-center">
+          <div className="bg-gradient-to-r from-primary/10 to-success/10 rounded-xl p-8">
+            <h3 className="text-xl font-bold mb-4">Sua cidade não está na lista?</h3>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Estamos sempre expandindo nossa cobertura por todo o Maranhão. Entre em contato conosco para saber quando chegamos na sua região!
+            </p>
+            <div className="flex items-center justify-center gap-8 text-sm flex-wrap">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-primary rounded-full" />
+                <span>Cobertura Ativa</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Wifi className="w-4 h-4 text-primary" />
+                <span>Fibra Ótica</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Signal className="w-4 h-4 text-success" />
+                <span>Alta Velocidade</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
