@@ -26,7 +26,7 @@ const icons = [
 ];
 export function IconBar() {
   return (
-    <header className="z-50 w-full hidden md:block bg-gradient-to-l from-success/100 to-primary/100">
+    <header className="z-50 w-full hidden md:block bg-gradient-to-l from-success via-primary to-success">
       <div className="container mx-auto px-4">
         <div className="py-4 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2">
           {icons.map((icon, index) => (

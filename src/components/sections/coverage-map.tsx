@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 // Fix para o ícone padrão do Leaflet
 delete (L.Icon.Default.prototype)._getIconUrl;
@@ -92,7 +91,9 @@ export function CoverageMap() {
     const centerPosition: [number, number] = [-3.9506567657767384, -44.61432162124399];
 
     // Inicializar o mapa
-    map.current = L.map(mapContainer.current).setView(centerPosition, 9);
+    map.current = L.map(mapContainer.current, {
+      zoomControl: false,
+    }).setView(centerPosition, 9);
 
     // Adicionar tiles do OpenStreetMap
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -211,7 +212,7 @@ export function CoverageMap() {
               <div 
                 ref={mapContainer} 
                 className="h-full w-full z-10"
-                style={{ borderRadius: '0 0 8px 8px' }}
+                style={{ borderRadius: '8px' }}
               />
             </div>
           </CardContent>

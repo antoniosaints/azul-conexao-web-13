@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -9,11 +9,11 @@ import { useCity } from '@/contexts/CityContext';
 export default function CitySelector() {
   const { availableCities, setSelectedCity, getCitySlug } = useCity();
   const [selectedCityId, setSelectedCityId] = useState<string>('');
+  const [isVisible, setIsVisible] = useState(false); // para o fade
   const navigate = useNavigate();
 
   const handleCitySelect = () => {
     if (!selectedCityId) return;
-    
     const city = availableCities.find(c => c.id === selectedCityId);
     if (city) {
       setSelectedCity(city);
@@ -22,13 +22,18 @@ export default function CitySelector() {
     }
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsVisible(true), 50); // delay curto para iniciar o fade
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/40 via-primary/20 to-primary/10 flex items-center justify-center px-4">
+    <div className={`min-h-screen bg-gradient-to-r from-success via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div className="max-w-md w-full">
         {/* Card de seleção */}
         <Card className="shadow-xl border-0 bg-background/95 backdrop-blur">
           <CardHeader className="text-center pb-4">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center">
+            <div className="w-28 h-28 mx-auto mb-4 rounded-full flex items-center justify-center">
               <img src="/assets/logo.png" alt="Logo" />
             </div>
             <CardTitle className="text-2xl">Escolha sua cidade</CardTitle>
@@ -66,7 +71,7 @@ export default function CitySelector() {
             </Button>
 
             <div className="text-center">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-foreground">
                 Sua cidade não está na lista?{' '}
                 <button className="text-primary hover:underline font-medium">
                   Entre em contato
@@ -78,10 +83,10 @@ export default function CitySelector() {
 
         {/* Informações extras */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-muted-foreground mb-2">
+          <p className="text-sm text-white mb-2">
             🔒 Seus dados estão seguros conosco
           </p>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-white">
             Atendemos mais de {availableCities.length} cidades em todo o Brasil
           </p>
         </div>

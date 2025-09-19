@@ -231,20 +231,22 @@ export function PlansSection() {
                           </p>
                           <div className="flex justify-center gap-3 flex-wrap">
                             {plan.apps.map((app, appIndex) => {
-                              const appInfo = getAppIcon(app);
-                              const AppIcon = appInfo.icon;
                               return (
                                 <div
                                   key={appIndex}
                                   className="flex flex-col items-center gap-1"
                                 >
                                   <div
-                                    className={`w-10 h-10 rounded-full ${appInfo.color} flex items-center justify-center`}
+                                    className={`w-12 h-12 rounded-sm flex items-center p-0.5 bg-white justify-center`}
                                   >
-                                    <AppIcon className="w-5 h-5 text-white" />
+                                    <img
+                                      src={app.image}
+                                      alt="Logo"
+                                      className="w-auto object-cover"
+                                    />
                                   </div>
                                   <span className="text-xs text-white">
-                                    {appInfo.name}
+                                    {app.name}
                                   </span>
                                 </div>
                               );
