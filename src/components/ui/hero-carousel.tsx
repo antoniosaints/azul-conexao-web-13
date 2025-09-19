@@ -33,49 +33,49 @@ const slides = [
 ];
 
 export function HeroCarousel() {
-  const { selectedCity } = useCity()
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
+  const { selectedCity } = useCity();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const citySlides = selectedCity
     ? filterByCity(mockCarouselSlides, selectedCity.id)
-    : []
-  const displaySlides = citySlides.length > 0 ? citySlides : slides
+    : [];
+  const displaySlides = citySlides.length > 0 ? citySlides : slides;
 
   const startAutoPlay = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
+    if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setCurrentSlide((prev) =>
         prev === displaySlides.length - 1 ? 0 : prev + 1
-      )
-    }, 5000)
-  }
+      );
+    }, 5000);
+  };
 
   const stopAutoPlay = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
-  }
+    if (intervalRef.current) clearInterval(intervalRef.current);
+  };
 
   useEffect(() => {
-    if (!isHovered) startAutoPlay()
-    return () => stopAutoPlay()
-  }, [displaySlides.length, isHovered])
+    if (!isHovered) startAutoPlay();
+    return () => stopAutoPlay();
+  }, [displaySlides.length, isHovered]);
 
   const nextSlide = () => {
-    stopAutoPlay()
+    stopAutoPlay();
     setCurrentSlide((prev) =>
       prev === displaySlides.length - 1 ? 0 : prev + 1
-    )
-    startAutoPlay()
-  }
+    );
+    startAutoPlay();
+  };
 
   const prevSlide = () => {
-    stopAutoPlay()
+    stopAutoPlay();
     setCurrentSlide((prev) =>
       prev === 0 ? displaySlides.length - 1 : prev - 1
-    )
-    startAutoPlay()
-  }
+    );
+    startAutoPlay();
+  };
 
   return (
     <section
@@ -87,12 +87,8 @@ export function HeroCarousel() {
         <div
           key={slide.id}
           className={cn(
-            "absolute inset-0 transition-all duration-700 ease-in-out",
-            index === currentSlide
-              ? "opacity-100 translate-x-0"
-              : index < currentSlide
-              ? "opacity-0 -translate-x-full"
-              : "opacity-0 translate-x-full"
+            "absolute inset-0 transition-opacity duration-700 ease-in-out",
+            index === currentSlide ? "opacity-100 z-20" : "opacity-0 z-10"
           )}
         >
           <div className="relative h-full flex items-center">
@@ -106,7 +102,7 @@ export function HeroCarousel() {
       ))}
 
       {/* Navigation */}
-      <div className="absolute top-1/2 left-4 -translate-y-1/2">
+      <div className="absolute top-1/2 left-4 z-40 -translate-y-1/2">
         <Button
           variant="ghost"
           size="icon"
@@ -116,7 +112,7 @@ export function HeroCarousel() {
           <ChevronLeft className="w-6 h-6" />
         </Button>
       </div>
-      <div className="absolute top-1/2 right-4 -translate-y-1/2">
+      <div className="absolute top-1/2 z-40 right-4 -translate-y-1/2">
         <Button
           variant="ghost"
           size="icon"
@@ -128,7 +124,7 @@ export function HeroCarousel() {
       </div>
 
       {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-6 left-1/2 z-40 -translate-x-1/2 flex gap-2">
         {displaySlides.map((_, index) => (
           <button
             key={index}
@@ -141,5 +137,5 @@ export function HeroCarousel() {
         ))}
       </div>
     </section>
-  )
+  );
 }
