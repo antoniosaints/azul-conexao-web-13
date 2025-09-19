@@ -1,28 +1,202 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Wifi, Users, Signal } from "lucide-react";
+import { MapPin, Wifi, Signal } from "lucide-react";
+
+// Fix para o ícone padrão do Leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
 
 const cities = [
-  { name: "São Mateus do Maranhão", region: "Norte" },
-  { name: "São Luis Gonzaga", region: "Norte" },
-  { name: "Cantanhede", region: "Norte" },
-  { name: "Miranda", region: "Norte" },
-  { name: "Matões do Norte", region: "Norte" },
-  { name: "Pirapemas", region: "Centro" },
-  { name: "Coroata", region: "Centro" },
-  { name: "Peritoró", region: "Centro" },
-  { name: "Alto Alegre", region: "Centro" },
-  { name: "Bacabal", region: "Sul" },
-  { name: "Arari", region: "Sul" },
-];
-
-const regions = [
-  { name: "Norte", cities: cities.filter(c => c.region === "Norte"), color: "bg-blue-500" },
-  { name: "Centro", cities: cities.filter(c => c.region === "Centro"), color: "bg-green-500" },
-  { name: "Sul", cities: cities.filter(c => c.region === "Sul"), color: "bg-purple-500" },
+  {
+    name: "São Mateus do Maranhão",
+    coordinates: [-4.0322232706298, -44.46985003602947] as [number, number],
+    population: "15.000",
+    plans: ["100MB", "200MB", "500MB"]
+  },
+  {
+    name: "São Luis Gonzaga",
+    coordinates: [-4.3779435442874615, -44.6705205819622] as [number, number],
+    population: "18.000",
+    plans: ["100MB", "200MB", "500MB", "1GB"]
+  },
+  {
+    name: "Cantanhede",
+    coordinates: [-3.635930954743144, -44.38027176945364] as [number, number],
+    population: "20.000",
+    plans: ["100MB", "200MB", "500MB", "1GB"]
+  },
+  {
+    name: "Miranda",
+    coordinates: [-3.563637481379419, -44.5864563044567] as [number, number],
+    population: "8.500",
+    plans: ["100MB", "200MB"]
+  },
+  {
+    name: "Matões do Norte",
+    coordinates: [-3.6319673940162565, -44.55770210882281] as [number, number],
+    population: "12.000",
+    plans: ["100MB", "200MB", "500MB"]
+  },
+  {
+    name: "Pirapemas",
+    coordinates: [-3.725739016411464, -44.227709394853946] as [number, number],
+    population: "14.000",
+    plans: ["100MB", "200MB", "500MB"]
+  },
+  {
+    name: "Coroata",
+    coordinates: [-4.128798012061277, -44.1298739299053] as [number, number],
+    population: "65.000",
+    plans: ["100MB", "200MB", "500MB", "1GB", "2GB"]
+  },
+  {
+    name: "Peritoró",
+    coordinates: [-4.373141955392519, -44.339285848196056] as [number, number],
+    population: "16.000",
+    plans: ["100MB", "200MB", "500MB"]
+  },
+  {
+    name: "Alto Alegre",
+    coordinates: [-4.212277790131448, -44.45421701016184] as [number, number],
+    population: "25.000",
+    plans: ["100MB", "200MB", "500MB", "1GB"]
+  },
+  {
+    name: "Bacabal",
+    coordinates: [-4.226223997432526, -44.78503776027442] as [number, number],
+    population: "105.000",
+    plans: ["100MB", "200MB", "500MB", "1GB", "2GB"]
+  },
+  {
+    name: "Arari",
+    coordinates: [-3.4558816556280654, -44.77572133456607] as [number, number],
+    population: "35.000",
+    plans: ["100MB", "200MB", "500MB", "1GB"]
+  },
 ];
 
 export function CoverageMap() {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<L.Map | null>(null);
+
+  useEffect(() => {
+    if (!mapContainer.current || map.current) return;
+
+    // Centro aproximado do Maranhão
+    const centerPosition: [number, number] = [-3.9506567657767384, -44.61432162124399];
+
+    // Inicializar o mapa
+    map.current = L.map(mapContainer.current).setView(centerPosition, 9);
+
+    // Adicionar tiles do OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map.current);
+
+    // Ícone personalizado da CAS
+    const casIcon = L.icon({
+      iconUrl: '/assets/logo.png',
+      iconRetinaUrl: '/assets/logo.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32],
+      className: 'cas-marker'
+    });
+
+    // Adicionar marcadores para cada cidade
+    cities.forEach((city) => {
+      if (!map.current) return;
+
+      const marker = L.marker(city.coordinates, { icon: casIcon }).addTo(map.current);
+
+      // Criar popup personalizado
+      const popupContent = `
+        <div style="padding: 8px; min-width: 200px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0;">
+            <div style="width: 20px; height: 20px; background: hsl(var(--primary)); border-radius: 4px; display: flex; align-items: center; justify-center;">
+              <span style="color: white; font-size: 12px; font-weight: bold;">📶</span>
+            </div>
+            <span style="font-weight: bold; color: hsl(var(--primary)); font-size: 16px;">CAS Internet</span>
+          </div>
+          
+          <div style="margin-bottom: 8px;">
+            <h3 style="font-weight: 600; font-size: 14px; margin: 0 0 4px 0;">${city.name}</h3>
+            <p style="font-size: 12px; color: #64748b; margin: 0;">População: ~${city.population} habitantes</p>
+          </div>
+          
+          <div style="margin-bottom: 12px;">
+            <p style="font-size: 12px; font-weight: 500; margin: 0 0 8px 0;">📡 Planos disponíveis:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+              ${city.plans.map(plan => `
+                <span style="padding: 2px 8px; background: hsl(var(--primary) / 0.1); color: hsl(var(--primary)); font-size: 10px; border-radius: 12px; border: 1px solid hsl(var(--primary) / 0.2);">
+                  ${plan}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+            <button style="width: 100%; background: hsl(var(--primary)); color: white; font-size: 12px; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.2s;" 
+                    onmouseover="this.style.opacity='0.9'" 
+                    onmouseout="this.style.opacity='1'">
+              Ver Planos para ${city.name.split(' ')[0]}
+            </button>
+          </div>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent, {
+        minWidth: 200,
+        maxWidth: 300,
+        className: 'custom-popup'
+      });
+    });
+
+    // Adicionar estilos CSS personalizados
+    const style = document.createElement('style');
+    style.textContent = `
+      .cas-marker {
+        border-radius: 50% !important;
+        border: 3px solid white !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        transition: transform 0.2s ease !important;
+      }
+      .cas-marker:hover {
+        transform: scale(1.1) !important;
+        z-index: 1000 !important;
+      }
+      .leaflet-popup-content-wrapper {
+        border-radius: 8px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+      }
+      .leaflet-popup-content {
+        margin: 12px 16px !important;
+        font-family: inherit !important;
+      }
+      .custom-popup .leaflet-popup-close-button {
+        color: #64748b !important;
+        font-size: 16px !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+      if (style.parentNode) {
+        document.head.removeChild(style);
+      }
+    };
+  }, []);
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -31,113 +205,63 @@ export function CoverageMap() {
             Cobertura da CAS Internet
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Nossa cobertura se estende por todo o Estado do Maranhão. Confira as cidades atendidas organizadas por região
+            Nossa cobertura se estende por todo o Estado do Maranhão. Clique nos marcadores para ver os detalhes de cada cidade
           </p>
         </div>
 
-        {/* Mapa Visual do Maranhão */}
-        <Card className="max-w-6xl mx-auto shadow-lg mb-12">
+        <Card className="max-w-7xl mx-auto shadow-xl mb-12">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="w-5 h-5" />
-              Mapa de Cobertura - Maranhão
+              Mapa Interativo - Maranhão
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="relative bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-8 h-[400px] overflow-hidden">
-              {/* Representação visual do estado */}
-              <div className="absolute inset-4 bg-white/80 rounded-lg shadow-inner border-2 border-dashed border-primary/30">
-                {/* Norte do Maranhão */}
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-20 bg-blue-100 rounded-lg border-2 border-blue-300 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-xs font-medium text-blue-700 mb-1">REGIÃO NORTE</div>
-                    <div className="flex justify-center gap-1">
-                      {regions[0].cities.slice(0, 3).map((_, i) => (
-                        <div key={i} className="w-2 h-2 bg-blue-500 rounded-full" />
-                      ))}
-                    </div>
-                    <div className="text-xs text-blue-600 mt-1">{regions[0].cities.length} cidades</div>
-                  </div>
-                </div>
-
-                {/* Centro do Maranhão */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-24 bg-green-100 rounded-lg border-2 border-green-300 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-xs font-medium text-green-700 mb-1">REGIÃO CENTRO</div>
-                    <div className="flex justify-center gap-1">
-                      {regions[1].cities.slice(0, 4).map((_, i) => (
-                        <div key={i} className="w-2 h-2 bg-green-500 rounded-full" />
-                      ))}
-                    </div>
-                    <div className="text-xs text-green-600 mt-1">{regions[1].cities.length} cidades</div>
-                  </div>
-                </div>
-
-                {/* Sul do Maranhão */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-28 h-18 bg-purple-100 rounded-lg border-2 border-purple-300 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-xs font-medium text-purple-700 mb-1">REGIÃO SUL</div>
-                    <div className="flex justify-center gap-1">
-                      {regions[2].cities.slice(0, 2).map((_, i) => (
-                        <div key={i} className="w-2 h-2 bg-purple-500 rounded-full" />
-                      ))}
-                    </div>
-                    <div className="text-xs text-purple-600 mt-1">{regions[2].cities.length} cidades</div>
-                  </div>
-                </div>
-
-                {/* Linhas de conexão */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="hsl(var(--success))" stopOpacity="0.3" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M50 25 L50 50 L50 75" stroke="url(#connectionGradient)" strokeWidth="2" strokeDasharray="5,5" fill="none" />
-                    <path d="M35 40 L50 50 L65 40" stroke="url(#connectionGradient)" strokeWidth="1.5" strokeDasharray="3,3" fill="none" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Logo CAS no centro */}
-              <div className="absolute top-1/2 right-8 transform -translate-y-1/2">
-                <div className="bg-white p-4 rounded-full shadow-lg border-2 border-primary/20">
-                  <img src="/assets/logo.png" alt="CAS Internet" className="w-12 h-12" />
-                </div>
-              </div>
+          <CardContent className="p-0">
+            <div className="w-full h-[600px] rounded-b-lg overflow-hidden">
+              <div 
+                ref={mapContainer} 
+                className="h-full w-full z-10"
+                style={{ borderRadius: '0 0 8px 8px' }}
+              />
             </div>
           </CardContent>
         </Card>
 
-        {/* Lista de Cidades por Região */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {regions.map((region) => (
-            <Card key={region.name} className="shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-3">
-                  <div className={`w-4 h-4 rounded-full ${region.color}`} />
-                  <span>Região {region.name}</span>
-                  <span className="text-sm font-normal text-muted-foreground">
-                    ({region.cities.length} {region.cities.length === 1 ? 'cidade' : 'cidades'})
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {region.cities.map((city) => (
-                  <div key={city.name} className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <Wifi className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="text-sm font-medium">{city.name}</span>
+        {/* Lista de Cidades */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-8">Todas as Cidades Atendidas</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+            {cities.map((city) => (
+              <Card key={city.name} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-3 h-3 bg-primary rounded-full flex-shrink-0 mt-1" />
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-sm mb-1">{city.name}</h4>
+                      <p className="text-xs text-muted-foreground mb-2">População: ~{city.population}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {city.plans.slice(0, 3).map((plan) => (
+                          <span 
+                            key={plan} 
+                            className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full"
+                          >
+                            {plan}
+                          </span>
+                        ))}
+                        {city.plans.length > 3 && (
+                          <span className="text-xs text-muted-foreground">+{city.plans.length - 3} planos</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Estatísticas */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <Card className="text-center p-6 bg-gradient-to-br from-primary/10 to-primary/5">
             <div className="flex justify-center mb-3">
               <MapPin className="w-8 h-8 text-primary" />
@@ -156,43 +280,21 @@ export function CoverageMap() {
 
           <Card className="text-center p-6 bg-gradient-to-br from-blue-500/10 to-blue-500/5">
             <div className="flex justify-center mb-3">
-              <Users className="w-8 h-8 text-blue-500" />
+              <Wifi className="w-8 h-8 text-blue-500" />
             </div>
-            <div className="text-2xl font-bold text-blue-500 mb-1">10k+</div>
-            <div className="text-sm text-muted-foreground">Clientes Ativos</div>
+            <div className="text-2xl font-bold text-blue-500 mb-1">24/7</div>
+            <div className="text-sm text-muted-foreground">Suporte Online</div>
           </Card>
 
           <Card className="text-center p-6 bg-gradient-to-br from-purple-500/10 to-purple-500/5">
             <div className="flex justify-center mb-3">
-              <Wifi className="w-8 h-8 text-purple-500" />
+              <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">MA</span>
+              </div>
             </div>
-            <div className="text-2xl font-bold text-purple-500 mb-1">24/7</div>
-            <div className="text-sm text-muted-foreground">Suporte Técnico</div>
+            <div className="text-2xl font-bold text-purple-500 mb-1">11</div>
+            <div className="text-sm text-muted-foreground">Municípios</div>
           </Card>
-        </div>
-
-        {/* Informações adicionais */}
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-primary/10 to-success/10 rounded-xl p-8">
-            <h3 className="text-xl font-bold mb-4">Sua cidade não está na lista?</h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Estamos sempre expandindo nossa cobertura por todo o Maranhão. Entre em contato conosco para saber quando chegamos na sua região!
-            </p>
-            <div className="flex items-center justify-center gap-8 text-sm flex-wrap">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-primary rounded-full" />
-                <span>Cobertura Ativa</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Wifi className="w-4 h-4 text-primary" />
-                <span>Fibra Ótica</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Signal className="w-4 h-4 text-success" />
-                <span>Alta Velocidade</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
