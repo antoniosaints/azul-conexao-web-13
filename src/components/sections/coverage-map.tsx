@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Wifi, Signal } from "lucide-react";
+import { MapPin} from "lucide-react";
 
 // Fix para o ícone padrão do Leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
@@ -16,7 +16,7 @@ const cities = [
   {
     name: "São Mateus do Maranhão",
     coordinates: [-4.0322232706298, -44.46985003602947] as [number, number],
-    population: "15.000",
+    population: "60.000",
     plans: ["100MB", "200MB", "500MB"]
   },
   {
@@ -95,8 +95,8 @@ export function CoverageMap() {
     map.current = L.map(mapContainer.current).setView(centerPosition, 9);
 
     // Adicionar tiles do OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
     }).addTo(map.current);
 
     // Ícone personalizado da CAS
@@ -118,9 +118,9 @@ export function CoverageMap() {
       // Criar popup personalizado
       const popupContent = `
         <div style="padding: 8px; min-width: 200px;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0;">
-            <div style="width: 20px; height: 20px; background: hsl(var(--primary)); border-radius: 4px; display: flex; align-items: center; justify-center;">
-              <span style="color: white; font-size: 12px; font-weight: bold;">📶</span>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0;">
+            <div style="width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-center;">
+              <img src="/assets/logo.png" alt="Logo" style="width: 20px; height: 20px; border-radius: 4px; margin-left: 4px;">
             </div>
             <span style="font-weight: bold; color: hsl(var(--primary)); font-size: 16px;">CAS Internet</span>
           </div>
@@ -167,10 +167,6 @@ export function CoverageMap() {
         box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
         transition: transform 0.2s ease !important;
       }
-      .cas-marker:hover {
-        transform: scale(1.1) !important;
-        z-index: 1000 !important;
-      }
       .leaflet-popup-content-wrapper {
         border-radius: 8px !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
@@ -200,7 +196,7 @@ export function CoverageMap() {
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center">
           <h2 className="text-4xl text-primary md:text-5xl font-bold mb-4">
             Cobertura da CAS Internet
           </h2>
@@ -209,13 +205,7 @@ export function CoverageMap() {
           </p>
         </div>
 
-        <Card className="max-w-7xl mx-auto shadow-xl mb-12">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="w-5 h-5" />
-              Mapa Interativo - Maranhão
-            </CardTitle>
-          </CardHeader>
+        <Card className="max-w-7xl mx-auto mb-10 mt-4">
           <CardContent className="p-0">
             <div className="w-full h-[600px] rounded-b-lg overflow-hidden">
               <div 
@@ -228,7 +218,7 @@ export function CoverageMap() {
         </Card>
 
         {/* Lista de Cidades */}
-        <div className="mb-12">
+        <div>
           <h3 className="text-2xl font-bold text-center mb-8">Todas as Cidades Atendidas</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
             {cities.map((city) => (
@@ -258,43 +248,6 @@ export function CoverageMap() {
               </Card>
             ))}
           </div>
-        </div>
-
-        {/* Estatísticas */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <Card className="text-center p-6 bg-gradient-to-br from-primary/10 to-primary/5">
-            <div className="flex justify-center mb-3">
-              <MapPin className="w-8 h-8 text-primary" />
-            </div>
-            <div className="text-2xl font-bold text-primary mb-1">{cities.length}</div>
-            <div className="text-sm text-muted-foreground">Cidades Atendidas</div>
-          </Card>
-
-          <Card className="text-center p-6 bg-gradient-to-br from-success/10 to-success/5">
-            <div className="flex justify-center mb-3">
-              <Signal className="w-8 h-8 text-success" />
-            </div>
-            <div className="text-2xl font-bold text-success mb-1">100%</div>
-            <div className="text-sm text-muted-foreground">Fibra Ótica</div>
-          </Card>
-
-          <Card className="text-center p-6 bg-gradient-to-br from-blue-500/10 to-blue-500/5">
-            <div className="flex justify-center mb-3">
-              <Wifi className="w-8 h-8 text-blue-500" />
-            </div>
-            <div className="text-2xl font-bold text-blue-500 mb-1">24/7</div>
-            <div className="text-sm text-muted-foreground">Suporte Online</div>
-          </Card>
-
-          <Card className="text-center p-6 bg-gradient-to-br from-purple-500/10 to-purple-500/5">
-            <div className="flex justify-center mb-3">
-              <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">MA</span>
-              </div>
-            </div>
-            <div className="text-2xl font-bold text-purple-500 mb-1">11</div>
-            <div className="text-sm text-muted-foreground">Municípios</div>
-          </Card>
         </div>
       </div>
     </section>

@@ -46,7 +46,7 @@ export function Header() {
   const slug = getCitySlug(selectedCity);
 
   return (
-    <header className="sticky top-0 z-[9999] w-full bg-gradient-to-l from-success to-primary">
+    <header className="sticky top-0 z-50 w-full bg-gradient-to-l from-success to-primary">
       <div className="container mx-auto px-4">
         <div className="flex h-24 items-center justify-between">
           {/* Logo */}
