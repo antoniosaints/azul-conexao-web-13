@@ -46,13 +46,13 @@ export function Header() {
   const slug = getCitySlug(selectedCity);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full bg-gradient-to-l from-success/100 to-primary/100">
       <div className="container mx-auto px-4">
         <div className="flex h-24 items-center justify-between">
           {/* Logo */}
           <Link to={`/${slug}`} className="flex items-center gap-2">
             <div className="p-2 rounded-lg">
-              <img src="/assets/logo.png" alt="logo" className="w-16 h-16" />
+              <img src="/assets/logo_branca.png" alt="logo" className="w-16 h-16" />
             </div>
           </Link>
 
@@ -63,12 +63,12 @@ export function Header() {
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary relative",
+                  "font-medium transition-colors hover:text-primary relative text-lg",
                   "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary",
                   "after:transition-all after:duration-300 hover:after:w-full",
                   location.pathname === item.href
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                    ? "text-white"
+                    : "text-white"
                 )}
               >
                 {item.name}
@@ -78,7 +78,7 @@ export function Header() {
               <div className="hidden md:flex items-center gap-2">
                 <Badge
                   variant="outline"
-                  className="flex items-center gap-1 cursor-pointer hover:bg-accent transition-colors"
+                  className="flex items-center text-md text-white gap-1 cursor-pointer hover:bg-accent transition-colors"
                   onClick={handleCityClick}
                 >
                   <MapPin className="w-3 h-3" />
@@ -91,15 +91,18 @@ export function Header() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
+              <Button size="sm" className="bg-primary text-md rounded-[5px] hover:scale-105 transition-all duration-300">
+                Assine Já
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 text-md bg-white rounded-[5px] hover:bg-primary"
                   >
                     Menu
-                    <ChevronDown className="w-4 h-4" />
+                    <Menu className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -118,9 +121,6 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <Button size="sm" className="bg-gradient-primary">
-                Contratar
-              </Button>
             </div>
 
             {/* Mobile menu */}

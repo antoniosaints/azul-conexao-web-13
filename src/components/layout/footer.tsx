@@ -27,57 +27,56 @@ const legal = [
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background">
+    <footer className="bg-gradient-to-r from-primary to-success text-background">
       <div className="container mx-auto px-4">
         {/* Main Footer */}
         <div className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info */}
-            <div className="lg:col-span-2">
+            <div className="">
               <div className="flex items-center gap-2 mb-6">
-                <div className="p-2 bg-primary rounded-lg">
-                  <Wifi className="w-6 h-6 text-white" />
+                <div className="p-2 rounded-lg">
+                  <img src="/assets/logo_branca.png" alt="logo_cas" className="w-28" />
                 </div>
-                <span className="text-2xl font-bold text-primary">CAS Internet</span>
               </div>
-              <p className="text-background/80 mb-6 max-w-md">
-                Conectando pessoas e empresas com a melhor internet fibra ótica do Brasil há mais de 15 anos.
-              </p>
               
-              {/* Contact Info */}
-              <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-primary" />
-                  <span>(11) 3000-0000</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-primary" />
-                  <span>contato@casinternet.com.br</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-primary" />
-                  <span>Av. Paulista, 1000 - São Paulo, SP</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-primary" />
-                  <span>Seg-Sex: 8h-18h | Sáb: 8h-14h</span>
-                </div>
-              </div>
 
               {/* Social Media */}
               <div className="flex gap-4">
-                <Button size="icon" variant="outline" className="border-background/20 bg-blue-950 hover:bg-primary hover:border-primary">
+                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
                   <Facebook className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="outline" className="border-background/20 bg-blue-950 hover:bg-primary hover:border-primary">
+                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
                   <Instagram className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="outline" className="border-background/20 bg-blue-950 hover:bg-primary hover:border-primary">
+                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
                   <Twitter className="w-5 h-5" />
                 </Button>
-                <Button size="icon" variant="outline" className="border-background/20 bg-blue-950 hover:bg-primary hover:border-primary">
+                <Button size="icon" variant="outline" className="border-background/20 bg-success/70 hover:border-primary">
                   <Youtube className="w-5 h-5" />
                 </Button>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Contato</h3>
+              {/* Contact Info */}
+              <div className="space-y-3 text-sm mb-6">
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-white" />
+                  <span>(11) 3000-0000</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-white" />
+                  <span>contato@casinternet.com.br</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-white" />
+                  <span>Av. Paulista, 1000 - São Paulo, SP</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Clock className="w-5 h-5 text-white" />
+                  <span>Seg-Sex: 8h-18h | Sáb: 8h-14h</span>
+                </div>
               </div>
             </div>
 
@@ -113,24 +112,6 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Newsletter */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-              <p className="text-background/80 mb-4 text-sm">
-                Receba novidades e promoções exclusivas
-              </p>
-              <div className="space-y-3">
-                <Input
-                  type="email"
-                  placeholder="Seu e-mail"
-                  className="bg-background/10 border-background/20 text-background placeholder:text-background/60"
-                />
-                <Button className="w-full bg-primary hover:bg-primary/90">
-                  Inscrever-se
-                </Button>
-              </div>
             </div>
           </div>
         </div>

@@ -33,7 +33,7 @@ export function AboutSection() {
           {/* Conteúdo */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              <h2 className="text-4xl text-primary md:text-5xl font-bold mb-6">
                 Sobre a CAS Internet
               </h2>
               <p className="text-xl text-muted-foreground mb-6">
@@ -60,17 +60,17 @@ export function AboutSection() {
               return (
                 <Card
                   key={index}
-                  className="text-center shadow-card hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
+                  className="text-center shadow-card bg-gradient-to-l from-success to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <CardContent className="p-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-                      <Icon className="w-8 h-8 text-primary" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                      <Icon className="w-8 h-8 text-white" />
                     </div>
-                    <div className="text-3xl font-bold text-primary mb-2">
+                    <div className="text-3xl font-bold text-white mb-2">
                       {stat.number}
                     </div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-gray-100">
                       {stat.label}
                     </p>
                   </CardContent>
@@ -92,7 +92,7 @@ export function AboutSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <Card className="text-center shadow-card">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-2xl font-bold text-white">Q</span>
                 </div>
                 <h4 className="text-xl font-bold mb-4">Qualidade</h4>
@@ -104,7 +104,7 @@ export function AboutSection() {
 
             <Card className="text-center shadow-card">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-2xl font-bold text-white">T</span>
                 </div>
                 <h4 className="text-xl font-bold mb-4">Transparência</h4>
@@ -116,7 +116,7 @@ export function AboutSection() {
 
             <Card className="text-center shadow-card">
               <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-2xl font-bold text-white">I</span>
                 </div>
                 <h4 className="text-xl font-bold mb-4">Inovação</h4>

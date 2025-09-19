@@ -43,7 +43,7 @@ export function ContactForm() {
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl text-primary md:text-5xl font-bold mb-4">
             Contrate Seu Plano
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -192,7 +192,7 @@ export function ContactForm() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-primary text-white shadow-card">
+            <Card className="bg-gradient-to-r from-primary to-success/80 text-white shadow-card">
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Atendimento 24/7</h3>
                 <p className="mb-4 opacity-90">

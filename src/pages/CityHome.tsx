@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { HeroCarousel } from '@/components/ui/hero-carousel';
-import { PlansSection } from '@/components/sections/plans-section';
-import { ContactForm } from '@/components/sections/contact-form';
-import { TestimonialsSection } from '@/components/sections/testimonials-section';
-import { AboutSection } from '@/components/sections/about-section';
-import { BlogSection } from '@/components/sections/blog-section';
-import { useCity } from '@/contexts/CityContext';
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { HeroCarousel } from "@/components/ui/hero-carousel";
+import { PlansSection } from "@/components/sections/plans-section";
+import { ContactForm } from "@/components/sections/contact-form";
+import { TestimonialsSection } from "@/components/sections/testimonials-section";
+import { AboutSection } from "@/components/sections/about-section";
+import { BlogSection } from "@/components/sections/blog-section";
+import { useCity } from "@/contexts/CityContext";
+import { IconBar } from "@/components/sections/icon-bar";
 
 const CityHome = () => {
   const { citySlug } = useParams<{ citySlug: string }>();
@@ -22,7 +23,7 @@ const CityHome = () => {
         setSelectedCity(city);
       } else {
         // Cidade não encontrada, redirecionar para seletor
-        navigate('/');
+        navigate("/");
       }
     }
   }, [citySlug, getCityBySlug, setSelectedCity, navigate]);
@@ -44,8 +45,9 @@ const CityHome = () => {
       <Header />
       <main>
         <section id="inicio">
-        <HeroCarousel />
+          <HeroCarousel />
         </section>
+        <IconBar />
         <section id="planos">
           <PlansSection />
         </section>

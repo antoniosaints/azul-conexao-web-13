@@ -23,15 +23,8 @@ export default function CitySelector() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/20 to-accent/5 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/40 via-primary/20 to-primary/10 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
-        {/* Logo e título */}
-        <div className="text-center mb-8">
-          <p className="text-muted-foreground text-lg">
-            Bem-vindo à CAS Internet! Selecione sua cidade para continuar
-          </p>
-        </div>
-
         {/* Card de seleção */}
         <Card className="shadow-xl border-0 bg-background/95 backdrop-blur">
           <CardHeader className="text-center pb-4">
