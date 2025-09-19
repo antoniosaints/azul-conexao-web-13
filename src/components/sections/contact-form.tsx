@@ -131,7 +131,7 @@ export function ContactForm() {
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-gradient-primary">
+                <Button type="submit" className="w-full bg-gradient-to-r from-primary to-success/80">
                   Solicitar Contratação
                 </Button>
               </form>
@@ -194,9 +194,9 @@ export function ContactForm() {
 
             <Card className="bg-gradient-to-r from-primary to-success/80 text-white shadow-card">
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-2">Atendimento 24/7</h3>
+                <h3 className="text-xl font-bold mb-2">Atendimento</h3>
                 <p className="mb-4 opacity-90">
-                  Nossa central de atendimento funciona 24 horas por dia, 7 dias por semana para resolver qualquer problema.
+                  Nossa central de atendimento funciona de segunda a sexta das 8h às 19h e sábado das 8h às 14h, para resolver qualquer problema.
                 </p>
                 <Button variant="secondary" className="text-primary">
                   Falar com Suporte

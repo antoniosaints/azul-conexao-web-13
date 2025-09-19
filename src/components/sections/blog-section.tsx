@@ -66,6 +66,7 @@ export function BlogSection() {
             >
               <div className="aspect-video bg-gradient-primary relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                {/* <img src="/assets/banner3.png" className="w-full h-full object-cover" alt="" /> */}
                 <div className="absolute top-4 left-4">
                   <Badge variant="secondary">{post.category}</Badge>
                 </div>

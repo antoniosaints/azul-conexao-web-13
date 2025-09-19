@@ -60,7 +60,7 @@ export function AboutSection() {
               return (
                 <Card
                   key={index}
-                  className="text-center shadow-card bg-gradient-to-l from-success to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
+                  className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <CardContent className="p-6">

@@ -135,7 +135,7 @@ export function PlansSection() {
             return (
               <Card
                 key={plan.id}
-                className={`relative bg-gradient-to-b flex flex-col justify-between from-success/90 to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
+                className={`relative bg-gradient-to-b flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
                   ${
                     plan.isPremium
                       ? "shadow-elegant border-gradient-premium"
@@ -177,7 +177,7 @@ export function PlansSection() {
                     </div>
                     <h3 className="text-3xl font-bold">{plan.name}</h3>
                     <div
-                      className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success/50 rounded-md ${
+                      className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success rounded-md ${
                         plan.isPremium
                           ? "text-white shadow-glow"
                           : "text-white shadow-glow"
@@ -223,7 +223,7 @@ export function PlansSection() {
                           </li>
                         ))}
                       </ul>
-
+                      
                       {plan.apps && plan.apps.length > 0 && (
                         <div className="mt-6 pt-6 border-t border-border">
                           <p className="text-sm text-white mb-3 text-center">
@@ -258,18 +258,18 @@ export function PlansSection() {
 
                 <CardFooter>
                   <Button
-                    className={`w-full transition-smooth text-lg ${
+                    className={`w-full transition-smooth text-xl font-bold py-7 ${
                       plan.isPremium
-                        ? "bg-gradient-to-r from-success/60 to-success text-white"
+                        ? "bg-gradient-to-r from-success to-success text-white"
                         : plan.isHighlight
-                        ? "bg-gradient-to-r from-success/60 to-success text-white"
-                        : "bg-gradient-to-r from-success/60 to-success text-white"
+                        ? "bg-gradient-to-r from-success to-success text-white"
+                        : "bg-gradient-to-r from-success to-success text-white"
                     }`}
                     variant={
                       plan.isHighlight || plan.isPremium ? "default" : "default"
                     }
                   >
-                    Contratar Agora
+                    Contrate agora
                   </Button>
                 </CardFooter>
               </Card>
