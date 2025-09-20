@@ -24,7 +24,7 @@ const CityHome = () => {
         setSelectedCity(city);
       } else {
         // Cidade não encontrada, redirecionar para seletor
-        navigate("/");
+        // navigate("/");
       }
     }
   }, [citySlug, getCityBySlug, setSelectedCity, navigate]);

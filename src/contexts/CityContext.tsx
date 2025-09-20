@@ -93,7 +93,7 @@ export function CityProvider({ children }: CityProviderProps) {
         const savedCity = localStorage.getItem('selectedCity');
         if (savedCity) {
           const parsed = JSON.parse(savedCity);
-          const foundCity = activeCities.find(c => c.id_cidade === parsed.id);
+          const foundCity = activeCities.find(c => c.id_cidade === parsed.id_cidade);
           if (foundCity) {
             setSelectedCityState(foundCity);
           } else {

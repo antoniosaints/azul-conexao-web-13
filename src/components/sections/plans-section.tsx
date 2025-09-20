@@ -64,12 +64,12 @@ export function PlansSection() {
                   className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
                   ${
                     plan.premium == "1"
-                      ? "shadow-elegant border-gradient-premium"
+                      ? "shadow-elegant border-gradient-premium bg-gradient-to-b from-gray-900 to-gray-800 hover:scale-105"
                       : ""
                   } animate-fade-up`}
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  {plan.premium == "1" && !plan.status && (
+                  {plan.valor_promocional === '1' && (
                     <div className="absolute -top-1 -right-1">
                       <Badge className="bg-primary text-primary-foreground px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
                         <Star className="w-3 h-3" />
@@ -79,8 +79,8 @@ export function PlansSection() {
                   )}
 
                   {plan.premium == "1" && (
-                    <div className="absolute -top-1 shadow-glow -right-1">
-                      <Badge className="bg-gradient-to-r from-accent to-primary text-white px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1 shadow-glow">
+                    <div className="absolute -top-1 -right-1">
+                      <Badge className="bg-gradient-to-r from-accent to-primary text-white px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
                         <Crown className="w-3 h-3" />
                         Premium
                       </Badge>
@@ -105,7 +105,7 @@ export function PlansSection() {
                       <div
                         className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success rounded-2xl ${
                           plan.premium == "1"
-                            ? "text-white shadow-glow"
+                            ? "text-white bg-gradient-to-b from-black to-black"
                             : "text-white shadow-glow"
                         }`}
                       >
