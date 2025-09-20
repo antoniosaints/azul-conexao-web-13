@@ -20,10 +20,25 @@ const stats = [
   },
   {
     icon: Clock,
-    number: "24/7",
-    label: "Suporte Disponível",
+    number: "99%",
+    label: "Estabilidade garantida",
   },
 ];
+
+function calcularIdade(dataNascimento: string) {
+  const hoje = new Date();
+  const nascimento = new Date(dataNascimento);
+
+  let idade = hoje.getFullYear() - nascimento.getFullYear();
+  const mes = hoje.getMonth() - nascimento.getMonth();
+
+  // Ajusta caso ainda não tenha feito aniversário no ano atual
+  if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
+    idade--;
+  }
+
+  return idade;
+}
 
 export function AboutSection() {
   return (
@@ -37,10 +52,15 @@ export function AboutSection() {
                 Sobre a CAS Internet
               </h2>
               <p className="text-xl text-muted-foreground mb-6">
-                Há mais de 15 anos conectando pessoas e empresas com a melhor tecnologia em internet fibra ótica do Brasil.
+                Há mais de {calcularIdade('2006-05-20')} anos conectando pessoas e empresas com a melhor
+                tecnologia em internet fibra ótica do Brasil.
               </p>
               <p className="text-muted-foreground mb-8">
-                Nossa missão é democratizar o acesso à internet de alta qualidade, oferecendo planos acessíveis sem abrir mão da excelência no atendimento. Investimos constantemente em infraestrutura e tecnologia para garantir que nossos clientes tenham a melhor experiência de conectividade.
+                Nossa missão é democratizar o acesso à internet de alta
+                qualidade, oferecendo planos acessíveis sem abrir mão da
+                excelência no atendimento. Investimos constantemente em
+                infraestrutura e tecnologia para garantir que nossos clientes
+                tenham a melhor experiência de conectividade.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="bg-gradient-primary">
@@ -70,9 +90,7 @@ export function AboutSection() {
                     <div className="text-3xl font-bold text-white mb-2">
                       {stat.number}
                     </div>
-                    <p className="text-sm text-gray-100">
-                      {stat.label}
-                    </p>
+                    <p className="text-sm text-gray-100">{stat.label}</p>
                   </CardContent>
                 </Card>
               );
@@ -97,7 +115,8 @@ export function AboutSection() {
                 </div>
                 <h4 className="text-xl font-bold mb-4">Qualidade</h4>
                 <p className="text-muted-foreground">
-                  Oferecemos sempre o melhor em tecnologia e atendimento para garantir sua satisfação.
+                  Oferecemos sempre o melhor em tecnologia e atendimento para
+                  garantir sua satisfação.
                 </p>
               </CardContent>
             </Card>
@@ -109,7 +128,8 @@ export function AboutSection() {
                 </div>
                 <h4 className="text-xl font-bold mb-4">Transparência</h4>
                 <p className="text-muted-foreground">
-                  Sem taxas escondidas, sem surpresas. Tudo sempre muito claro e transparente.
+                  Sem taxas escondidas, sem surpresas. Tudo sempre muito claro e
+                  transparente.
                 </p>
               </CardContent>
             </Card>
@@ -121,7 +141,8 @@ export function AboutSection() {
                 </div>
                 <h4 className="text-xl font-bold mb-4">Inovação</h4>
                 <p className="text-muted-foreground">
-                  Sempre investindo em novas tecnologias para oferecer o que há de melhor.
+                  Sempre investindo em novas tecnologias para oferecer o que há
+                  de melhor.
                 </p>
               </CardContent>
             </Card>

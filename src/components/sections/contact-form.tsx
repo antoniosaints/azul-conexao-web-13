@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Plan, useCity } from "@/contexts/CityContext";
 
 export function ContactForm() {
   const { toast } = useToast();
@@ -44,6 +45,14 @@ export function ContactForm() {
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  const { selectedCity, availablePlans } = useCity();
+
+  // Filtrar planos por cidade selecionada e visibilidade
+  const cityPlans: Plan[] = availablePlans;
+  const visiblePlans = cityPlans.filter((plan) =>
+    plan.cidades.some((c) => c.id_cidade == selectedCity.id_cidade)
+  );
 
   return (
     <section className="py-20 bg-background">
@@ -120,15 +129,11 @@ export function ContactForm() {
                           <SelectValue placeholder="Selecione um plano" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="basico">
-                            Básico - 100MB - R$ 49,90
-                          </SelectItem>
-                          <SelectItem value="plus">
-                            Plus - 300MB - R$ 79,90
-                          </SelectItem>
-                          <SelectItem value="premium">
-                            Premium - 600MB - R$ 119,90
-                          </SelectItem>
+                          {visiblePlans.map((plan) => (
+                            <SelectItem value={plan.id} key={plan.id}>
+                              {plan.plano} - {plan.download_recebido}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>

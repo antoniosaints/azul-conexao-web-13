@@ -8,14 +8,34 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plan, useCity } from "@/contexts/CityContext";
+import { toUpperCaseFormatter } from "@/helpers/formatters";
 
 export function PlansSection() {
   const { selectedCity, availablePlans } = useCity();
 
+  const getGridCols = (qtd: number) => {
+    switch (qtd) {
+      case 1:
+        return "md:grid-cols-1 lg:grid-cols-1 max-w-md";
+      case 2:
+        return "md:grid-cols-2 lg:grid-cols-2 max-w-3xl";
+      case 3:
+        return "md:grid-cols-2 lg:grid-cols-3 max-w-6xl";
+      case 4:
+        return "md:grid-cols-2 lg:grid-cols-4 max-w-8xl";
+      default:
+        return "md:grid-cols-2 lg:grid-cols-3 max-w-7xl"; // fallback
+    }
+  };
+
   // Filtrar planos por cidade selecionada e visibilidade
   const cityPlans: Plan[] = availablePlans;
   const visiblePlans = cityPlans
-    .filter((plan) => plan.status === "1")
+    .filter(
+      (plan) =>
+        plan.cidades.some((c) => c.id_cidade == selectedCity.id_cidade) &&
+        plan.status === "1"
+    )
     .slice(0, 4);
 
   return (
@@ -32,16 +52,14 @@ export function PlansSection() {
         </div>
 
         <div
-          className={`grid grid-cols-1 ${
-            visiblePlans.length === 4
-              ? "md:grid-cols-2 lg:grid-cols-4"
-              : "md:grid-cols-3"
-          } gap-8 max-w-6xl mx-auto`}
+          className={`grid grid-cols-1 ${getGridCols(
+            visiblePlans.length
+          )} gap-4 mx-auto`}
         >
           {visiblePlans.map((plan, index) => {
             return (
               <Card
-                key={plan.id}
+                key={index}
                 className={`relative bg-gradient-to-b flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
                   ${
                     plan.premium == "1"
@@ -80,7 +98,9 @@ export function PlansSection() {
                         className="w-16 h-16"
                       />
                     </div>
-                    <h3 className="text-3xl font-bold">{plan.plano}</h3>
+                    <h3 className="text-3xl font-bold">
+                      {toUpperCaseFormatter(plan.plano)}
+                    </h3>
                     <div
                       className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success rounded-md ${
                         plan.premium == "1"
@@ -139,7 +159,13 @@ export function PlansSection() {
                 </div>
 
                 <CardFooter>
-                  <div className={`flex flex-col items-center w-full gap-4 ${plan.aplicativos && plan.aplicativos.length > 0 && "border-t"}`}>
+                  <div
+                    className={`flex flex-col items-center w-full gap-4 ${
+                      plan.aplicativos &&
+                      plan.aplicativos.length > 0 &&
+                      "border-t"
+                    }`}
+                  >
                     {plan.aplicativos && plan.aplicativos.length > 0 && (
                       <div className="pt-6">
                         <p className="text-sm text-white mb-3 text-center">
@@ -191,12 +217,6 @@ export function PlansSection() {
               </Card>
             );
           })}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-4">
-            Todos os planos incluem instalação gratuita e sem taxa de adesão
-          </p>
         </div>
       </div>
     </section>

@@ -23,7 +23,15 @@ const slides = [
     imgUrl: "/assets/banner3.png",
   },
   {
-    id: 2,
+    id: 3,
+    title: "Segurança Total",
+    subtitle: "Proteção completa para sua conexão",
+    description:
+      "Navegue com tranquilidade com nossa tecnologia de segurança avançada.",
+    imgUrl: "/assets/banner3.png",
+  },
+  {
+    id: 3,
     title: "Segurança Total",
     subtitle: "Proteção completa para sua conexão",
     description:
@@ -39,9 +47,9 @@ export function HeroCarousel() {
   const [isHovered, setIsHovered] = useState(false);
 
   const citySlides = selectedCity
-    ? filterByCity(mockCarouselSlides, selectedCity.id)
+    ? filterByCity(mockCarouselSlides, selectedCity.id_cidade)
     : [];
-  const displaySlides = citySlides.length > 0 ? citySlides : slides;
+  const displaySlides = slides;
 
   const startAutoPlay = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -83,7 +91,7 @@ export function HeroCarousel() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {slides.map((slide, index) => (
+      {displaySlides.map((slide, index) => (
         <div
           key={index}
           className={cn(

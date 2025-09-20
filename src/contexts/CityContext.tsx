@@ -30,6 +30,7 @@ export interface Plan {
   cidade: string;
   status: '1' | '0';
   aplicativos: Apps[]
+  cidades: City[]
 }
 
 interface CityContextData {
@@ -84,7 +85,7 @@ export function CityProvider({ children }: CityProviderProps) {
     const fetchCities = async () => {
       try {
         const { data } = await http.get<City[]>('getCidades'); // ajuste sua rota aqui
-        console.log(data);
+        console.log(data)
         const activeCities = data.filter(city => city.status === 'a');
         setAvailableCities(activeCities);
 
@@ -105,8 +106,8 @@ export function CityProvider({ children }: CityProviderProps) {
     };
     const fetchPlans = async () => {
       try {
-        const { data } = await http.get<Plan[]>('getPlanosAplicativos'); // ajuste sua rota aqui
-        console.log(data);
+        const { data } = await http.get<Plan[]>('getPlanosAplicativos');
+        console.log(data)
         setavailablePlans(data);
       } catch (error) {
         console.error('Erro ao carregar cidades:', error);
