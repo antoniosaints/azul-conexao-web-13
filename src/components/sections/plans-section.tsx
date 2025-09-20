@@ -60,7 +60,7 @@ export function PlansSection() {
             return (
               <Card
                 key={index}
-                className={`relative bg-gradient-to-b flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
+                className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
                   ${
                     plan.premium == "1"
                       ? "shadow-elegant border-gradient-premium"
@@ -102,7 +102,7 @@ export function PlansSection() {
                       {toUpperCaseFormatter(plan.plano)}
                     </h3>
                     <div
-                      className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success rounded-md ${
+                      className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success rounded-2xl ${
                         plan.premium == "1"
                           ? "text-white shadow-glow"
                           : "text-white shadow-glow"
@@ -197,7 +197,7 @@ export function PlansSection() {
                       </div>
                     )}
                     <Button
-                      className={`w-full transition-smooth text-xl font-bold py-7 ${
+                      className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
                         plan.premium == "1"
                           ? "bg-gradient-to-r from-success to-success text-white"
                           : plan.valor_promocao

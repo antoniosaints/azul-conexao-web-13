@@ -28,20 +28,20 @@ export default function CitySelector() {
   }, []);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-r from-success via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`min-h-screen bg-gradient-to-r from-success border-none via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div className="max-w-md w-full">
         {/* Card de seleção */}
-        <Card className="shadow-xl border-0 bg-background/95 backdrop-blur">
+        <Card className="border-none bg-transparent shadow-none">
           <CardHeader className="text-center pb-4">
-            <div className="w-28 h-28 mx-auto mb-4 rounded-full flex items-center justify-center">
-              <img src="/assets/logo.png" alt="Logo" />
+            <div className="w-36 h-36 mx-auto mb-4 rounded-full flex items-center justify-center">
+              <img src="/assets/logo_branca.png" alt="Logo" />
             </div>
-            <CardTitle className="text-2xl">Escolha sua cidade</CardTitle>
+            <CardTitle className="text-2xl text-white">Escolha sua cidade</CardTitle>
           </CardHeader>
           
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">
+              <label className="text-sm font-medium text-white">
                 Selecione onde você está localizado:
               </label>
               <Select value={selectedCityId} onValueChange={setSelectedCityId}>
@@ -64,16 +64,16 @@ export default function CitySelector() {
             <Button 
               onClick={handleCitySelect}
               disabled={!selectedCityId}
-              className="w-full h-12 text-base bg-gradient-primary hover:opacity-90 transition-all duration-300"
+              className="w-full h-12 text-base bg-gradient-to-r from-success to-success hover:opacity-90 transition-all duration-300"
             >
               <span>Continuar</span>
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
 
             <div className="text-center">
-              <p className="text-sm text-foreground">
+              <p className="text-sm text-white">
                 Sua cidade não está na lista?{' '}
-                <button className="text-primary hover:underline font-medium">
+                <button className="text-gray-200 hover:underline font-medium">
                   Entre em contato
                 </button>
               </p>
