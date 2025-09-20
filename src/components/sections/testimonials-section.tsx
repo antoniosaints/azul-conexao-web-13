@@ -59,7 +59,7 @@ export function TestimonialsSection() {
   const { selectedCity } = useCity();
   
   // Filtrar depoimentos por cidade ou usar dados estáticos como fallback
-  const cityTestimonials = selectedCity ? filterByCity(mockTestimonials, selectedCity.id) : [];
+  const cityTestimonials = selectedCity ? filterByCity(mockTestimonials, selectedCity.id_cidade) : [];
   const displayTestimonials = cityTestimonials.length > 0 ? cityTestimonials : testimonials.slice(0, 3);
 
   return (
@@ -67,10 +67,10 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
-            Clientes de {selectedCity?.name} Recomendam
+            Clientes CAS Recomendam
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Veja o que nossos clientes em {selectedCity?.name} - {selectedCity?.state} estão falando sobre nossos serviços
+            Veja o que nossos clientes estão falando sobre nossos serviços
           </p>
         </div>
 

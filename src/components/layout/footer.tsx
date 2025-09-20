@@ -42,7 +42,7 @@ export function Footer() {
     navigate(url);
   }
   return (
-    <footer className="bg-gradient-to-r from-primary to-success text-background">
+    <footer className="bg-gradient-to-r from-success via-primary to-success text-background">
       <div className="container mx-auto px-4">
         {/* Main Footer */}
         <div className="py-16">

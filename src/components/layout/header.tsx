@@ -52,7 +52,11 @@ export function Header() {
           {/* Logo */}
           <Link to={`/${slug}`} className="flex items-center gap-2">
             <div className="p-2 rounded-lg">
-              <img src="/assets/logo_branca.png" alt="logo" className="w-16 h-16" />
+              <img
+                src="/assets/logo_branca.png"
+                alt="logo"
+                className="w-16 h-16"
+              />
             </div>
           </Link>
 
@@ -66,9 +70,7 @@ export function Header() {
                   "font-medium transition-colors hover:text-white relative text-lg",
                   "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary",
                   "after:transition-all after:duration-300 hover:after:w-full",
-                  location.pathname === item.href
-                    ? "text-white"
-                    : "text-white"
+                  location.pathname === item.href ? "text-white" : "text-white"
                 )}
               >
                 {item.name}
@@ -82,7 +84,7 @@ export function Header() {
                   onClick={handleCityClick}
                 >
                   <MapPin className="w-3 h-3" />
-                  {selectedCity.name} - {selectedCity.state}
+                  {selectedCity.cidade} - {selectedCity.uf}
                 </Badge>
               </div>
             )}
@@ -91,7 +93,10 @@ export function Header() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <Button size="sm" className="bg-primary text-md rounded-[5px] hover:scale-105 transition-all duration-300">
+              <Button
+                size="sm"
+                className="bg-primary text-md rounded-[5px] hover:scale-105 transition-all duration-300"
+              >
                 Assine Já
               </Button>
               <DropdownMenu>
@@ -109,18 +114,26 @@ export function Header() {
                   align="end"
                   className="w-48 bg-background border shadow-lg"
                 >
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    Teste de Velocidade
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    Trabalhe Conosco
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-accent">
-                    Área do Cliente
-                  </DropdownMenuItem>
+                  <a href="https://www.speedtest.net/" target="_blank">
+                    <DropdownMenuItem className="cursor-pointer hover:bg-accent">
+                      Teste de Velocidade
+                    </DropdownMenuItem>
+                  </a>
+                  <a href="https://trabalheconosco.cas.net.br/" target="_blank">
+                    <DropdownMenuItem className="cursor-pointer hover:bg-accent">
+                      Trabalhe Conosco
+                    </DropdownMenuItem>
+                  </a>
+                  <a
+                    href="https://site.cas.net.br/central_assinante_web/login"
+                    target="_blank"
+                  >
+                    <DropdownMenuItem className="cursor-pointer hover:bg-accent">
+                      Área do Cliente
+                    </DropdownMenuItem>
+                  </a>
                 </DropdownMenuContent>
               </DropdownMenu>
-
             </div>
 
             {/* Mobile menu */}
@@ -164,22 +177,34 @@ export function Header() {
                         onClick={handleCityClick}
                       >
                         <MapPin className="w-3 h-3" />
-                        {selectedCity.name} - {selectedCity.state}
+                        {selectedCity.cidade} - {selectedCity.uf}
                       </Badge>
                     </div>
                   )}
 
                   <div className="flex flex-col gap-4 pt-6 border-t">
                     <div className="space-y-3">
-                      <button className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors">
+                      <a
+                        href="https://www.speedtest.net/"
+                        target="_blank"
+                        className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                      >
                         Teste de Velocidade
-                      </button>
-                      <button className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors">
+                      </a>
+                      <a
+                        href="https://trabalheconosco.cas.net.br/"
+                        target="_blank"
+                        className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                      >
                         Trabalhe Conosco
-                      </button>
-                      <button className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors">
+                      </a>
+                      <a
+                        href="https://site.cas.net.br/central_assinante_web/login"
+                        target="_blank"
+                        className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                      >
                         Área do Cliente
-                      </button>
+                      </a>
                     </div>
                     <Button className="bg-gradient-primary">
                       Contratar Agora

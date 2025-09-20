@@ -1,27 +1,41 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import http from '@/lib/http';
 
 export interface City {
-  id: string;
-  name: string;
-  state: string;
-  isActive: boolean;
+  id_cidade: string;
+  status: 'a' | 'i';
+  cidade: string;
+  uf: string;
+  sigla: string;
+  site: string;
+  geolocalizacao: string;
 }
-
-// Dados mockados das cidades
-export const mockCities: City[] = [
-  { id: '1', name: 'Arari', state: 'MA', isActive: true },
-  { id: '2', name: 'Bacabal', state: 'MA', isActive: true },
-  { id: '3', name: 'Cantanhede', state: 'MA', isActive: true },
-  { id: '4', name: 'Coroata', state: 'MA', isActive: true },
-  { id: '5', name: 'Alto alegre', state: 'MA', isActive: true },
-  { id: '6', name: 'Pirapemas', state: 'MA', isActive: true },
-  { id: '7', name: 'São Luis Gonzaga', state: 'MA', isActive: true },
-  { id: '8', name: 'Peritoró', state: 'MA', isActive: true },
-];
+export interface Apps {
+  nome: string,
+  imagem: string
+}
+export interface Plan {
+  id: string;
+  plano: string;
+  upload_ofertado: string;
+  upload_recebido: string;
+  download_ofertado: string;
+  download_recebido: string;
+  valor: string;
+  valor_promocao: string;
+  valor_promocional: '1' | '0';
+  velocidade_promocional: '1' | '0';
+  premium: '1' | '0';
+  beneficios: string;
+  cidade: string;
+  status: '1' | '0';
+  aplicativos: Apps[]
+}
 
 interface CityContextData {
   selectedCity: City | null;
   availableCities: City[];
+  availablePlans: Plan[];
   setSelectedCity: (city: City | null) => void;
   getCityById: (id: string) => City | undefined;
   getCityBySlug: (slug: string) => City | undefined;
@@ -36,7 +50,8 @@ interface CityProviderProps {
 
 export function CityProvider({ children }: CityProviderProps) {
   const [selectedCity, setSelectedCityState] = useState<City | null>(null);
-  const [availableCities] = useState<City[]>(mockCities.filter(city => city.isActive));
+  const [availableCities, setAvailableCities] = useState<City[]>([]);
+  const [availablePlans, setavailablePlans] = useState<Plan[]>([]);
 
   const setSelectedCity = (city: City | null) => {
     setSelectedCityState(city);
@@ -48,34 +63,58 @@ export function CityProvider({ children }: CityProviderProps) {
   };
 
   const getCityById = (id: string): City | undefined => {
-    return availableCities.find(city => city.id === id);
+    return availableCities.find(city => city.id_cidade === id);
   };
 
   const getCitySlug = (city: City | null): string => {
     if (!city) return '';
-    return city.name.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return city.cidade
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
   };
 
   const getCityBySlug = (slug: string): City | undefined => {
     return availableCities.find(city => getCitySlug(city) === slug);
   };
 
-  // Carregar cidade do localStorage na inicialização
+  // Buscar cidades no backend
   useEffect(() => {
-    const savedCity = localStorage.getItem('selectedCity');
-    if (savedCity) {
+    const fetchCities = async () => {
       try {
-        const city = JSON.parse(savedCity);
-        // Verificar se a cidade ainda está disponível
-        const foundCity = getCityById(city.id);
-        if (foundCity) {
-          setSelectedCityState(foundCity);
+        const { data } = await http.get<City[]>('getCidades'); // ajuste sua rota aqui
+        console.log(data);
+        const activeCities = data.filter(city => city.status === 'a');
+        setAvailableCities(activeCities);
+
+        // restaurar cidade salva
+        const savedCity = localStorage.getItem('selectedCity');
+        if (savedCity) {
+          const parsed = JSON.parse(savedCity);
+          const foundCity = activeCities.find(c => c.id_cidade === parsed.id);
+          if (foundCity) {
+            setSelectedCityState(foundCity);
+          } else {
+            localStorage.removeItem('selectedCity');
+          }
         }
       } catch (error) {
-        console.error('Erro ao carregar cidade salva:', error);
-        localStorage.removeItem('selectedCity');
+        console.error('Erro ao carregar cidades:', error);
       }
-    }
+    };
+    const fetchPlans = async () => {
+      try {
+        const { data } = await http.get<Plan[]>('getPlanosAplicativos'); // ajuste sua rota aqui
+        console.log(data);
+        setavailablePlans(data);
+      } catch (error) {
+        console.error('Erro ao carregar cidades:', error);
+      }
+    };
+
+    fetchCities();
+    fetchPlans();
   }, []);
 
   return (
@@ -83,6 +122,7 @@ export function CityProvider({ children }: CityProviderProps) {
       value={{
         selectedCity,
         availableCities,
+        availablePlans,
         setSelectedCity,
         getCityById,
         getCityBySlug,

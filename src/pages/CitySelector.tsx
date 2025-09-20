@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { MapPin, Wifi, ArrowRight } from 'lucide-react';
+import { MapPin, ArrowRight } from 'lucide-react';
 import { useCity } from '@/contexts/CityContext';
 
 export default function CitySelector() {
@@ -14,7 +14,7 @@ export default function CitySelector() {
 
   const handleCitySelect = () => {
     if (!selectedCityId) return;
-    const city = availableCities.find(c => c.id === selectedCityId);
+    const city = availableCities.find(c => c.id_cidade === selectedCityId);
     if (city) {
       setSelectedCity(city);
       const citySlug = getCitySlug(city);
@@ -50,10 +50,10 @@ export default function CitySelector() {
                 </SelectTrigger>
                 <SelectContent>
                   {availableCities.map((city) => (
-                    <SelectItem key={city.id} value={city.id}>
+                    <SelectItem key={city.id_cidade} value={city.id_cidade}>
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-primary" />
-                        <span>{city.name} - {city.state}</span>
+                        <span>{city.cidade} - {city.uf}</span>
                       </div>
                     </SelectItem>
                   ))}
