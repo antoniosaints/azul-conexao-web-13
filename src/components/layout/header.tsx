@@ -94,8 +94,8 @@ export function Header() {
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
               <Button
-                size="sm"
-                className="bg-primary text-md rounded-[5px] hover:scale-105 transition-all duration-300"
+                size="lg"
+                className="bg-primary text-lg rounded-lg hover:scale-105 transition-all duration-300"
               >
                 Assine Já
               </Button>
@@ -103,8 +103,8 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="flex items-center gap-2 text-md bg-white rounded-[5px] hover:bg-primary"
+                    size="lg"
+                    className="flex items-center gap-2 text-lg bg-white rounded-lg hover:bg-primary"
                   >
                     Menu
                     <Menu className="w-4 h-4" />

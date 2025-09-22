@@ -64,7 +64,7 @@ export function PlansSection() {
                   className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
                   ${
                     plan.premium == "1"
-                      ? "shadow-elegant border-gradient-premium bg-gradient-to-b from-gray-900 to-gray-800 hover:scale-105"
+                      ? "shadow-elegant border-gradient-premium bg-gradient-to-b from-black to-gray-800 hover:scale-105"
                       : ""
                   } animate-fade-up`}
                   style={{ animationDelay: `${index * 150}ms` }}
@@ -103,10 +103,10 @@ export function PlansSection() {
                         {toUpperCaseFormatter(plan.plano)}
                       </h3>
                       <div
-                        className={`font-bold text-4xl p-2 bg-gradient-to-b from-success to-success rounded-2xl ${
+                        className={`font-bold text-4xl p-2 rounded-2xl ${
                           plan.premium == "1"
-                            ? "text-white bg-gradient-to-b from-black to-black"
-                            : "text-white shadow-glow"
+                            ? "text-white bg-gradient-to-r from-success via-primary to-success"
+                            : "text-white bg-gradient-to-r from-success to-success"
                         }`}
                       >
                         {plan.download_recebido}
@@ -213,7 +213,7 @@ export function PlansSection() {
                       <Button
                         className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
                           plan.premium == "1"
-                            ? "bg-gradient-to-r from-success to-success text-white"
+                            ? "bg-gradient-to-r from-success via-primary to-success text-white"
                             : plan.valor_promocao
                             ? "bg-gradient-to-r from-success to-success text-white"
                             : "bg-gradient-to-r from-success to-success text-white"
