@@ -1,4 +1,4 @@
-import { Check, Crown, Star } from "lucide-react";
+import { Check, CirclePlus, Crown, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -69,7 +69,7 @@ export function PlansSection() {
                   } animate-fade-up`}
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  {plan.valor_promocional === '1' && (
+                  {plan.valor_promocional === "1" && (
                     <div className="absolute -top-1 -right-1">
                       <Badge className="bg-primary text-primary-foreground px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
                         <Star className="w-3 h-3" />
@@ -161,15 +161,15 @@ export function PlansSection() {
 
                   <CardFooter>
                     <div
-                      className={`flex flex-col items-center w-full gap-4 ${
+                      className={`flex flex-col items-center w-full gap-3 ${
                         plan.aplicativos &&
                         plan.aplicativos.length > 0 &&
                         "border-t"
                       }`}
                     >
                       {plan.aplicativos && plan.aplicativos.length > 0 && (
-                        <div className="pt-6">
-                          <p className="text-sm text-white mb-3 text-center">
+                        <div className="pt-4">
+                          <p className="text-sm text-white mb-2 text-center">
                             Aplicativos inclusos
                           </p>
                           <div className="flex justify-center gap-3 flex-wrap">
@@ -180,7 +180,7 @@ export function PlansSection() {
                                   className="flex flex-col items-center gap-1"
                                 >
                                   <div
-                                    className={`w-12 h-12 rounded-sm flex items-center p-0.5 bg-white justify-center`}
+                                    className={`w-12 h-12 rounded-sm flex items-center p-0.5 justify-center`}
                                   >
                                     <img
                                       src={app.imagem}
@@ -194,8 +194,21 @@ export function PlansSection() {
                                 </div>
                               );
                             })}
+                            <div className="flex flex-col items-center gap-1">
+                              <div
+                                className={`w-12 h-12 rounded-sm flex items-center p-0.5 justify-center`}
+                              >
+                                + 19
+                              </div>
+                              <span className="text-xs text-white">Apps</span>
+                            </div>
                           </div>
                         </div>
+                      )}
+                      {plan.aplicativos && plan.aplicativos.length > 0 && (
+                        <p className="text-sm text-white">
+                          Você tem direito a 3 apps
+                        </p>
                       )}
                       <Button
                         className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
