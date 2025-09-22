@@ -56,7 +56,7 @@ const testimonials = [
 ];
 
 export function TestimonialsSection() {
-  const { selectedCity } = useCity();
+  const { selectedCity, depoiments } = useCity();
   
   // Filtrar depoimentos por cidade ou usar dados estáticos como fallback
   const cityTestimonials = selectedCity ? filterByCity(mockTestimonials, selectedCity.id_cidade) : [];
@@ -75,7 +75,7 @@ export function TestimonialsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {displayTestimonials.map((testimonial, index) => (
+          {depoiments.map((testimonial, index) => (
             <Card
               key={testimonial.id}
               className="shadow-card hover:shadow-primary/10 transition-all duration-300 animate-fade-up"
@@ -83,25 +83,25 @@ export function TestimonialsSection() {
             >
               <CardContent className="p-6">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
+                  {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
 
                 <p className="text-muted-foreground mb-6 line-clamp-4">
-                  "{testimonial.comment}"
+                  "{testimonial.depoimento}"
                 </p>
 
                 <div className="flex items-center gap-4">
                   <Avatar>
-                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+                    <AvatarImage src="/assets/logo.png" alt={testimonial.nome} />
                     <AvatarFallback className="bg-primary/10 text-primary">
-                      {testimonial.name.split(' ').map(n => n[0]).join('')}
+                      {testimonial.nome.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                    <p className="font-semibold">{testimonial.nome}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.cidade}</p>
                   </div>
                 </div>
               </CardContent>

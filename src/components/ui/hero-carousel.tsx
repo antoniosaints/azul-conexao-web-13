@@ -46,10 +46,7 @@ export function HeroCarousel() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  const citySlides = selectedCity
-    ? filterByCity(mockCarouselSlides, selectedCity.id_cidade)
-    : [];
-  const displaySlides = slides;
+  const displaySlides = selectedCity.banners;
 
   const startAutoPlay = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -85,6 +82,10 @@ export function HeroCarousel() {
     startAutoPlay();
   };
 
+  if (displaySlides.length === 0) {
+    return null;
+  }
+
   return (
     <section
       className="relative h-[700px] hidden md:block overflow-hidden"
@@ -101,7 +102,7 @@ export function HeroCarousel() {
         >
           <div className="relative h-full flex items-center">
             <img
-              src={slide.imgUrl}
+              src={slide.imagem}
               className="w-full h-full object-cover"
               alt="logo"
             />

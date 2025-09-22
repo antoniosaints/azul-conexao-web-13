@@ -1,6 +1,18 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import http from '@/lib/http';
 
+export interface Depoiments {
+  id: string;
+  nome: string;
+  cidade: string;
+  depoimento: string;
+}
+export interface Banners {
+  id: string;
+  nome: string;
+  imagem: string;
+  created_at: string;
+}
 export interface City {
   id_cidade: string;
   status: 'a' | 'i';
@@ -9,6 +21,7 @@ export interface City {
   sigla: string;
   site: string;
   geolocalizacao: string;
+  banners: Banners[]
 }
 export interface Apps {
   nome: string,
@@ -37,6 +50,7 @@ interface CityContextData {
   selectedCity: City | null;
   availableCities: City[];
   availablePlans: Plan[];
+  depoiments: Depoiments[];
   setSelectedCity: (city: City | null) => void;
   getCityById: (id: string) => City | undefined;
   getCityBySlug: (slug: string) => City | undefined;
@@ -53,6 +67,7 @@ export function CityProvider({ children }: CityProviderProps) {
   const [selectedCity, setSelectedCityState] = useState<City | null>(null);
   const [availableCities, setAvailableCities] = useState<City[]>([]);
   const [availablePlans, setavailablePlans] = useState<Plan[]>([]);
+  const [depoiments, setDepoiments] = useState<Depoiments[]>([]);
 
   const setSelectedCity = (city: City | null) => {
     setSelectedCityState(city);
@@ -113,9 +128,19 @@ export function CityProvider({ children }: CityProviderProps) {
         console.error('Erro ao carregar cidades:', error);
       }
     };
+    const fetchDepoiments = async () => {
+      try {
+        const { data } = await http.get<Depoiments[]>('getDepoimentos');
+        console.log(data)
+        setDepoiments(data);
+      } catch (error) {
+        console.error('Erro ao carregar cidades:', error);
+      }
+    };
 
     fetchCities();
     fetchPlans();
+    fetchDepoiments();
   }, []);
 
   return (
@@ -124,6 +149,7 @@ export function CityProvider({ children }: CityProviderProps) {
         selectedCity,
         availableCities,
         availablePlans,
+        depoiments,
         setSelectedCity,
         getCityById,
         getCityBySlug,
