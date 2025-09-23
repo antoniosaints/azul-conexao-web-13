@@ -20,9 +20,12 @@ export default function BlogPost() {
   );
 
   if (!post) {
-    return (
+     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p>Carregando...</p>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
       </div>
     );
   }
@@ -101,49 +104,51 @@ export default function BlogPost() {
           </div>
 
           {/* Posts Relacionados */}
-          <div>
-            <h3 className="text-2xl font-bold mb-6">Posts Relacionados</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {relatedPosts.map((relatedPost) => (
-                <a href={`/blog/${relatedPost.id}`}>
-                  <Card
-                    key={relatedPost.id}
-                    className="group cursor-pointer hover:shadow-lg transition-shadow"
-                  >
-                    <CardContent className="p-0">
-                      <div className="aspect-video relative overflow-hidden">
-                        {relatedPost.image ? (
-                          <img
-                            src={relatedPost.image}
-                            className="w-full h-full object-cover"
-                            alt={relatedPost.titulo}
-                          />
-                        ) : (
-                          <div className="aspect-video bg-gradient-primary rounded-t-lg" />
-                        )}
-                      </div>
-                      <div className="p-6">
-                        <h4 className="font-bold mb-2 group-hover:text-primary transition-colors">
-                          {relatedPost.titulo}
-                        </h4>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <span>
-                            {new Intl.DateTimeFormat("pt-BR", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            }).format(new Date(relatedPost.created_at))}
-                          </span>
+          {relatedPosts.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Posts Relacionados</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {relatedPosts.map((relatedPost) => (
+                  <a href={`/blog/${relatedPost.id}`}>
+                    <Card
+                      key={relatedPost.id}
+                      className="group cursor-pointer hover:shadow-lg transition-shadow"
+                    >
+                      <CardContent className="p-0">
+                        <div className="aspect-video relative overflow-hidden">
+                          {relatedPost.image ? (
+                            <img
+                              src={relatedPost.image}
+                              className="w-full h-full object-cover"
+                              alt={relatedPost.titulo}
+                            />
+                          ) : (
+                            <div className="aspect-video bg-gradient-primary rounded-t-lg" />
+                          )}
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </a>
-              ))}
+                        <div className="p-6">
+                          <h4 className="font-bold mb-2 group-hover:text-primary transition-colors">
+                            {relatedPost.titulo}
+                          </h4>
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <span>
+                              {new Intl.DateTimeFormat("pt-BR", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }).format(new Date(relatedPost.created_at))}
+                            </span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
 

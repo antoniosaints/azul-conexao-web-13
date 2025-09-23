@@ -99,18 +99,37 @@ export function PlansSection() {
                           className="w-16 h-16"
                         />
                       </div>
-                      <h3 className="text-3xl font-bold">
-                        {toUpperCaseFormatter(plan.plano)}
-                      </h3>
-                      <div
-                        className={`font-bold text-4xl p-2 rounded-2xl ${
-                          plan.premium == "1"
-                            ? "text-white bg-gradient-to-r from-success via-primary to-success"
-                            : "text-white bg-gradient-to-r from-success to-success"
-                        }`}
-                      >
-                        {plan.download_recebido}
-                      </div>
+                      {plan.velocidade_promocional === "1" ? (
+                        <div className="flex flex-col p-2 rounded-2xl">
+                          <h3 className="text-3xl font-bold">
+                            {toUpperCaseFormatter(plan.plano)}
+                          </h3>
+                          <span className="font-bold text-blue-50 text-xl p-1 rounded-lg">
+                            Contrate {plan.download_ofertado}
+                          </span>
+                          <div className="flex flex-col bg-success p-1 rounded-lg">
+                            <span className="text-md">Receba</span>
+                            <span className="font-bold text-4xl">
+                              {plan.download_recebido}
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <h3 className="text-3xl font-bold">
+                            {toUpperCaseFormatter(plan.plano)}
+                          </h3>
+                          <div
+                            className={`font-bold text-4xl p-2 rounded-2xl ${
+                              plan.premium == "1"
+                                ? "text-white bg-gradient-to-r from-success via-primary to-success"
+                                : "text-white bg-gradient-to-r from-success to-success"
+                            }`}
+                          >
+                            {plan.download_recebido}
+                          </div>
+                        </div>
+                      )}
                     </CardHeader>
 
                     <CardContent className="text-center flex flex-col justify-between ">

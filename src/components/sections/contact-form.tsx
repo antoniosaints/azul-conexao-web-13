@@ -14,6 +14,7 @@ import {
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Plan, useCity } from "@/contexts/CityContext";
+import http from "@/lib/http";
 
 export function ContactForm() {
   const { toast } = useToast();
@@ -26,12 +27,23 @@ export function ContactForm() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Solicitação Enviada!",
-      description: "Entraremos em contato dentro de 24 horas.",
-    });
+
+    try {
+      await http.post("saveCadastro", formData);
+      toast({
+        title: "Solicitação Enviada!",
+        description: "Entraremos em contato dentro de 24 horas.",
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Ops!",
+        description: "Ocorreu um erro ao enviar a solicitação.",
+      });
+    }
     setFormData({
       name: "",
       email: "",

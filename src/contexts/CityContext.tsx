@@ -117,12 +117,10 @@ export function CityProvider({ children }: CityProviderProps) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const { data } = await http.get<City[]>("getCidades"); // ajuste sua rota aqui
-        console.log(data);
+        const { data } = await http.get<City[]>("getCidades");
         const activeCities = data.filter((city) => city.status === "a");
         setAvailableCities(activeCities);
 
-        // restaurar cidade salva
         const savedCity = localStorage.getItem("selectedCity");
         if (savedCity) {
           const parsed = JSON.parse(savedCity);
@@ -142,7 +140,6 @@ export function CityProvider({ children }: CityProviderProps) {
     const fetchPlans = async () => {
       try {
         const { data } = await http.get<Plan[]>("getPlanosAplicativos");
-        console.log(data);
         setavailablePlans(data);
       } catch (error) {
         console.error("Erro ao carregar cidades:", error);
@@ -151,7 +148,6 @@ export function CityProvider({ children }: CityProviderProps) {
     const fetchDepoiments = async () => {
       try {
         const { data } = await http.get<Depoiments[]>("getDepoimentos");
-        console.log(data);
         setDepoiments(data);
       } catch (error) {
         console.error("Erro ao carregar cidades:", error);
@@ -160,7 +156,6 @@ export function CityProvider({ children }: CityProviderProps) {
     const fetchPosts = async () => {
       try {
         const { data } = await http.get<Posts[]>("getPosts");
-        console.log(data);
         setPosts(data);
       } catch (error) {
         console.error("Erro ao carregar cidades:", error);
