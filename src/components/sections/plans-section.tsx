@@ -7,11 +7,11 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plan, useCity } from "@/contexts/CityContext";
+import { Parametros, Plan, useCity } from "@/contexts/CityContext";
 import { toUpperCaseFormatter } from "@/helpers/formatters";
 
 export function PlansSection() {
-  const { selectedCity, availablePlans } = useCity();
+  const { selectedCity, availablePlans, parametros } = useCity();
 
   const getGridCols = (qtd: number) => {
     switch (qtd) {
@@ -37,6 +37,8 @@ export function PlansSection() {
         plan.status === "1"
     )
     .slice(0, 4);
+
+  const param = parametros[0] || ({} as Parametros);
 
   return (
     visiblePlans.length && (
@@ -226,25 +228,27 @@ export function PlansSection() {
                       )}
                       {plan.aplicativos && plan.aplicativos.length > 0 && (
                         <p className="text-sm text-white">
-                          Você tem direito a 3 apps
+                          Você tem direito a {plan.apps} apps
                         </p>
                       )}
-                      <Button
-                        className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
-                          plan.premium == "1"
-                            ? "bg-gradient-to-r from-success via-primary to-success text-white"
-                            : plan.valor_promocao
-                            ? "bg-gradient-to-r from-success to-success text-white"
-                            : "bg-gradient-to-r from-success to-success text-white"
-                        }`}
-                        variant={
-                          plan.premium == "1" || plan.valor_promocional
-                            ? "default"
-                            : "default"
-                        }
-                      >
-                        Contrate agora
-                      </Button>
+                      <a href={param.link_atendimento} target="_blank" className="w-full">
+                        <Button
+                          className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
+                            plan.premium == "1"
+                              ? "bg-gradient-to-r from-success via-primary to-success text-white"
+                              : plan.valor_promocao
+                              ? "bg-gradient-to-r from-success to-success text-white"
+                              : "bg-gradient-to-r from-success to-success text-white"
+                          }`}
+                          variant={
+                            plan.premium == "1" || plan.valor_promocional
+                              ? "default"
+                              : "default"
+                          }
+                        >
+                          Contrate agora
+                        </Button>
+                      </a>
                     </div>
                   </CardFooter>
                 </Card>

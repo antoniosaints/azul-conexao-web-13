@@ -11,7 +11,7 @@ import {
 import { Menu, Wifi, MapPin } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useCity } from "@/contexts/CityContext";
+import { Parametros, useCity } from "@/contexts/CityContext";
 
 const navigation = [
   { name: "Início", href: "#inicio" },
@@ -25,7 +25,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedCity, getCitySlug } = useCity();
+  const { selectedCity, getCitySlug, parametros } = useCity();
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -44,6 +44,7 @@ export function Header() {
   };
 
   const slug = getCitySlug(selectedCity);
+  const param = parametros[0] || ({} as Parametros);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-gradient-to-l from-success via-primary to-success">
@@ -93,12 +94,14 @@ export function Header() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <Button
-                size="lg"
-                className="bg-primary text-lg rounded-lg hover:scale-105 transition-all duration-300"
-              >
-                Assine Já
-              </Button>
+              <a href={param.link_atendimento || "#"}>
+                <Button
+                  size="lg"
+                  className="bg-primary text-lg rounded-lg hover:scale-105 transition-all duration-300"
+                >
+                  Assine Já
+                </Button>
+              </a>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -114,18 +117,18 @@ export function Header() {
                   align="end"
                   className="w-48 bg-background border shadow-lg"
                 >
-                  <a href="https://www.speedtest.net/" target="_blank">
+                  <a href={param.teste_velocidade_url || "#"} target="_blank">
                     <DropdownMenuItem className="cursor-pointer hover:bg-accent">
                       Teste de Velocidade
                     </DropdownMenuItem>
                   </a>
-                  <a href="https://trabalheconosco.cas.net.br/" target="_blank">
+                  <a href={param.trabalhe_conosco_url || "#"} target="_blank">
                     <DropdownMenuItem className="cursor-pointer hover:bg-accent">
                       Trabalhe Conosco
                     </DropdownMenuItem>
                   </a>
                   <a
-                    href="https://site.cas.net.br/central_assinante_web/login"
+                    href={param.area_cliente_url || "#"}
                     target="_blank"
                   >
                     <DropdownMenuItem className="cursor-pointer hover:bg-accent">
@@ -185,30 +188,32 @@ export function Header() {
                   <div className="flex flex-col gap-4 pt-6 border-t">
                     <div className="space-y-3">
                       <a
-                        href="https://www.speedtest.net/"
+                        href={param.teste_velocidade_url || "#" }
                         target="_blank"
                         className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                       >
                         Teste de Velocidade
                       </a>
                       <a
-                        href="https://trabalheconosco.cas.net.br/"
+                        href={param.trabalhe_conosco_url || "#" }
                         target="_blank"
                         className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                       >
                         Trabalhe Conosco
                       </a>
                       <a
-                        href="https://site.cas.net.br/central_assinante_web/login"
+                        href={param.area_cliente_url || "#" }
                         target="_blank"
                         className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                       >
                         Área do Cliente
                       </a>
                     </div>
-                    <Button className="bg-gradient-primary">
-                      Contratar Agora
-                    </Button>
+                    <a href={param.link_atendimento || "#"}>
+                      <Button className="bg-gradient-primary">
+                        Contratar Agora
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </SheetContent>

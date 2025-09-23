@@ -17,6 +17,23 @@ export interface Posts {
   tipo: string;
   created_at: string;
 }
+export interface Parametros {
+  id: string;
+  link_atendimento: string;
+  email_cas: string;
+  telefone: string;
+  periodo_atendimento: string;
+  instagram: string;
+  facebook: string;
+  youtube: string;
+  tiktok: string;
+  skype: string;
+  abertura_empresa: string;
+  teste_velocidade_url: string;
+  trabalhe_conosco_url: string;
+  area_cliente_url: string;
+  endereco_loja: string;
+}
 export interface Depoiments {
   id: string;
   nome: string;
@@ -58,6 +75,7 @@ export interface Plan {
   beneficios: string;
   cidade: string;
   status: "1" | "0";
+  apps: string;
   aplicativos: Apps[];
   cidades: City[];
 }
@@ -68,6 +86,7 @@ interface CityContextData {
   availablePlans: Plan[];
   depoiments: Depoiments[];
   posts: Posts[];
+  parametros: Parametros[];
   setSelectedCity: (city: City | null) => void;
   getCityById: (id: string) => City | undefined;
   getCityBySlug: (slug: string) => City | undefined;
@@ -86,6 +105,7 @@ export function CityProvider({ children }: CityProviderProps) {
   const [availablePlans, setavailablePlans] = useState<Plan[]>([]);
   const [depoiments, setDepoiments] = useState<Depoiments[]>([]);
   const [posts, setPosts] = useState<Posts[]>([]);
+  const [parametros, setParametros] = useState<Parametros[]>([]);
 
   const setSelectedCity = (city: City | null) => {
     setSelectedCityState(city);
@@ -142,7 +162,15 @@ export function CityProvider({ children }: CityProviderProps) {
         const { data } = await http.get<Plan[]>("getPlanosAplicativos");
         setavailablePlans(data);
       } catch (error) {
-        console.error("Erro ao carregar cidades:", error);
+        console.error("Erro ao carregar planos:", error);
+      }
+    };
+    const fetchParametros = async () => {
+      try {
+        const { data } = await http.get<Parametros[]>("getParametros");
+        setParametros(data);
+      } catch (error) {
+        console.error("Erro ao carregar parametros:", error);
       }
     };
     const fetchDepoiments = async () => {
@@ -150,7 +178,7 @@ export function CityProvider({ children }: CityProviderProps) {
         const { data } = await http.get<Depoiments[]>("getDepoimentos");
         setDepoiments(data);
       } catch (error) {
-        console.error("Erro ao carregar cidades:", error);
+        console.error("Erro ao carregar depoimentos:", error);
       }
     };
     const fetchPosts = async () => {
@@ -167,6 +195,7 @@ export function CityProvider({ children }: CityProviderProps) {
       fetchPlans(),
       fetchDepoiments(),
       fetchPosts(),
+      fetchParametros(),
     ];
     Promise.all(promises)
       .then(() =>
@@ -185,6 +214,7 @@ export function CityProvider({ children }: CityProviderProps) {
         availablePlans,
         depoiments,
         posts,
+        parametros,
         setSelectedCity,
         getCityById,
         getCityBySlug,

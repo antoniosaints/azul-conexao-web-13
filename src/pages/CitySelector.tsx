@@ -29,11 +29,12 @@ export default function CitySelector() {
 
   return (
     <div className={`min-h-screen bg-gradient-to-r from-success border-none via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <div className="max-w-md w-full">
+      <img src="/assets/BACKGROUND.png" alt="Logo" className="absolute top-0 left-0 w-full h-full object-cover" />
+      <div className="max-w-md w-full z-50">
         {/* Card de seleção */}
         <Card className="border-none bg-transparent shadow-none">
           <CardHeader className="text-center pb-4">
-            <div className="w-36 h-36 mx-auto mb-4 rounded-full flex items-center justify-center">
+            <div className="w-40 h-40 mx-auto mb-4 rounded-full flex items-center justify-center">
               <img src="/assets/logo_branca.png" alt="Logo" />
             </div>
             <CardTitle className="text-2xl text-white">Escolha sua cidade</CardTitle>
@@ -64,7 +65,7 @@ export default function CitySelector() {
             <Button 
               onClick={handleCitySelect}
               disabled={!selectedCityId}
-              className="w-full h-12 text-base bg-gradient-to-r from-success to-success hover:opacity-90 transition-all duration-300"
+              className="w-full h-12 text-base bg-gradient-to-r from-success/50 to-success/50 hover:opacity-90 transition-all duration-300 ease-in-out"
             >
               <span>Continuar</span>
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -80,16 +81,6 @@ export default function CitySelector() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Informações extras */}
-        <div className="mt-8 text-center">
-          <p className="text-sm text-white mb-2">
-            🔒 Seus dados estão seguros conosco
-          </p>
-          <p className="text-xs text-white">
-            Atendemos mais de {availableCities.length} cidades em todo o Brasil
-          </p>
-        </div>
       </div>
     </div>
   );

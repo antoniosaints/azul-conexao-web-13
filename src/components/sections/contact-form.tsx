@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Plan, useCity } from "@/contexts/CityContext";
+import { Parametros, Plan, useCity } from "@/contexts/CityContext";
 import http from "@/lib/http";
 
 export function ContactForm() {
@@ -58,13 +58,15 @@ export function ContactForm() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const { selectedCity, availablePlans } = useCity();
+  const { selectedCity, availablePlans, parametros } = useCity();
 
   // Filtrar planos por cidade selecionada e visibilidade
   const cityPlans: Plan[] = availablePlans;
   const visiblePlans = cityPlans.filter((plan) =>
     plan.cidades.some((c) => c.id_cidade == selectedCity.id_cidade)
   );
+
+  const param = parametros[0] || ({} as Parametros);
 
   return (
     <section className="py-20 bg-background">
@@ -203,7 +205,7 @@ export function ContactForm() {
                   </div>
                   <div>
                     <p className="font-semibold">Telefone</p>
-                    <p className="text-muted-foreground">(11) 3000-0000</p>
+                    <p className="text-muted-foreground">{param.telefone}</p>
                   </div>
                 </div>
 
@@ -213,9 +215,7 @@ export function ContactForm() {
                   </div>
                   <div>
                     <p className="font-semibold">E-mail</p>
-                    <p className="text-muted-foreground">
-                      contato@casinternet.com.br
-                    </p>
+                    <p className="text-muted-foreground">{param.email_cas}</p>
                   </div>
                 </div>
 
@@ -226,7 +226,7 @@ export function ContactForm() {
                   <div>
                     <p className="font-semibold">Endereço</p>
                     <p className="text-muted-foreground">
-                      Av. Paulista, 1000 - São Paulo, SP
+                      {param.endereco_loja}
                     </p>
                   </div>
                 </div>
@@ -238,9 +238,7 @@ export function ContactForm() {
                   <div>
                     <p className="font-semibold">Horário de Atendimento</p>
                     <p className="text-muted-foreground">
-                      Segunda à Sexta: 8h às 18h
-                      <br />
-                      Sábado: 8h às 14h
+                      {param.periodo_atendimento}
                     </p>
                   </div>
                 </div>
@@ -251,13 +249,14 @@ export function ContactForm() {
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Atendimento</h3>
                 <p className="mb-4 opacity-90">
-                  Nossa central de atendimento funciona de segunda a sexta das
-                  8h às 19h e sábado das 8h às 14h, para resolver qualquer
-                  problema.
+                  Nossa central de atendimento funciona de{" "}
+                  {param.periodo_atendimento}, para resolver qualquer problema.
                 </p>
-                <Button variant="secondary" className="text-primary">
-                  Falar com Suporte
-                </Button>
+                <a href={param.link_atendimento} target="_blank">
+                  <Button variant="secondary" className="text-primary">
+                    Falar com Suporte
+                  </Button>
+                </a>
               </CardContent>
             </Card>
           </div>

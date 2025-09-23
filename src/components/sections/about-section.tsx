@@ -64,7 +64,7 @@ export function AboutSection() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="bg-gradient-primary">
-                  Conheça Nossa História
+                  Contratar agora
                 </Button>
                 <Button size="lg" variant="outline">
                   Ver Cobertura

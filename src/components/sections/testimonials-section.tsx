@@ -123,23 +123,6 @@ export function TestimonialsSection() {
             </Card>
           ))}
         </div>
-
-        <div className="text-center mt-12">
-          <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-3 rounded-full">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                />
-              ))}
-            </div>
-            <span className="text-lg font-semibold">4.9/5</span>
-            <span className="text-muted-foreground">
-              • Mais de 2.000 avaliações
-            </span>
-          </div>
-        </div>
       </div>
     </section>
   );
