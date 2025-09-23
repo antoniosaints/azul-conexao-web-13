@@ -1,6 +1,22 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import http from '@/lib/http';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import http from "@/lib/http";
 
+export interface Posts {
+  id: string;
+  titulo: string;
+  image: string | null;
+  subtitulo: string;
+  conteudo: string;
+  autor: string | null;
+  tipo: string;
+  created_at: string;
+}
 export interface Depoiments {
   id: string;
   nome: string;
@@ -15,17 +31,17 @@ export interface Banners {
 }
 export interface City {
   id_cidade: string;
-  status: 'a' | 'i';
+  status: "a" | "i";
   cidade: string;
   uf: string;
   sigla: string;
   site: string;
   geolocalizacao: string;
-  banners: Banners[]
+  banners: Banners[];
 }
 export interface Apps {
-  nome: string,
-  imagem: string
+  nome: string;
+  imagem: string;
 }
 export interface Plan {
   id: string;
@@ -36,14 +52,14 @@ export interface Plan {
   download_recebido: string;
   valor: string;
   valor_promocao: string;
-  valor_promocional: '1' | '0';
-  velocidade_promocional: '1' | '0';
-  premium: '1' | '0';
+  valor_promocional: "1" | "0";
+  velocidade_promocional: "1" | "0";
+  premium: "1" | "0";
   beneficios: string;
   cidade: string;
-  status: '1' | '0';
-  aplicativos: Apps[]
-  cidades: City[]
+  status: "1" | "0";
+  aplicativos: Apps[];
+  cidades: City[];
 }
 
 interface CityContextData {
@@ -51,6 +67,7 @@ interface CityContextData {
   availableCities: City[];
   availablePlans: Plan[];
   depoiments: Depoiments[];
+  posts: Posts[];
   setSelectedCity: (city: City | null) => void;
   getCityById: (id: string) => City | undefined;
   getCityBySlug: (slug: string) => City | undefined;
@@ -68,79 +85,101 @@ export function CityProvider({ children }: CityProviderProps) {
   const [availableCities, setAvailableCities] = useState<City[]>([]);
   const [availablePlans, setavailablePlans] = useState<Plan[]>([]);
   const [depoiments, setDepoiments] = useState<Depoiments[]>([]);
+  const [posts, setPosts] = useState<Posts[]>([]);
 
   const setSelectedCity = (city: City | null) => {
     setSelectedCityState(city);
     if (city) {
-      localStorage.setItem('selectedCity', JSON.stringify(city));
+      localStorage.setItem("selectedCity", JSON.stringify(city));
     } else {
-      localStorage.removeItem('selectedCity');
+      localStorage.removeItem("selectedCity");
     }
   };
 
   const getCityById = (id: string): City | undefined => {
-    return availableCities.find(city => city.id_cidade === id);
+    return availableCities.find((city) => city.id_cidade === id);
   };
 
   const getCitySlug = (city: City | null): string => {
-    if (!city) return '';
+    if (!city) return "";
     return city.cidade
       .toLowerCase()
-      .replace(/\s+/g, '-')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
+      .replace(/\s+/g, "-")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
   };
 
   const getCityBySlug = (slug: string): City | undefined => {
-    return availableCities.find(city => getCitySlug(city) === slug);
+    return availableCities.find((city) => getCitySlug(city) === slug);
   };
 
   // Buscar cidades no backend
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const { data } = await http.get<City[]>('getCidades'); // ajuste sua rota aqui
-        console.log(data)
-        const activeCities = data.filter(city => city.status === 'a');
+        const { data } = await http.get<City[]>("getCidades"); // ajuste sua rota aqui
+        console.log(data);
+        const activeCities = data.filter((city) => city.status === "a");
         setAvailableCities(activeCities);
 
         // restaurar cidade salva
-        const savedCity = localStorage.getItem('selectedCity');
+        const savedCity = localStorage.getItem("selectedCity");
         if (savedCity) {
           const parsed = JSON.parse(savedCity);
-          const foundCity = activeCities.find(c => c.id_cidade === parsed.id_cidade);
+          const foundCity = activeCities.find(
+            (c) => c.id_cidade === parsed.id_cidade
+          );
           if (foundCity) {
             setSelectedCityState(foundCity);
           } else {
-            localStorage.removeItem('selectedCity');
+            localStorage.removeItem("selectedCity");
           }
         }
       } catch (error) {
-        console.error('Erro ao carregar cidades:', error);
+        console.error("Erro ao carregar cidades:", error);
       }
     };
     const fetchPlans = async () => {
       try {
-        const { data } = await http.get<Plan[]>('getPlanosAplicativos');
-        console.log(data)
+        const { data } = await http.get<Plan[]>("getPlanosAplicativos");
+        console.log(data);
         setavailablePlans(data);
       } catch (error) {
-        console.error('Erro ao carregar cidades:', error);
+        console.error("Erro ao carregar cidades:", error);
       }
     };
     const fetchDepoiments = async () => {
       try {
-        const { data } = await http.get<Depoiments[]>('getDepoimentos');
-        console.log(data)
+        const { data } = await http.get<Depoiments[]>("getDepoimentos");
+        console.log(data);
         setDepoiments(data);
       } catch (error) {
-        console.error('Erro ao carregar cidades:', error);
+        console.error("Erro ao carregar cidades:", error);
+      }
+    };
+    const fetchPosts = async () => {
+      try {
+        const { data } = await http.get<Posts[]>("getPosts");
+        console.log(data);
+        setPosts(data);
+      } catch (error) {
+        console.error("Erro ao carregar cidades:", error);
       }
     };
 
-    fetchCities();
-    fetchPlans();
-    fetchDepoiments();
+    const promises = [
+      fetchCities(),
+      fetchPlans(),
+      fetchDepoiments(),
+      fetchPosts(),
+    ];
+    Promise.all(promises)
+      .then(() =>
+        console.log("Todas as requisições foram carregadas com sucesso")
+      )
+      .catch((error) =>
+        console.error("Erro ao carregar as requisições:", error)
+      );
   }, []);
 
   return (
@@ -150,6 +189,7 @@ export function CityProvider({ children }: CityProviderProps) {
         availableCities,
         availablePlans,
         depoiments,
+        posts,
         setSelectedCity,
         getCityById,
         getCityBySlug,
@@ -164,7 +204,7 @@ export function CityProvider({ children }: CityProviderProps) {
 export function useCity() {
   const context = useContext(CityContext);
   if (!context) {
-    throw new Error('useCity must be used within a CityProvider');
+    throw new Error("useCity must be used within a CityProvider");
   }
   return context;
 }
