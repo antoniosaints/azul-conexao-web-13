@@ -3,14 +3,13 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, User, ArrowLeft } from "lucide-react";
+import { Calendar, ArrowLeft } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCity } from "@/contexts/CityContext";
 
 export default function BlogPost() {
   const { postId } = useParams<{ postId: string }>();
-  const { posts } = useCity();
+  const { posts, repoImages, loading } = useCity();
   const navigate = useNavigate();
 
   const post = posts.find((post) => String(post.id) === String(postId));
@@ -19,8 +18,8 @@ export default function BlogPost() {
     (post) => String(post.id) !== String(postId)
   );
 
-  if (!post) {
-     return (
+  if (!post || loading) {
+    return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
@@ -61,12 +60,9 @@ export default function BlogPost() {
             {/* Autor e Data */}
             <div className="flex items-center justify-between mb-8 pb-8 border-b">
               <div className="flex items-center gap-4">
-                <Avatar className="w-12 h-12">
-                  <AvatarImage src="/assets/logo.png" alt={post.autor} />
-                  <AvatarFallback>
-                    <User className="w-6 h-6" />
-                  </AvatarFallback>
-                </Avatar>
+                <div className="w-12 h-12 bg-primary flex items-center justify-center rounded-md p-2">
+                  <img src="/assets/icone_nano.png" alt="alt" />
+                </div>
                 <div>
                   <div className="font-semibold">{post.autor}</div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -91,7 +87,7 @@ export default function BlogPost() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             {post.image && (
               <img
-                src={post.image}
+                src={repoImages + post.image}
                 className="w-full h-full object-cover"
                 alt={post.titulo}
               />
@@ -118,7 +114,7 @@ export default function BlogPost() {
                         <div className="aspect-video relative overflow-hidden">
                           {relatedPost.image ? (
                             <img
-                              src={relatedPost.image}
+                              src={repoImages + relatedPost.image}
                               className="w-full h-full object-cover"
                               alt={relatedPost.titulo}
                             />

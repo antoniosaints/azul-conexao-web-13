@@ -1,29 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Award, MapPin, Clock } from "lucide-react";
-
-const stats = [
-  {
-    icon: Users,
-    number: "50K+",
-    label: "Clientes Satisfeitos",
-  },
-  {
-    icon: MapPin,
-    number: "200+",
-    label: "Cidades Atendidas",
-  },
-  {
-    icon: Award,
-    number: "15+",
-    label: "Anos de Experiência",
-  },
-  {
-    icon: Clock,
-    number: "99%",
-    label: "Estabilidade garantida",
-  },
-];
+import { Parametros, useCity } from "@/contexts/CityContext";
 
 function calcularIdade(dataNascimento: string) {
   const hoje = new Date();
@@ -41,6 +19,13 @@ function calcularIdade(dataNascimento: string) {
 }
 
 export function AboutSection() {
+  const { parametros, availableCities } = useCity();
+  const param = parametros[0] || ({} as Parametros);
+
+  if (!parametros || parametros.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -52,49 +37,82 @@ export function AboutSection() {
                 Sobre a CAS Internet
               </h2>
               <p className="text-xl text-muted-foreground mb-6">
-                Há mais de {calcularIdade('2006-05-20')} anos conectando pessoas e empresas com a melhor
-                tecnologia em internet fibra ótica do Brasil.
+                Há mais de {calcularIdade(param.abertura_empresa)} anos
+                conectando pessoas e empresas com a melhor tecnologia em
+                internet fibra ótica do Brasil.
               </p>
-              <p className="text-muted-foreground mb-8">
-                Nossa missão é democratizar o acesso à internet de alta
-                qualidade, oferecendo planos acessíveis sem abrir mão da
-                excelência no atendimento. Investimos constantemente em
-                infraestrutura e tecnologia para garantir que nossos clientes
-                tenham a melhor experiência de conectividade.
-              </p>
+              <p className="text-muted-foreground mb-8">{param.missao}</p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-gradient-primary">
-                  Contratar agora
-                </Button>
-                <Button size="lg" variant="outline">
-                  Ver Cobertura
-                </Button>
+                <a href={param.link_atendimento} target="_blank">
+                  <Button size="lg" className="bg-gradient-primary">
+                    Contratar agora
+                  </Button>
+                </a>
+                <a href="#cobertura">
+                  <Button size="lg" variant="outline">
+                    Ver Cobertura
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-6">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <Card
-                  key={index}
-                  className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
-                  style={{ animationDelay: `${index * 150}ms` }}
-                >
-                  <CardContent className="p-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="text-3xl font-bold text-white mb-2">
-                      {stat.number}
-                    </div>
-                    <p className="text-sm text-gray-100">{stat.label}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            <Card
+              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
+              style={{ animationDelay: `${1 * 150}ms` }}
+            >
+              <CardContent className="p-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-white mb-2">
+                  {param.total_cliente}
+                </div>
+                <p className="text-sm text-gray-100">Clientes Satisfeitos</p>
+              </CardContent>
+            </Card>
+            <Card
+              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
+              style={{ animationDelay: `${2 * 150}ms` }}
+            >
+              <CardContent className="p-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                  <MapPin className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-white mb-2">
+                  {availableCities.length}
+                </div>
+                <p className="text-sm text-gray-100">Cidades atendidas</p>
+              </CardContent>
+            </Card>
+            <Card
+              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
+              style={{ animationDelay: `${3 * 150}ms` }}
+            >
+              <CardContent className="p-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                  <Award className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-white mb-2">
+                  {calcularIdade(param.abertura_empresa)}
+                </div>
+                <p className="text-sm text-gray-100">Anos de Experiência</p>
+              </CardContent>
+            </Card>
+            <Card
+              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
+              style={{ animationDelay: `${4 * 150}ms` }}
+            >
+              <CardContent className="p-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                  <Clock className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-white mb-2">99%</div>
+                <p className="text-sm text-gray-100">Estabilidade garantida</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
@@ -111,7 +129,11 @@ export function AboutSection() {
             <Card className="text-center shadow-card">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl font-bold text-white">Q</span>
+                  <img
+                    src="/assets/icone_nano.png"
+                    alt="icone_nano"
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
                 <h4 className="text-xl font-bold mb-4">Qualidade</h4>
                 <p className="text-muted-foreground">
@@ -124,7 +146,11 @@ export function AboutSection() {
             <Card className="text-center shadow-card">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl font-bold text-white">T</span>
+                  <img
+                    src="/assets/icone_nano.png"
+                    alt="icone_nano"
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
                 <h4 className="text-xl font-bold mb-4">Transparência</h4>
                 <p className="text-muted-foreground">
@@ -137,7 +163,11 @@ export function AboutSection() {
             <Card className="text-center shadow-card">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl font-bold text-white">I</span>
+                  <img
+                    src="/assets/icone_nano.png"
+                    alt="icone_nano"
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
                 <h4 className="text-xl font-bold mb-4">Inovação</h4>
                 <p className="text-muted-foreground">

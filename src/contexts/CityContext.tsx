@@ -20,6 +20,9 @@ export interface Posts {
 export interface Parametros {
   id: string;
   link_atendimento: string;
+  total_apps: string;
+  total_cliente: string;
+  missao: string;
   email_cas: string;
   telefone: string;
   periodo_atendimento: string;
@@ -27,7 +30,7 @@ export interface Parametros {
   facebook: string;
   youtube: string;
   tiktok: string;
-  skype: string;
+  twitter: string;
   abertura_empresa: string;
   teste_velocidade_url: string;
   trabalhe_conosco_url: string;
@@ -53,6 +56,7 @@ export interface City {
   uf: string;
   sigla: string;
   site: string;
+  endereco_loja: string | null;
   geolocalizacao: string;
   banners: Banners[];
 }
@@ -86,6 +90,8 @@ interface CityContextData {
   availablePlans: Plan[];
   depoiments: Depoiments[];
   posts: Posts[];
+  loading: boolean;
+  repoImages: string;
   parametros: Parametros[];
   setSelectedCity: (city: City | null) => void;
   getCityById: (id: string) => City | undefined;
@@ -106,6 +112,8 @@ export function CityProvider({ children }: CityProviderProps) {
   const [depoiments, setDepoiments] = useState<Depoiments[]>([]);
   const [posts, setPosts] = useState<Posts[]>([]);
   const [parametros, setParametros] = useState<Parametros[]>([]);
+  const [repoImages, setRepoImages] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   const setSelectedCity = (city: City | null) => {
     setSelectedCityState(city);
@@ -135,6 +143,10 @@ export function CityProvider({ children }: CityProviderProps) {
 
   // Buscar cidades no backend
   useEffect(() => {
+    setRepoImages(
+      import.meta.env.VITE_REPO_IMAGES ||
+        "https://sistemas.cas.net.br/censo/public/dist/img/imagens/Site/"
+    );
     const fetchCities = async () => {
       try {
         const { data } = await http.get<City[]>("getCidades");
@@ -198,12 +210,14 @@ export function CityProvider({ children }: CityProviderProps) {
       fetchParametros(),
     ];
     Promise.all(promises)
-      .then(() =>
-        console.log("Todas as requisições foram carregadas com sucesso")
-      )
-      .catch((error) =>
-        console.error("Erro ao carregar as requisições:", error)
-      );
+      .then(() => {
+        setLoading(false);
+        console.log("Todas as requisicoes foram carregadas");
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error("Erro ao carregar todas as requisicoes:", error);
+      });
   }, []);
 
   return (
@@ -214,7 +228,9 @@ export function CityProvider({ children }: CityProviderProps) {
         availablePlans,
         depoiments,
         posts,
+        loading,
         parametros,
+        repoImages,
         setSelectedCity,
         getCityById,
         getCityBySlug,

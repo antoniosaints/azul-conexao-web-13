@@ -1,75 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import { useCity } from "@/contexts/CityContext";
-import { mockTestimonials, filterByCity } from "@/data/mockData";
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Maria Silva",
-    location: "São Paulo, SP",
-    rating: 5,
-    comment:
-      "A melhor internet que já tive! Velocidade constante e suporte excepcional. Recomendo para todos.",
-    avatar: "/placeholder.svg",
-  },
-  {
-    id: 2,
-    name: "João Santos",
-    location: "Rio de Janeiro, RJ",
-    rating: 5,
-    comment:
-      "Desde que contratei não tive nenhum problema. A instalação foi rápida e o preço é justo.",
-    avatar: "/placeholder.svg",
-  },
-  {
-    id: 3,
-    name: "Ana Costa",
-    location: "Belo Horizonte, MG",
-    rating: 5,
-    comment:
-      "Trabalho home office e preciso de uma internet confiável. A CAS Internet entrega exatamente isso!",
-    avatar: "/placeholder.svg",
-  },
-  {
-    id: 4,
-    name: "Carlos Oliveira",
-    location: "Brasília, DF",
-    rating: 5,
-    comment:
-      "Fibra ótica de verdade! Agora consigo assistir Netflix em 4K sem travamentos.",
-    avatar: "/placeholder.svg",
-  },
-  {
-    id: 5,
-    name: "Fernanda Lima",
-    location: "Salvador, BA",
-    rating: 5,
-    comment:
-      "O atendimento é nota 10. Sempre que preciso, eles resolvem rapidamente.",
-    avatar: "/placeholder.svg",
-  },
-  {
-    id: 6,
-    name: "Pedro Almeida",
-    location: "Fortaleza, CE",
-    rating: 5,
-    comment:
-      "Migrei de outra operadora e a diferença é gritante. Velocidade e estabilidade perfeitas.",
-    avatar: "/placeholder.svg",
-  },
-];
 
 export function TestimonialsSection() {
-  const { selectedCity, depoiments } = useCity();
-
-  // Filtrar depoimentos por cidade ou usar dados estáticos como fallback
-  const cityTestimonials = selectedCity
-    ? filterByCity(mockTestimonials, selectedCity.id_cidade)
-    : [];
-  const displayTestimonials =
-    cityTestimonials.length > 0 ? cityTestimonials : testimonials.slice(0, 3);
+  const { depoiments } = useCity();
 
   return (
     <section className="py-20 bg-secondary/30">

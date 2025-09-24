@@ -226,7 +226,7 @@ export function ContactForm() {
                   <div>
                     <p className="font-semibold">Endereço</p>
                     <p className="text-muted-foreground">
-                      {param.endereco_loja}
+                      {selectedCity.endereco_loja || param.endereco_loja}
                     </p>
                   </div>
                 </div>

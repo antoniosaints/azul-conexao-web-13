@@ -1,4 +1,4 @@
-import { Check, CirclePlus, Crown, Star } from "lucide-react";
+import { Check, Crown, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +11,7 @@ import { Parametros, Plan, useCity } from "@/contexts/CityContext";
 import { toUpperCaseFormatter } from "@/helpers/formatters";
 
 export function PlansSection() {
-  const { selectedCity, availablePlans, parametros } = useCity();
+  const { selectedCity, availablePlans, parametros, repoImages } = useCity();
 
   const getGridCols = (qtd: number) => {
     switch (qtd) {
@@ -201,12 +201,12 @@ export function PlansSection() {
                                   className="flex flex-col items-center gap-1"
                                 >
                                   <div
-                                    className={`w-12 h-12 rounded-sm flex items-center p-0.5 justify-center`}
+                                    className={`w-12 h-12 rounded-md flex items-center justify-center`}
                                   >
                                     <img
-                                      src={app.imagem}
+                                      src={repoImages + app.imagem}
                                       alt="Logo"
-                                      className="w-auto object-cover"
+                                      className="w-auto object-cover rounded-sm"
                                     />
                                   </div>
                                   <span className="text-xs text-white">
@@ -219,7 +219,7 @@ export function PlansSection() {
                               <div
                                 className={`w-12 h-12 rounded-sm flex items-center p-0.5 justify-center`}
                               >
-                                + 19
+                                + {Number(param.total_apps) - plan.aplicativos.length}
                               </div>
                               <span className="text-xs text-white">Apps</span>
                             </div>

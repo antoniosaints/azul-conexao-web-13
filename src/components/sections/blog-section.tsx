@@ -5,7 +5,7 @@ import { Calendar, ArrowRight, User } from "lucide-react";
 import { useCity } from "@/contexts/CityContext";
 
 export function BlogSection() {
-  const { posts } = useCity();
+  const { posts, repoImages } = useCity();
   const displayPosts = posts;
 
   return (
@@ -32,7 +32,7 @@ export function BlogSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 {post.image && (
                   <img
-                    src={post.image}
+                    src={repoImages + post.image}
                     className="w-full h-full object-cover"
                     alt={post.tipo}
                   />
@@ -49,10 +49,6 @@ export function BlogSection() {
               </CardHeader>
 
               <CardContent className="pt-0 flex flex-col justify-between">
-                <p className="text-muted-foreground mb-6 line-clamp-3">
-                  {post.conteudo}
-                </p>
-
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -83,12 +79,6 @@ export function BlogSection() {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Button size="lg" variant="outline">
-            Ver Todos os Artigos
-          </Button>
         </div>
       </div>
     </section>

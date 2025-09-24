@@ -14,7 +14,7 @@ import { CoverageMap } from "@/components/sections/coverage-map";
 
 const CityHome = () => {
   const { citySlug } = useParams<{ citySlug: string }>();
-  const { getCityBySlug, setSelectedCity, selectedCity } = useCity();
+  const { getCityBySlug, setSelectedCity, selectedCity, loading } = useCity();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const CityHome = () => {
   }, [citySlug, getCityBySlug, setSelectedCity, navigate]);
 
   // Se não há cidade selecionada ainda, mostrar loading ou redirect
-  if (!selectedCity) {
+  if (!selectedCity || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

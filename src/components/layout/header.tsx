@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -143,9 +143,10 @@ export function Header() {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="md:hidden">
                 <Button variant="ghost" size="icon">
-                  <Menu className="w-5 h-5 text-white" />
+                  <Menu className="w-8 h-8 text-white" />
                 </Button>
               </SheetTrigger>
+              <SheetTitle className="text-white hidden">Menu</SheetTitle>
               <SheetContent side="right" className="w-80 z-[9999]">
                 <div className="flex flex-col gap-6 mt-8">
                   <div className="flex items-center gap-2">
@@ -171,7 +172,7 @@ export function Header() {
 
                   {selectedCity && (
                     <div className="flex flex-col gap-2 pt-4 border-t">
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-md text-muted-foreground">
                         Cidade atual:
                       </span>
                       <Badge
@@ -186,7 +187,7 @@ export function Header() {
                   )}
 
                   <div className="flex flex-col gap-4 pt-6 border-t">
-                    <div className="space-y-3">
+                    <div className="space-y-3 flex flex-col">
                       <a
                         href={param.teste_velocidade_url || "#" }
                         target="_blank"

@@ -6,8 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CityProvider } from "@/contexts/CityContext";
 import CitySelector from "./pages/CitySelector";
 import CityHome from "./pages/CityHome";
-import Admin from "./pages/Admin";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import TermsOfService from "./pages/TermsOfService";
 import Regulations from "./pages/Regulations";
@@ -35,7 +33,6 @@ const App = () => (
             <Route path="/blog/:postId" element={<BlogPost />} />
             <Route path="/planos" element={<Plans />} />
             <Route path="/contato" element={<Contact />} />
-            <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
             <Route path="/:citySlug" element={<CityHome />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

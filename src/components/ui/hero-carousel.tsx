@@ -41,7 +41,7 @@ const slides = [
 ];
 
 export function HeroCarousel() {
-  const { selectedCity } = useCity();
+  const { selectedCity, repoImages } = useCity();
   const [currentSlide, setCurrentSlide] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -102,7 +102,7 @@ export function HeroCarousel() {
         >
           <div className="relative h-full flex items-center">
             <img
-              src={slide.imagem}
+              src={repoImages + slide.imagem}
               className="w-full h-full object-cover"
               alt="logo"
             />

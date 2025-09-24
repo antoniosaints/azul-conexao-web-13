@@ -1,45 +1,32 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Parametros, useCity } from "@/contexts/CityContext";
 import {
-  Wifi,
   Facebook,
   Instagram,
   Twitter,
   Youtube,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
+  Music2,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const quickLinks = [
   { name: "Planos Residenciais", href: "#planos" },
-  { name: "Planos Empresariais", href: "#empresas" },
+  { name: "Planos Empresariais", href: "#planos" },
   { name: "Cobertura", href: "#cobertura" },
-  { name: "Suporte Técnico", href: "#suporte" },
-];
-
-const company = [
-  { name: "Sobre Nós", href: "#sobre" },
-  { name: "Trabalhe Conosco", href: "#carreiras" },
-  { name: "Imprensa", href: "#imprensa" },
-  { name: "Responsabilidade Social", href: "#social" },
+  { name: "Suporte Técnico", href: "#contato" },
 ];
 
 const legal = [
   { name: "Política de Privacidade", href: "/privacidade" },
   { name: "Termos de Uso", href: "/termos" },
-  // { name: "Regulamento", href: "/regulamento" },
-  // { name: "Código de Defesa", href: "/defesa" },
 ];
 
 export function Footer() {
-  const navigate = useNavigate();
-  function goToTop(url: string) {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(url);
+  const { parametros, selectedCity } = useCity();
+  const param = parametros[0] || ({} as Parametros);
+  if (selectedCity === null) {
+    return null;
   }
   return (
     <footer className="bg-gradient-to-r from-success via-primary to-success text-background">
@@ -61,34 +48,61 @@ export function Footer() {
 
               {/* Social Media */}
               <div className="flex gap-4">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="border-background/20 bg-success/70 hover:border-primary"
-                >
-                  <Facebook className="w-5 h-5" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="border-background/20 bg-success/70 hover:border-primary"
-                >
-                  <Instagram className="w-5 h-5" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="border-background/20 bg-success/70 hover:border-primary"
-                >
-                  <Twitter className="w-5 h-5" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="border-background/20 bg-success/70 hover:border-primary"
-                >
-                  <Youtube className="w-5 h-5" />
-                </Button>
+                {param.facebook && (
+                  <a href={param.facebook} target="_blank">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-background/20 bg-success/70 hover:border-primary"
+                    >
+                      <Facebook className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {param.instagram && (
+                  <a href={param.instagram} target="_blank">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-background/20 bg-success/70 hover:border-primary"
+                    >
+                      <Instagram className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {param.twitter && (
+                  <a href={param.twitter} target="_blank">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-background/20 bg-success/70 hover:border-primary"
+                    >
+                      <Twitter className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {param.youtube && (
+                  <a href={param.youtube} target="_blank">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-background/20 bg-success/70 hover:border-primary"
+                    >
+                      <Youtube className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
+                {param.tiktok && (
+                  <a href={param.tiktok} target="_blank">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-background/20 bg-success/70 hover:border-primary"
+                    >
+                      <Music2 className="w-5 h-5" />
+                    </Button>
+                  </a>
+                )}
               </div>
             </div>
             <div>
@@ -96,20 +110,16 @@ export function Footer() {
               {/* Contact Info */}
               <div className="space-y-3 text-sm mb-6">
                 <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-white" />
-                  <span>(11) 3000-0000</span>
+                  <span>{param.telefone}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-white" />
-                  <span>contato@casinternet.com.br</span>
+                  <span>{param.email_cas}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-white" />
-                  <span>Av. Paulista, 1000 - São Paulo, SP</span>
+                  <span>{selectedCity.endereco_loja ? selectedCity.endereco_loja : param.endereco_loja}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-white" />
-                  <span>Seg-Sex: 8h-18h | Sáb: 8h-14h</span>
+                  <span>{param.periodo_atendimento}</span>
                 </div>
               </div>
             </div>
@@ -120,12 +130,12 @@ export function Footer() {
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.name}>
-                    <Link
-                      to={link.href}
-                      className="text-background/80 hover:text-primary transition-colors"
+                    <a
+                      href={link.href}
+                      className="text-white hover:text-gray-200 transition-colors"
                     >
                       {link.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -135,16 +145,41 @@ export function Footer() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Empresa</h3>
               <ul className="space-y-3">
-                {company.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      to={link.href}
-                      className="text-background/80 hover:text-primary transition-colors"
+                <li>
+                  <a
+                    href="#sobre"
+                    className="text-white hover:text-gray-200 transition-colors"
+                  >
+                    Sobre Nós
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={param.trabalhe_conosco_url}
+                    target="_blank"
+                    className="text-white hover:text-gray-200 transition-colors"
                     >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
+                    Trabalhe conosco
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={param.area_cliente_url}
+                    target="_blank"
+                    className="text-white hover:text-gray-200 transition-colors"
+                    >
+                    Área do cliente
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={param.teste_velocidade_url}
+                    target="_blank"
+                    className="text-white hover:text-gray-200 transition-colors"
+                  >
+                    Testar velocidade
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -161,14 +196,13 @@ export function Footer() {
 
             <div className="flex flex-wrap gap-2">
               {legal.map((link) => (
-                <Button
-                  variant="link"
+                <Link
                   key={link.name}
-                  onClick={() => goToTop(link.href)}
+                  to={link.href}
                   className="text-background/80 hover:text-blue-200 transition-colors text-sm"
                 >
                   {link.name}
-                </Button>
+                </Link>
               ))}
             </div>
           </div>
