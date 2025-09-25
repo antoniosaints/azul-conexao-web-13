@@ -72,17 +72,17 @@ export function PlansSection() {
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   {plan.valor_promocional === "1" && (
-                    <div className="absolute -top-1 -right-1">
-                      <Badge className="bg-primary text-primary-foreground px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
+                    <div className="absolute top-0 -left-1">
+                      <Badge className="bg-primary text-primary-foreground px-4 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
                         <Star className="w-3 h-3" />
-                        Destaque
+                        Promoção
                       </Badge>
                     </div>
                   )}
 
                   {plan.premium == "1" && (
-                    <div className="absolute -top-1 -right-1">
-                      <Badge className="bg-gradient-to-r from-accent to-primary text-white px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
+                    <div className="absolute top-0 -left-1">
+                      <Badge className="bg-gradient-to-r from-accent to-primary text-white px-4 py-1 rounded-bl-md rounded-tr-md flex items-center gap-1">
                         <Crown className="w-3 h-3" />
                         Premium
                       </Badge>

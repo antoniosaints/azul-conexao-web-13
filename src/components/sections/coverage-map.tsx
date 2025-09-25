@@ -31,6 +31,7 @@ export function CoverageMap() {
     // Inicializar o mapa
     map.current = L.map(mapContainer.current, {
       zoomControl: false,
+      scrollWheelZoom: false
     }).setView(centerPosition, 9);
 
     // Adicionar tiles do OpenStreetMap

@@ -94,7 +94,7 @@ export function Header() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2">
-              <a href={param.link_atendimento || "#"}>
+              <a href={param.link_atendimento || "#"} target="_blank">
                 <Button
                   size="lg"
                   className="bg-primary text-lg rounded-lg hover:scale-105 transition-all duration-300"
