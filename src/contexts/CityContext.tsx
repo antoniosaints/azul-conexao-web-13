@@ -79,7 +79,7 @@ export interface Plan {
   beneficios: string;
   cidade: string;
   status: "1" | "0";
-  apps: string;
+  descricao: string;
   aplicativos: Apps[];
   cidades: City[];
 }

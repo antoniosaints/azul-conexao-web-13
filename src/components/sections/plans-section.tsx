@@ -226,9 +226,9 @@ export function PlansSection() {
                           </div>
                         </div>
                       )}
-                      {plan.aplicativos && plan.aplicativos.length > 0 && (
+                      {plan.descricao && (
                         <p className="text-sm text-white">
-                          Você tem direito a {plan.apps} apps
+                          {plan.descricao}
                         </p>
                       )}
                       <a href={param.link_atendimento} target="_blank" className="w-full">

@@ -1,20 +1,27 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { MapPin, ArrowRight } from 'lucide-react';
-import { useCity } from '@/contexts/CityContext';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { MapPin, ArrowRight } from "lucide-react";
+import { Parametros, useCity } from "@/contexts/CityContext";
 
 export default function CitySelector() {
-  const { availableCities, setSelectedCity, getCitySlug } = useCity();
-  const [selectedCityId, setSelectedCityId] = useState<string>('');
+  const { availableCities, setSelectedCity, getCitySlug, parametros, loading } =
+    useCity();
+  const [selectedCityId, setSelectedCityId] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false); // para o fade
   const navigate = useNavigate();
 
   const handleCitySelect = () => {
     if (!selectedCityId) return;
-    const city = availableCities.find(c => c.id_cidade === selectedCityId);
+    const city = availableCities.find((c) => c.id_cidade === selectedCityId);
     if (city) {
       setSelectedCity(city);
       const citySlug = getCitySlug(city);
@@ -27,9 +34,30 @@ export default function CitySelector() {
     return () => clearTimeout(timeout);
   }, []);
 
+  const param = parametros[0] || ({} as Parametros);
+
+   if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`min-h-screen bg-gradient-to-r from-success border-none via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <img src="/assets/BACKGROUND.png" alt="Logo" className="absolute top-0 left-0 w-full h-full object-cover" />
+    <div
+      className={`min-h-screen bg-gradient-to-r from-success border-none via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <img
+        src="/assets/BACKGROUND.png"
+        alt="Logo"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      />
       <div className="max-w-md w-full z-50">
         {/* Card de seleção */}
         <Card className="border-none bg-transparent shadow-none">
@@ -37,9 +65,11 @@ export default function CitySelector() {
             <div className="w-40 h-40 mx-auto mb-4 rounded-full flex items-center justify-center">
               <img src="/assets/logo_branca.png" alt="Logo" />
             </div>
-            <CardTitle className="text-2xl text-white">Escolha sua cidade</CardTitle>
+            <CardTitle className="text-2xl text-white">
+              Escolha sua cidade
+            </CardTitle>
           </CardHeader>
-          
+
           <CardContent className="space-y-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-white">
@@ -54,7 +84,9 @@ export default function CitySelector() {
                     <SelectItem key={city.id_cidade} value={city.id_cidade}>
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-primary" />
-                        <span>{city.cidade} - {city.uf}</span>
+                        <span>
+                          {city.cidade} - {city.uf}
+                        </span>
                       </div>
                     </SelectItem>
                   ))}
@@ -62,7 +94,7 @@ export default function CitySelector() {
               </Select>
             </div>
 
-            <Button 
+            <Button
               onClick={handleCitySelect}
               disabled={!selectedCityId}
               className="w-full h-12 text-base bg-gradient-to-r from-success/50 to-success/50 hover:opacity-90 transition-all duration-300 ease-in-out"
@@ -73,10 +105,12 @@ export default function CitySelector() {
 
             <div className="text-center">
               <p className="text-sm text-white">
-                Sua cidade não está na lista?{' '}
-                <button className="text-gray-200 hover:underline font-medium">
-                  Entre em contato
-                </button>
+                Sua cidade não está na lista?{" "}
+                <a href={param.link_atendimento} target="_blank">
+                  <button className="text-gray-200 hover:underline font-medium">
+                    Entre em contato
+                  </button>
+                </a>
               </p>
             </div>
           </CardContent>
