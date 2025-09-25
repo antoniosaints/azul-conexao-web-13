@@ -19,10 +19,10 @@ function calcularIdade(dataNascimento: string) {
 }
 
 export function AboutSection() {
-  const { parametros, availableCities } = useCity();
+  const { parametros, availableCities, loading } = useCity();
   const param = parametros[0] || ({} as Parametros);
 
-  if (!parametros || parametros.length === 0) {
+  if (loading) {
     return null;
   }
 

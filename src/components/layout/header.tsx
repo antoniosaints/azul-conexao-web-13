@@ -49,14 +49,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-gradient-to-l from-success via-primary to-success">
       <div className="container mx-auto px-4">
-        <div className="flex h-24 items-center justify-between">
+        <div className="flex h-20 md:h-24 items-center justify-between">
           {/* Logo */}
           <Link to={`/${slug}`} className="flex items-center gap-2">
             <div className="p-2 rounded-lg">
               <img
                 src="/assets/logo_branca.png"
                 alt="logo"
-                className="w-16 h-16"
+                className="w-14 h-14 md:w-16 md:h-16"
               />
             </div>
           </Link>
@@ -68,7 +68,7 @@ export function Header() {
                 key={item.name}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
-                  "font-medium transition-colors hover:text-white relative text-lg",
+                  "font-medium transition-colors hover:text-white relative text-md md:text-lg",
                   "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary",
                   "after:transition-all after:duration-300 hover:after:w-full",
                   location.pathname === item.href ? "text-white" : "text-white"
