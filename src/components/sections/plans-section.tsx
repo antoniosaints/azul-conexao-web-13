@@ -63,10 +63,10 @@ export function PlansSection() {
               return (
                 <Card
                   key={index}
-                  className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-card
+                  className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 md:hover:scale-105 hover:shadow-card
                   ${
                     plan.premium == "1"
-                      ? "shadow-elegant border-gradient-premium bg-gradient-to-b from-black to-gray-800 hover:scale-105"
+                      ? "shadow-elegant border-gradient-premium bg-gradient-to-b from-black to-gray-800"
                       : ""
                   } animate-fade-up`}
                   style={{ animationDelay: `${index * 150}ms` }}

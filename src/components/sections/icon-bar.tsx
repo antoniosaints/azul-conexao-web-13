@@ -26,15 +26,15 @@ const icons = [
 ];
 export function IconBar() {
   return (
-    <header className="z-50 w-full hidden md:block bg-gradient-to-l from-success via-primary to-success">
+    <header className="z-50 w-full bg-gradient-to-l from-success via-primary to-success">
       <div className="container mx-auto px-4">
-        <div className="py-4 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div className="py-4 grid grid-cols-6 md:grid-cols-3 lg:grid-cols-6 gap-2">
           {icons.map((icon, index) => (
             <div
               key={index}
-              className="flex flex-col transition-all duration-300 hover:scale-105 items-center justify-between text-white"
+              className="flex flex-col text-xs md:text-lg transition-all duration-300 hover:scale-105 items-center text-center justify-between text-white"
             >
-              <img src={icon.icon} className="w-12 text-white" alt={icon.name} /> {icon.name}
+              <img src={icon.icon} className="w-6 md:w-12 text-white" alt={icon.name} /> {icon.name}
             </div>
           ))}
         </div>
