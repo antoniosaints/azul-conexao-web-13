@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, ArrowLeft } from "lucide-react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useCity } from "@/contexts/CityContext";
+import { useEffect } from "react";
 
 export default function BlogPost() {
   const { postId } = useParams<{ postId: string }>();
@@ -17,6 +18,10 @@ export default function BlogPost() {
   const relatedPosts = posts.filter(
     (post) => String(post.id) !== String(postId)
   );
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  })
 
   if (!post || loading) {
     return (
@@ -105,9 +110,8 @@ export default function BlogPost() {
               <h3 className="text-2xl font-bold mb-6">Posts Relacionados</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {relatedPosts.map((relatedPost) => (
-                  <a href={`/blog/${relatedPost.id}`}>
+                  <Link to={`/blog/${relatedPost.id}`} key={relatedPost.id}>
                     <Card
-                      key={relatedPost.id}
                       className="group cursor-pointer hover:shadow-lg transition-shadow"
                     >
                       <CardContent className="p-0">
@@ -140,7 +144,7 @@ export default function BlogPost() {
                         </div>
                       </CardContent>
                     </Card>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

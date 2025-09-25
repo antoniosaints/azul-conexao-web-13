@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight, User } from "lucide-react";
 import { useCity } from "@/contexts/CityContext";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 export function BlogSection() {
   const { posts, repoImages } = useCity();
@@ -67,13 +67,15 @@ export function BlogSection() {
                       </span>
                     </div>
                   </div>
-                    <Link
-                      to={`/blog/${post.id}`}
+                  <Link to={`/blog/${post.id}`}>
+                    <Button
+                      variant="ghost"
                       className="w-full bg-success/10 justify-between group-hover:bg-primary/5 hover:text-primary transition-colors"
                     >
                       Ler Artigo
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
