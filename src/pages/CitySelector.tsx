@@ -36,7 +36,7 @@ export default function CitySelector() {
 
   const param = parametros[0] || ({} as Parametros);
 
-   if (loading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -62,28 +62,41 @@ export default function CitySelector() {
         {/* Card de seleção */}
         <Card className="border-none bg-transparent shadow-none">
           <CardHeader className="text-center pb-4">
-            <div className="w-40 h-40 mx-auto mb-4 rounded-full flex items-center justify-center">
+            <div className="w-56 h-56 mx-auto mb-4 rounded-full flex items-center justify-center">
               <img src="/assets/logo_branca.png" alt="Logo" />
             </div>
             <CardTitle className="text-2xl text-white">
-              Escolha sua cidade
+              Selecione a cidade para continuar
             </CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col justify-center text-center">
               <label className="text-sm font-medium text-white">
                 Selecione onde você está localizado:
               </label>
-              <Select value={selectedCityId} onValueChange={setSelectedCityId}>
-                <SelectTrigger className="h-12 text-base">
+              <Select
+                value={selectedCityId}
+                onValueChange={(value) => {
+                  setSelectedCityId(value);
+                  const city = availableCities.find(
+                    (c) => c.id_cidade === value
+                  );
+                  if (city) {
+                    setSelectedCity(city);
+                    const citySlug = getCitySlug(city);
+                    navigate(`/${citySlug}`);
+                  }
+                }}
+              >
+                <SelectTrigger className="h-14 text-base text-lg px-6">
                   <SelectValue placeholder="Escolha uma cidade..." />
                 </SelectTrigger>
                 <SelectContent>
                   {availableCities.map((city) => (
-                    <SelectItem key={city.id_cidade} value={city.id_cidade}>
+                    <SelectItem className="text-md h-10 text-gray-800 cursor-pointer hover:text-gray-200" key={city.id_cidade} value={city.id_cidade}>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-primary" />
+                        <MapPin className="w-4 h-4" />
                         <span>
                           {city.cidade} - {city.uf}
                         </span>
@@ -93,16 +106,6 @@ export default function CitySelector() {
                 </SelectContent>
               </Select>
             </div>
-
-            <Button
-              onClick={handleCitySelect}
-              disabled={!selectedCityId}
-              className="w-full h-12 text-base bg-gradient-to-r from-success/50 to-success/50 hover:opacity-90 transition-all duration-300 ease-in-out"
-            >
-              <span>Continuar</span>
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-
             <div className="text-center">
               <p className="text-sm text-white">
                 Sua cidade não está na lista?{" "}

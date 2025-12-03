@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -12,6 +17,7 @@ import { Menu, Wifi, MapPin } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Parametros, useCity } from "@/contexts/CityContext";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const navigation = [
   { name: "Início", href: "#inicio" },
@@ -49,14 +55,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-gradient-to-l from-success via-primary to-success">
       <div className="container mx-auto px-4">
-        <div className="flex h-20 md:h-24 items-center justify-between">
+        <div className="flex h-20 md:h-28 items-center justify-between">
           {/* Logo */}
           <Link to={`/${slug}`} className="flex items-center gap-2">
             <div className="p-2 rounded-lg">
               <img
                 src="/assets/logo_branca.png"
                 alt="logo"
-                className="w-14 h-14 md:w-16 md:h-16"
+                className="w-14 h-14 md:w-20 md:h-20"
               />
             </div>
           </Link>
@@ -127,10 +133,7 @@ export function Header() {
                       Trabalhe Conosco
                     </DropdownMenuItem>
                   </a>
-                  <a
-                    href={param.area_cliente_url || "#"}
-                    target="_blank"
-                  >
+                  <a href={param.area_cliente_url || "#"} target="_blank">
                     <DropdownMenuItem className="cursor-pointer hover:bg-accent">
                       Área do Cliente
                     </DropdownMenuItem>
@@ -151,7 +154,11 @@ export function Header() {
                 <div className="flex flex-col gap-6 mt-8">
                   <div className="flex items-center gap-2">
                     <div className="p-2 bg-gradient-primary rounded-lg">
-                      <Wifi className="w-6 h-6 text-white" />
+                      <img
+                        src="/assets/logo_branca.png"
+                        alt="logo"
+                        className="w-6 h-6"
+                      />
                     </div>
                     <span className="text-xl font-bold text-primary">
                       CAS Internet
@@ -189,21 +196,21 @@ export function Header() {
                   <div className="flex flex-col gap-4 pt-6 border-t">
                     <div className="space-y-3 flex flex-col">
                       <a
-                        href={param.teste_velocidade_url || "#" }
+                        href={param.teste_velocidade_url || "#"}
                         target="_blank"
                         className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                       >
                         Teste de Velocidade
                       </a>
                       <a
-                        href={param.trabalhe_conosco_url || "#" }
+                        href={param.trabalhe_conosco_url || "#"}
                         target="_blank"
                         className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                       >
                         Trabalhe Conosco
                       </a>
                       <a
-                        href={param.area_cliente_url || "#" }
+                        href={param.area_cliente_url || "#"}
                         target="_blank"
                         className="w-full text-left text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                       >
