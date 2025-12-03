@@ -39,6 +39,9 @@ export function PlansSection() {
     .slice(0, 4);
 
   const param = parametros[0] || ({} as Parametros);
+  const openLinkAtendimento = () => {
+    window.open(param.link_atendimento, "_blank");
+  };
 
   return (
     visiblePlans.length && (
@@ -54,7 +57,9 @@ export function PlansSection() {
             </p>
           </div>
 
-          <div
+          <a
+            href={param.link_atendimento}
+            target="_blank"
             className={`grid grid-cols-1 ${getGridCols(
               visiblePlans.length
             )} gap-4 mx-auto`}
@@ -62,6 +67,7 @@ export function PlansSection() {
             {visiblePlans.map((plan, index) => {
               return (
                 <Card
+                  onClick={openLinkAtendimento}
                   key={index}
                   className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 md:hover:scale-105 hover:shadow-card
                   ${
@@ -219,7 +225,9 @@ export function PlansSection() {
                               <div
                                 className={`w-12 h-12 rounded-sm flex items-center p-0.5 justify-center`}
                               >
-                                + {Number(param.total_apps) - plan.aplicativos.length}
+                                +{" "}
+                                {Number(param.total_apps) -
+                                  plan.aplicativos.length}
                               </div>
                               <span className="text-xs text-white">Apps</span>
                             </div>
@@ -227,34 +235,30 @@ export function PlansSection() {
                         </div>
                       )}
                       {plan.descricao && (
-                        <p className="text-sm text-white">
-                          {plan.descricao}
-                        </p>
+                        <p className="text-sm text-white">{plan.descricao}</p>
                       )}
-                      <a href={param.link_atendimento} target="_blank" className="w-full">
-                        <Button
-                          className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
-                            plan.premium == "1"
-                              ? "bg-gradient-to-r from-success via-primary to-success text-white"
-                              : plan.valor_promocao
-                              ? "bg-gradient-to-r from-success to-success text-white"
-                              : "bg-gradient-to-r from-success to-success text-white"
-                          }`}
-                          variant={
-                            plan.premium == "1" || plan.valor_promocional
-                              ? "default"
-                              : "default"
-                          }
-                        >
-                          Contrate agora
-                        </Button>
-                      </a>
+                      <Button
+                        className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
+                          plan.premium == "1"
+                            ? "bg-gradient-to-r from-success via-primary to-success text-white"
+                            : plan.valor_promocao
+                            ? "bg-gradient-to-r from-success to-success text-white"
+                            : "bg-gradient-to-r from-success to-success text-white"
+                        }`}
+                        variant={
+                          plan.premium == "1" || plan.valor_promocional
+                            ? "default"
+                            : "default"
+                        }
+                      >
+                        Contrate agora
+                      </Button>
                     </div>
                   </CardFooter>
                 </Card>
               );
             })}
-          </div>
+          </a>
         </div>
       </section>
     )
