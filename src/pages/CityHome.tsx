@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroCarousel } from "@/components/ui/hero-carousel";
@@ -16,6 +16,7 @@ const CityHome = () => {
   const { citySlug } = useParams<{ citySlug: string }>();
   const { getCityBySlug, setSelectedCity, selectedCity, loading } = useCity();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (citySlug) {
@@ -29,7 +30,18 @@ const CityHome = () => {
     }
   }, [citySlug, getCityBySlug, setSelectedCity, navigate]);
 
-  // Se não há cidade selecionada ainda, mostrar loading ou redirect
+  // 🔑 Scroll automático quando muda o hash
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const y = rect.top + window.scrollY - 40; // ajuste do header fixo
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   if (!selectedCity || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
