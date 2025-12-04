@@ -111,22 +111,22 @@ export function HeroCarousel() {
       ))}
 
       {/* Navigation */}
-      <div className="absolute top-1/2 left-4 z-40 -translate-y-1/2">
+      <div className="absolute top-1/2 left-2 md:left-4 z-40 -translate-y-1/2">
         <Button
           variant="ghost"
           size="icon"
           onClick={prevSlide}
-          className="h-12 w-12 bg-white/20 backdrop-blur hover:bg-white/30 text-white"
+          className="h-8 w-8 md:h-12 md:w-12 bg-white/20 backdrop-blur hover:bg-white/30 text-white"
         >
           <ChevronLeft className="w-6 h-6" />
         </Button>
       </div>
-      <div className="absolute top-1/2 z-40 right-4 -translate-y-1/2">
+      <div className="absolute top-1/2 z-40 right-2 md:right-4 -translate-y-1/2">
         <Button
           variant="ghost"
           size="icon"
           onClick={nextSlide}
-          className="h-12 w-12 bg-white/20 backdrop-blur hover:bg-white/30 text-white"
+          className="h-8 w-8 md:h-12 md:w-12 bg-white/20 backdrop-blur hover:bg-white/30 text-white"
         >
           <ChevronRight className="w-6 h-6" />
         </Button>

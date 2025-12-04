@@ -32,13 +32,13 @@ export function IconBar() {
   return (
     <header className="z-50 w-full bg-gradient-to-l from-success via-primary to-success">
       <div className="container mx-auto px-4">
-        <div className="py-4 grid grid-cols-6 md:grid-cols-3 lg:grid-cols-7 gap-2">
+        <div className="py-4 grid grid-cols-7 md:grid-cols-3 lg:grid-cols-7 gap-2">
           {icons.map((icon, index) => (
             <div
               key={index}
-              className="flex flex-col text-[10px] md:text-sm transition-all duration-300 hover:scale-105 items-center text-center justify-between text-white"
+              className="flex flex-col text-[6px] md:text-sm transition-all duration-300 hover:scale-105 items-center text-center justify-between text-white"
             >
-              <img src={icon.icon} className="w-6 md:w-16 p-2 text-white" alt={icon.name} /> 
+              <img src={icon.icon} className="w-8 md:w-16 p-1 md:p-2 text-white" alt={icon.name} /> 
               {icon.name}
             </div>
           ))}
