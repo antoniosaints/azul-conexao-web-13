@@ -13,11 +13,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, Wifi, MapPin } from "lucide-react";
+import { Menu, MapPin } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Parametros, useCity } from "@/contexts/CityContext";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const navigation = [
   { name: "Início", href: "#inicio" },
@@ -35,12 +34,14 @@ export function Header() {
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
+      const slug = getCitySlug(selectedCity);
       const element = document.querySelector(href);
       if (element) {
         const rect = element.getBoundingClientRect();
         const y = rect.top + window.scrollY - 40;
         window.scrollTo({ top: y, behavior: "smooth" });
       }
+      navigate(`/${slug}${href}`);
     }
     setIsOpen(false);
   };
