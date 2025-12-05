@@ -63,7 +63,7 @@ export default function CitySelector() {
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-r from-success border-none via-primary to-success flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${
+      className={`min-h-screen bg-primary border-none flex items-center justify-center px-4 transition-opacity duration-700 ease-out ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
