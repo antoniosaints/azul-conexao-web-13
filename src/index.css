@@ -138,3 +138,31 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
   }
 }
+
+
+.xmas-bulb {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 18px;
+  border-radius: 4px;
+  background: red;
+  box-shadow: 0 0 8px red;
+  animation: xmasBlink 1.5s infinite alternate;
+}
+
+@keyframes xmasBlink {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(3px);
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}

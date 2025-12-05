@@ -42,8 +42,12 @@ export default function CitySelector() {
   const isNatal =
     isAfter(date, subDays(natal, 20)) && isBefore(date, addDays(natal, 1));
   const logoCas = isNatal
-    ? "/assets/logo_natal.webp"
+    ? "/assets/logo_natal_2.webp"
     : "/assets/logo_branca.png";
+
+  const Background = isNatal
+  ? "/assets/BACKGROUND_NATAL.webp"
+  : "/assets/BACKGROUND.png";
 
   if (loading) {
     return (
@@ -63,7 +67,7 @@ export default function CitySelector() {
       }`}
     >
       <img
-        src="/assets/BACKGROUND.png"
+        src={Background}
         alt="Logo"
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
