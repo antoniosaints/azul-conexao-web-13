@@ -34,13 +34,6 @@ export function Header() {
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
-      const slug = getCitySlug(selectedCity);
-      const element = document.querySelector(href);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const y = rect.top + window.scrollY - 40;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
       navigate(`/${slug}${href}`);
     }
     setIsOpen(false);

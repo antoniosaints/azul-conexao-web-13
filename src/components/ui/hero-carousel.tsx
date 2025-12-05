@@ -95,6 +95,7 @@ export function HeroCarousel() {
       {displaySlides.map((slide, index) => (
         <div
           key={index}
+          onClick={() => window.open("https://google.com", "_blank")}
           className={cn(
             "absolute inset-0 transition-opacity duration-700 ease-in-out",
             index === currentSlide ? "opacity-100 z-20" : "opacity-0 z-10"

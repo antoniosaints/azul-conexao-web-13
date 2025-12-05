@@ -14,6 +14,8 @@ import ConsumerDefense from "./pages/ConsumerDefense";
 import BlogPost from "./pages/BlogPost";
 import Plans from "./pages/Plans";
 import Contact from "./pages/Contact";
+import SnowFall from "./components/layout/SnowFall"
+import Fireworks from "./components/layout/Firerworks";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,8 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <CityProvider>
+        <SnowFall />
+        <Fireworks />
         <Toaster />
         <Sonner />
         <BrowserRouter>
