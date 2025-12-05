@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Parametros, useCity } from "@/contexts/CityContext";
 import { addDays, isAfter, isBefore, subDays } from "date-fns";
+import Comet from "@/components/effects/Comet";
 
 export default function CitySelector() {
   const { availableCities, setSelectedCity, getCitySlug, parametros, loading } =
@@ -66,6 +67,7 @@ export default function CitySelector() {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
+       <Comet />
       <img
         src={Background}
         alt="Logo"

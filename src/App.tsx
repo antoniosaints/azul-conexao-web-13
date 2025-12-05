@@ -16,8 +16,6 @@ import Plans from "./pages/Plans";
 import Contact from "./pages/Contact";
 import SnowFall from "./components/layout/SnowFall"
 import Fireworks from "./components/layout/Firerworks";
-import ChristmasLights from "./components/effects/ChristmasLights";
-import ChristmasStars from "./components/effects/ChristmasStars";
 
 const queryClient = new QueryClient();
 
