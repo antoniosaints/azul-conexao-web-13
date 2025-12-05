@@ -33,7 +33,7 @@ export default function Snow() {
     const flakes = Array.from({ length: 120 }).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 2.4 + 1,
+      r: Math.random() *  window.innerWidth < 768 ? 1 : 2.4 + 0.5,
       s: Math.random() * 1.5 + 0.5,
     }));
 
