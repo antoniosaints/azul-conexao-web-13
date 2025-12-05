@@ -71,7 +71,7 @@ export default function CitySelector() {
       <img
         src={Background}
         alt="Logo"
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        className="absolute top-0 left-0 w-full h-screen object-cover"
       />
       <div className="max-w-md w-full z-50">
         {/* Card de seleção */}
@@ -104,7 +104,7 @@ export default function CitySelector() {
                   }
                 }}
               >
-                <SelectTrigger className="h-14 text-base text-lg px-6">
+                <SelectTrigger className="h-14 text-base md:text-lg px-6">
                   <SelectValue placeholder="Escolha uma cidade..." />
                 </SelectTrigger>
                 <SelectContent>
