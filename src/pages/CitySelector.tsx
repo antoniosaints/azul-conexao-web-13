@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Parametros, useCity } from "@/contexts/CityContext";
+import { addDays, isAfter, isBefore, subDays } from "date-fns";
 
 export default function CitySelector() {
   const { availableCities, setSelectedCity, getCitySlug, parametros, loading } =
@@ -35,6 +36,14 @@ export default function CitySelector() {
   }, []);
 
   const param = parametros[0] || ({} as Parametros);
+
+  const date = new Date(2025, 11, 25);
+  const natal = new Date(date.getFullYear(), 11, 25);
+  const isNatal =
+    isAfter(date, subDays(natal, 20)) && isBefore(date, addDays(natal, 1));
+  const logoCas = isNatal
+    ? "/assets/logo_natal.webp"
+    : "/assets/logo_branca.png";
 
   if (loading) {
     return (
@@ -63,7 +72,7 @@ export default function CitySelector() {
         <Card className="border-none bg-transparent shadow-none">
           <CardHeader className="text-center pb-4">
             <div className="w-56 h-56 mx-auto mb-4 rounded-full flex items-center justify-center">
-              <img src="/assets/logo_branca.png" alt="Logo" />
+              <img src={logoCas} alt="Logo" />
             </div>
             <CardTitle className="text-2xl text-white">
               Selecione a cidade para continuar
@@ -94,7 +103,11 @@ export default function CitySelector() {
                 </SelectTrigger>
                 <SelectContent>
                   {availableCities.map((city) => (
-                    <SelectItem className="text-md h-10 text-gray-800 cursor-pointer hover:text-gray-200" key={city.id_cidade} value={city.id_cidade}>
+                    <SelectItem
+                      className="text-md h-10 text-gray-800 cursor-pointer hover:text-gray-200"
+                      key={city.id_cidade}
+                      value={city.id_cidade}
+                    >
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
                         <span>

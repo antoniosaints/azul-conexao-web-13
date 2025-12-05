@@ -17,6 +17,7 @@ import { Menu, MapPin } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Parametros, useCity } from "@/contexts/CityContext";
+import { addDays, isAfter, isBefore, isSameDay, subDays } from "date-fns";
 
 const navigation = [
   { name: "Início", href: "#inicio" },
@@ -42,7 +43,10 @@ export function Header() {
   const handleCityClick = () => {
     navigate("/");
   };
-
+  const date = new Date(2025, 11, 25);
+  const natal = new Date(date.getFullYear(), 11, 25);
+  const isNatal = isAfter(date, subDays(natal, 20)) && isBefore(date, addDays(natal, 1));
+  const logoCas = isNatal ? "/assets/logo_natal.webp" : "/assets/logo_branca.png";
   const slug = getCitySlug(selectedCity);
   const param = parametros[0] || ({} as Parametros);
 
@@ -54,9 +58,9 @@ export function Header() {
           <Link to={`/${slug}`} className="flex items-center gap-2">
             <div className="p-2 rounded-lg">
               <img
-                src="/assets/logo_branca.png"
+                src={logoCas} //
                 alt="logo"
-                className="w-14 h-14 md:w-20 md:h-20"
+                className="h-14 md:h-20"
               />
             </div>
           </Link>
