@@ -11,6 +11,7 @@ import { BlogSection } from "@/components/sections/blog-section";
 import { useCity } from "@/contexts/CityContext";
 import { IconBar } from "@/components/sections/icon-bar";
 import { CoverageMap } from "@/components/sections/coverage-map";
+import PartnersCarousel from "@/components/sections/carrosel-icons";
 
 const CityHome = () => {
   const { citySlug } = useParams<{ citySlug: string }>();
@@ -61,6 +62,7 @@ const CityHome = () => {
           <HeroCarousel />
         </section>
         <IconBar />
+        {/* <PartnersCarousel /> */}
         <section id="planos">
           <PlansSection />
         </section>
