@@ -7,8 +7,8 @@ export default function ChristmasLights() {
     const now = new Date();
     const year = now.getFullYear();
 
-    const start = new Date(year, 11, 5);  // 06/12
-    const end = new Date(year, 11, 27);   // até 26/12
+    const start = new Date(year, 11, 5); // 06/12
+    const end = new Date(year, 11, 27); // até 26/12 (meia-noite vira 27)
 
     if (now >= start && now < end) {
       setEnabled(true);
@@ -17,13 +17,7 @@ export default function ChristmasLights() {
 
   if (!enabled) return null;
 
-  const colors = [
-    "#ff4d4d",
-    "#4dff4d",
-    "#4db8ff",
-    "#ffff4d",
-    "#ff99ff",
-  ];
+  const colors = ["#ff4d4d", "#4dff4d", "#4db8ff", "#ffff4d", "#ff99ff"];
 
   return (
     <div

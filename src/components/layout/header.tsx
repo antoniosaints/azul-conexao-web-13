@@ -43,10 +43,18 @@ export function Header() {
   const handleCityClick = () => {
     navigate("/");
   };
-  const date = new Date(2025, 11, 25);
-  const natal = new Date(date.getFullYear(), 11, 25);
-  const isNatal = isAfter(date, subDays(natal, 20)) && isBefore(date, addDays(natal, 1));
-  const logoCas = isNatal ? "/assets/logo_natal.webp" : "/assets/logo_branca.png";
+
+  const now = new Date();
+  const year = now.getFullYear();
+
+  const start = new Date(year, 11, 5); // 06/12
+  const end = new Date(year, 11, 27); // até 26/12 (meia-noite vira 27)
+
+
+  const isNatal = now >= start && now < end;
+  const logoCas = isNatal
+    ? "/assets/logo_natal.webp"
+    : "/assets/logo_branca.png";
   const slug = getCitySlug(selectedCity);
   const param = parametros[0] || ({} as Parametros);
 

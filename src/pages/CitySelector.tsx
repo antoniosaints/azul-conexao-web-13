@@ -38,17 +38,20 @@ export default function CitySelector() {
 
   const param = parametros[0] || ({} as Parametros);
 
-  const date = new Date(2025, 11, 25);
-  const natal = new Date(date.getFullYear(), 11, 25);
-  const isNatal =
-    isAfter(date, subDays(natal, 20)) && isBefore(date, addDays(natal, 1));
+  const now = new Date();
+  const year = now.getFullYear();
+
+  const start = new Date(year, 11, 5); // 06/12
+  const end = new Date(year, 11, 27); // até 26/12 (meia-noite vira 27)
+
+  const isNatal = now >= start && now < end;
   const logoCas = isNatal
     ? "/assets/logo_natal_2.webp"
     : "/assets/logo_branca.png";
 
   const Background = isNatal
-  ? "/assets/BACKGROUND_NATAL.webp"
-  : "/assets/BACKGROUND.png";
+    ? "/assets/BACKGROUND_NATAL.webp"
+    : "/assets/BACKGROUND.png";
 
   if (loading) {
     return (
@@ -67,7 +70,7 @@ export default function CitySelector() {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-       <Comet />
+      {isNatal && <Comet />}
       <img
         src={Background}
         alt="Logo"
