@@ -35,7 +35,7 @@ export function PlansSection() {
     .filter(
       (plan) =>
         plan.cidades.some((c) => c.id_cidade == selectedCity.id_cidade) &&
-        plan.status === "1"
+        plan.status === "1",
     )
     .slice(0, 4);
 
@@ -45,6 +45,25 @@ export function PlansSection() {
     window.open(param.link_atendimento, "_blank");
   };
 
+  const now = new Date();
+  const year = now.getFullYear();
+  const isJunho = now >= new Date(year, 5, 1) && now < new Date(year, 5, 30);
+
+  const logoPlans = isJunho
+    ? "/assets/logo_junho.png"
+    : "/assets/logo_branca.png";
+
+    const backgroundImage = (isElite: boolean) => {
+      if (isJunho && isElite) {
+        return "/assets/planos/background_junho_elite.png";
+      }
+
+      if (isJunho) {
+        return "/assets/planos/background_junho.png";
+      }
+
+      return "/assets/planos/background2.png";
+    } 
   return (
     visiblePlans.length > 0 && (
       <section className="py-20 bg-secondary/30">
@@ -63,7 +82,7 @@ export function PlansSection() {
             href={param.link_atendimento}
             target="_blank"
             className={`grid grid-cols-1 ${getGridCols(
-              visiblePlans.length
+              visiblePlans.length,
             )} gap-4 mx-auto`}
           >
             {visiblePlans.map((plan, index) => (
@@ -80,164 +99,176 @@ export function PlansSection() {
                       : "from-success to-primary"
                   }`}
                 >
-                  {plan.valor_promocional === "1" && (
-                    <div className="absolute top-0 -left-1">
-                      <Badge className="bg-primary text-primary-foreground px-4 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
-                        <Star className="w-3 h-3" />
-                        Promoção
-                      </Badge>
-                    </div>
+                  {isJunho && (
+                    <img
+                    src={backgroundImage(plan.premium == "1")}
+                    className="absolute object-cover w-full h-full"
+                    alt="background"
+                    />
                   )}
 
-                  {plan.premium == "1" && (
-                    <div className="absolute top-0 -left-1">
-                      <Badge className="bg-gradient-to-r from-accent to-primary text-white px-4 py-1 rounded-bl-md rounded-tr-md flex items-center gap-1">
-                        <Crown className="w-3 h-3" />
-                        Premium
-                      </Badge>
-                    </div>
-                  )}
-
-                  <div>
-                    <CardHeader className="text-center pb-2 mb-4">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
-                        <img
-                          src="/assets/logo_branca.png"
-                          alt="Logo"
-                          className="w-16 h-16"
-                        />
+                  <div className="relative flex flex-col justify-between h-full">
+                    {plan.valor_promocional === "1" && (
+                      <div className="absolute top-0 -left-1">
+                        <Badge className="bg-primary text-primary-foreground px-4 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1">
+                          <Star className="w-3 h-3" />
+                          Promoção
+                        </Badge>
                       </div>
+                    )}
 
-                      {plan.velocidade_promocional === "1" ? (
-                        <div className="flex flex-col p-2 rounded-2xl">
-                          <h3 className="text-3xl font-bold">
-                            {toUpperCaseFormatter(plan.plano)}
-                          </h3>
-                          <span className="font-bold text-blue-50 text-xl p-1 rounded-lg">
-                            Contrate {plan.download_ofertado}
-                          </span>
-                          <div className="flex flex-col bg-success p-1 rounded-lg">
-                            <span className="text-md">Receba</span>
-                            <span className="font-bold text-4xl">
-                              {plan.download_recebido}
+                    {plan.premium == "1" && (
+                      <div className="absolute top-0 -left-1">
+                        <Badge className="bg-gradient-to-r from-accent to-primary text-white px-4 py-1 rounded-bl-md rounded-tr-md flex items-center gap-1">
+                          <Crown className="w-3 h-3" />
+                          Premium
+                        </Badge>
+                      </div>
+                    )}
+
+                    <div>
+                      <CardHeader className="text-center pb-2 mb-4">
+                        <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
+                          <img
+                            src={logoPlans}
+                            alt="Logo"
+                            className="w-16 h-16"
+                          />
+                        </div>
+
+                        {plan.velocidade_promocional === "1" ? (
+                          <div className="flex flex-col p-2 rounded-2xl">
+                            <h3 className="text-3xl font-bold">
+                              {toUpperCaseFormatter(plan.plano)}
+                            </h3>
+                            <span className="font-bold text-blue-50 text-xl p-1 rounded-lg">
+                              Contrate {plan.download_ofertado}
                             </span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <h3 className="text-3xl font-bold">
-                            {toUpperCaseFormatter(plan.plano)}
-                          </h3>
-                          <div
-                            className={`font-bold text-4xl p-2 rounded-2xl ${
-                              plan.premium == "1"
-                                ? "text-white bg-gradient-to-r from-success via-primary to-success"
-                                : "text-white bg-gradient-to-r from-success to-success"
-                            }`}
-                          >
-                            {plan.download_recebido}
-                          </div>
-                        </div>
-                      )}
-                    </CardHeader>
-
-                    <CardContent className="text-center flex flex-col justify-between">
-                      <div>
-                        {plan.valor_promocional === "1" && (
-                          <div className="mb-6">
-                            <div className="flex items-center justify-center gap-2 mb-2">
-                              <span className="text-sm text-white line-through">
-                                R$ {plan.valor}
+                            <div className="flex flex-col bg-success p-1 rounded-lg">
+                              <span className="text-md">Receba</span>
+                              <span className="font-bold text-4xl">
+                                {plan.download_recebido}
                               </span>
                             </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <h3 className="text-3xl font-bold">
+                              {toUpperCaseFormatter(plan.plano)}
+                            </h3>
                             <div
-                              className={`text-4xl font-bold ${
+                              className={`font-bold text-4xl p-2 rounded-2xl ${
                                 plan.premium == "1"
-                                  ? "bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent"
-                                  : ""
+                                  ? "text-white bg-gradient-to-r from-success via-primary to-success"
+                                  : "text-white bg-gradient-to-r from-success to-success"
                               }`}
                             >
-                              R$ {plan.valor_promocao}
-                              <span className="text-sm font-normal text-white">
-                                /mês
-                              </span>
+                              {plan.download_recebido}
+                            </div>
+                          </div>
+                        )}
+                      </CardHeader>
+
+                      <CardContent className="text-center flex flex-col justify-between">
+                        <div>
+                          {plan.valor_promocional === "1" && (
+                            <div className="mb-6">
+                              <div className="flex items-center justify-center gap-2 mb-2">
+                                <span className="text-sm text-white line-through">
+                                  R$ {plan.valor}
+                                </span>
+                              </div>
+                              <div
+                                className={`text-4xl font-bold ${
+                                  plan.premium == "1"
+                                    ? "bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent"
+                                    : ""
+                                }`}
+                              >
+                                R$ {plan.valor_promocao}
+                                <span className="text-sm font-normal text-white">
+                                  /mês
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          <ul className="space-y-3 text-left">
+                            {plan.beneficios
+                              .split("\n")
+                              .map((feature, featureIndex) => (
+                                <li
+                                  key={featureIndex}
+                                  className="flex items-center gap-3"
+                                >
+                                  <Check className="w-5 h-5 flex-shrink-0 text-white" />
+                                  <span className="text-md">{feature}</span>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      </CardContent>
+                    </div>
+
+                    <CardFooter>
+                      <div
+                        className={`flex flex-col items-center w-full gap-3 ${
+                          plan.aplicativos && plan.aplicativos.length > 0
+                            ? "border-t"
+                            : ""
+                        }`}
+                      >
+                        {plan.aplicativos && plan.aplicativos.length > 0 && (
+                          <div className="pt-4">
+                            <p className="text-sm text-white mb-2 text-center">
+                              Aplicativos inclusos
+                            </p>
+                            <div className="flex justify-center gap-3 flex-wrap">
+                              {plan.aplicativos.map((app, appIndex) => (
+                                <div
+                                  key={appIndex}
+                                  className="flex flex-col items-center gap-1"
+                                >
+                                  <div className="w-12 h-12 rounded-md flex items-center justify-center">
+                                    <img
+                                      src={repoImages + app.imagem}
+                                      alt="Logo"
+                                      className="w-auto object-cover rounded-sm"
+                                    />
+                                  </div>
+                                  <span className="text-xs text-white">
+                                    {app.nome}
+                                  </span>
+                                </div>
+                              ))}
+                              <div className="flex flex-col items-center gap-1">
+                                <div className="w-12 h-12 rounded-sm flex items-center p-0.5 justify-center">
+                                  +{" "}
+                                  {Number(param.total_apps) -
+                                    plan.aplicativos.length}
+                                </div>
+                                <span className="text-xs text-white">Apps</span>
+                              </div>
                             </div>
                           </div>
                         )}
 
-                        <ul className="space-y-3 text-left">
-                          {plan.beneficios
-                            .split("\n")
-                            .map((feature, featureIndex) => (
-                              <li
-                                key={featureIndex}
-                                className="flex items-center gap-3"
-                              >
-                                <Check className="w-5 h-5 flex-shrink-0 text-white" />
-                                <span className="text-md">{feature}</span>
-                              </li>
-                            ))}
-                        </ul>
+                        {plan.descricao && (
+                          <p className="text-sm text-white">{plan.descricao}</p>
+                        )}
+
+                        <Button
+                          className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
+                            plan.premium == "1"
+                              ? "bg-gradient-to-r from-success via-primary to-success text-white"
+                              : "bg-gradient-to-r from-success to-success text-white"
+                          }`}
+                        >
+                          Contrate agora
+                        </Button>
                       </div>
-                    </CardContent>
+                    </CardFooter>
                   </div>
-
-                  <CardFooter>
-                    <div
-                      className={`flex flex-col items-center w-full gap-3 ${
-                        plan.aplicativos && plan.aplicativos.length > 0
-                          ? "border-t"
-                          : ""
-                      }`}
-                    >
-                      {plan.aplicativos && plan.aplicativos.length > 0 && (
-                        <div className="pt-4">
-                          <p className="text-sm text-white mb-2 text-center">
-                            Aplicativos inclusos
-                          </p>
-                          <div className="flex justify-center gap-3 flex-wrap">
-                            {plan.aplicativos.map((app, appIndex) => (
-                              <div
-                                key={appIndex}
-                                className="flex flex-col items-center gap-1"
-                              >
-                                <div className="w-12 h-12 rounded-md flex items-center justify-center">
-                                  <img
-                                    src={repoImages + app.imagem}
-                                    alt="Logo"
-                                    className="w-auto object-cover rounded-sm"
-                                  />
-                                </div>
-                                <span className="text-xs text-white">
-                                  {app.nome}
-                                </span>
-                              </div>
-                            ))}
-                            <div className="flex flex-col items-center gap-1">
-                              <div className="w-12 h-12 rounded-sm flex items-center p-0.5 justify-center">
-                                + {Number(param.total_apps) - plan.aplicativos.length}
-                              </div>
-                              <span className="text-xs text-white">Apps</span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {plan.descricao && (
-                        <p className="text-sm text-white">{plan.descricao}</p>
-                      )}
-
-                      <Button
-                        className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
-                          plan.premium == "1"
-                            ? "bg-gradient-to-r from-success via-primary to-success text-white"
-                            : "bg-gradient-to-r from-success to-success text-white"
-                        }`}
-                      >
-                        Contrate agora
-                      </Button>
-                    </div>
-                  </CardFooter>
                 </Card>
               </ScrollReveal>
             ))}

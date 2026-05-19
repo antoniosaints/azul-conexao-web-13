@@ -8,11 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { MapPin, ArrowRight } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Parametros, useCity } from "@/contexts/CityContext";
-import { addDays, isAfter, isBefore, subDays } from "date-fns";
 import Comet from "@/components/effects/Comet";
+import FireworksEnchanced from "@/components/layout/Fireworks_Enchanced";
 
 export default function CitySelector() {
   const { availableCities, setSelectedCity, getCitySlug, parametros, loading } =
@@ -20,16 +19,6 @@ export default function CitySelector() {
   const [selectedCityId, setSelectedCityId] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false); // para o fade
   const navigate = useNavigate();
-
-  const handleCitySelect = () => {
-    if (!selectedCityId) return;
-    const city = availableCities.find((c) => c.id_cidade === selectedCityId);
-    if (city) {
-      setSelectedCity(city);
-      const citySlug = getCitySlug(city);
-      navigate(`/${citySlug}`);
-    }
-  };
 
   useEffect(() => {
     const timeout = setTimeout(() => setIsVisible(true), 50); // delay curto para iniciar o fade
@@ -45,12 +34,17 @@ export default function CitySelector() {
   const end = new Date(year, 11, 27); // até 26/12 (meia-noite vira 27)
 
   const isNatal = now >= start && now < end;
+  const isJunho = now >= new Date(year, 5, 1) && now < new Date(year, 5, 30);
   const logoCas = isNatal
-    ? "/assets/logo_natal_2.webp"
+    ? "/assets/logo_natal_2.webp" 
+    : isJunho 
+    ? "/assets/logo_junho.png"
     : "/assets/logo_branca.png";
 
   const Background = isNatal
     ? "/assets/BACKGROUND_NATAL.webp"
+    : isJunho
+    ? "/assets/BACKGROUND_JUNHO.png"
     : "/assets/BACKGROUND.png";
 
   if (loading) {
@@ -70,6 +64,7 @@ export default function CitySelector() {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
+       <FireworksEnchanced />
       {isNatal && <Comet />}
       <img
         src={Background}

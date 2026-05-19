@@ -50,10 +50,13 @@ export function Header() {
   const start = new Date(year, 11, 5); // 06/12
   const end = new Date(year, 11, 27); // até 26/12 (meia-noite vira 27)
 
+  const isJunho = now >= new Date(year, 5, 1) && now < new Date(year, 5, 30);
 
   const isNatal = now >= start && now < end;
   const logoCas = isNatal
     ? "/assets/logo_natal.webp"
+    : isJunho
+    ? "/assets/logo_junho.png"
     : "/assets/logo_branca.png";
   const slug = getCitySlug(selectedCity);
   const param = parametros[0] || ({} as Parametros);
