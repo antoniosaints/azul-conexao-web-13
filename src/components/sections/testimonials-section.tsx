@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { useCity } from "@/contexts/CityContext";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 export function TestimonialsSection() {
   const { depoiments } = useCity();
@@ -19,42 +20,46 @@ export function TestimonialsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {depoiments.map((testimonial, index) => (
-            <Card
+            <ScrollReveal
               key={testimonial.id}
-              className="shadow-card hover:shadow-primary/10 transition-all duration-300 animate-fade-up"
-              style={{ animationDelay: `${index * 100}ms` }}
+              delayMs={index * 90}
+              className="h-full"
             >
-              <CardContent className="p-6 flex flex-col justify-between h-full">
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                      />
-                    ))}
-                  </div>
+              <Card
+                className="shadow-card hover:shadow-primary/10 transition-all duration-300"
+              >
+                <CardContent className="p-6 flex flex-col justify-between h-full">
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                        />
+                      ))}
+                    </div>
 
-                  <p className="text-muted-foreground mb-6 line-clamp-4">
-                    "{testimonial.depoimento}"
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <img
-                    src="/assets/logo_branca.png"
-                    className="w-10 h-10 rounded-sm bg-gradient-to-r from-primary to-primary p-2"
-                    alt={testimonial.nome}
-                  />
-                  <div>
-                    <p className="font-semibold">{testimonial.nome}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {testimonial.cidade}
+                    <p className="text-muted-foreground mb-6 line-clamp-4">
+                      "{testimonial.depoimento}"
                     </p>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+
+                  <div className="flex items-center gap-4">
+                    <img
+                      src="/assets/logo_branca.png"
+                      className="w-10 h-10 rounded-sm bg-gradient-to-r from-primary to-primary p-2"
+                      alt={testimonial.nome}
+                    />
+                    <div>
+                      <p className="font-semibold">{testimonial.nome}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {testimonial.cidade}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>

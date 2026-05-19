@@ -1,4 +1,9 @@
 import { Check, Crown, Star } from "lucide-react";
+
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { Parametros, Plan, useCity } from "@/contexts/CityContext";
+import { toUpperCaseFormatter } from "@/helpers/formatters";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,9 +11,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Parametros, Plan, useCity } from "@/contexts/CityContext";
-import { toUpperCaseFormatter } from "@/helpers/formatters";
 
 export function PlansSection() {
   const { selectedCity, availablePlans, parametros, repoImages } = useCity();
@@ -24,11 +26,10 @@ export function PlansSection() {
       case 4:
         return "md:grid-cols-2 lg:grid-cols-4 max-w-8xl";
       default:
-        return "md:grid-cols-2 lg:grid-cols-3 max-w-7xl"; // fallback
+        return "md:grid-cols-2 lg:grid-cols-3 max-w-7xl";
     }
   };
 
-  // Filtrar planos por cidade selecionada e visibilidade
   const cityPlans: Plan[] = availablePlans;
   const visiblePlans = cityPlans
     .filter(
@@ -39,13 +40,14 @@ export function PlansSection() {
     .slice(0, 4);
 
   const param = parametros[0] || ({} as Parametros);
+
   const openLinkAtendimento = () => {
     window.open(param.link_atendimento, "_blank");
   };
 
   return (
-    visiblePlans.length && (
-      <section className={`py-20 bg-secondary/30`}>
+    visiblePlans.length > 0 && (
+      <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
@@ -64,18 +66,19 @@ export function PlansSection() {
               visiblePlans.length
             )} gap-4 mx-auto`}
           >
-            {visiblePlans.map((plan, index) => {
-              return (
+            {visiblePlans.map((plan, index) => (
+              <ScrollReveal
+                key={plan.id}
+                delayMs={index * 100}
+                className="h-full"
+              >
                 <Card
                   onClick={openLinkAtendimento}
-                  key={index}
-                  className={`relative bg-gradient-to-b rounded-3xl flex flex-col justify-between from-success to-primary text-white overflow-hidden transition-all duration-300 md:hover:scale-105 hover:shadow-card
-                  ${
+                  className={`relative bg-gradient-to-b rounded-3xl flex h-full flex-col justify-between overflow-hidden text-white transition-all duration-300 md:hover:scale-105 hover:shadow-card ${
                     plan.premium == "1"
                       ? "shadow-elegant border-gradient-premium bg-gradient-to-b from-black to-gray-800"
-                      : ""
-                  } animate-fade-up`}
-                  style={{ animationDelay: `${index * 150}ms` }}
+                      : "from-success to-primary"
+                  }`}
                 >
                   {plan.valor_promocional === "1" && (
                     <div className="absolute top-0 -left-1">
@@ -94,19 +97,17 @@ export function PlansSection() {
                       </Badge>
                     </div>
                   )}
+
                   <div>
                     <CardHeader className="text-center pb-2 mb-4">
-                      <div
-                        className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                          plan.premium == "1" ? "" : ""
-                        }`}
-                      >
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
                         <img
                           src="/assets/logo_branca.png"
                           alt="Logo"
                           className="w-16 h-16"
                         />
                       </div>
+
                       {plan.velocidade_promocional === "1" ? (
                         <div className="flex flex-col p-2 rounded-2xl">
                           <h3 className="text-3xl font-bold">
@@ -140,7 +141,7 @@ export function PlansSection() {
                       )}
                     </CardHeader>
 
-                    <CardContent className="text-center flex flex-col justify-between ">
+                    <CardContent className="text-center flex flex-col justify-between">
                       <div>
                         {plan.valor_promocional === "1" && (
                           <div className="mb-6">
@@ -163,6 +164,7 @@ export function PlansSection() {
                             </div>
                           </div>
                         )}
+
                         <ul className="space-y-3 text-left">
                           {plan.beneficios
                             .split("\n")
@@ -171,13 +173,7 @@ export function PlansSection() {
                                 key={featureIndex}
                                 className="flex items-center gap-3"
                               >
-                                <Check
-                                  className={`w-5 h-5 flex-shrink-0 ${
-                                    plan.premium == "1"
-                                      ? "text-white"
-                                      : "text-white"
-                                  }`}
-                                />
+                                <Check className="w-5 h-5 flex-shrink-0 text-white" />
                                 <span className="text-md">{feature}</span>
                               </li>
                             ))}
@@ -189,9 +185,9 @@ export function PlansSection() {
                   <CardFooter>
                     <div
                       className={`flex flex-col items-center w-full gap-3 ${
-                        plan.aplicativos &&
-                        plan.aplicativos.length > 0 &&
-                        "border-t"
+                        plan.aplicativos && plan.aplicativos.length > 0
+                          ? "border-t"
+                          : ""
                       }`}
                     >
                       {plan.aplicativos && plan.aplicativos.length > 0 && (
@@ -200,64 +196,51 @@ export function PlansSection() {
                             Aplicativos inclusos
                           </p>
                           <div className="flex justify-center gap-3 flex-wrap">
-                            {plan.aplicativos.map((app, appIndex) => {
-                              return (
-                                <div
-                                  key={appIndex}
-                                  className="flex flex-col items-center gap-1"
-                                >
-                                  <div
-                                    className={`w-12 h-12 rounded-md flex items-center justify-center`}
-                                  >
-                                    <img
-                                      src={repoImages + app.imagem}
-                                      alt="Logo"
-                                      className="w-auto object-cover rounded-sm"
-                                    />
-                                  </div>
-                                  <span className="text-xs text-white">
-                                    {app.nome}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                            <div className="flex flex-col items-center gap-1">
+                            {plan.aplicativos.map((app, appIndex) => (
                               <div
-                                className={`w-12 h-12 rounded-sm flex items-center p-0.5 justify-center`}
+                                key={appIndex}
+                                className="flex flex-col items-center gap-1"
                               >
-                                +{" "}
-                                {Number(param.total_apps) -
-                                  plan.aplicativos.length}
+                                <div className="w-12 h-12 rounded-md flex items-center justify-center">
+                                  <img
+                                    src={repoImages + app.imagem}
+                                    alt="Logo"
+                                    className="w-auto object-cover rounded-sm"
+                                  />
+                                </div>
+                                <span className="text-xs text-white">
+                                  {app.nome}
+                                </span>
+                              </div>
+                            ))}
+                            <div className="flex flex-col items-center gap-1">
+                              <div className="w-12 h-12 rounded-sm flex items-center p-0.5 justify-center">
+                                + {Number(param.total_apps) - plan.aplicativos.length}
                               </div>
                               <span className="text-xs text-white">Apps</span>
                             </div>
                           </div>
                         </div>
                       )}
+
                       {plan.descricao && (
                         <p className="text-sm text-white">{plan.descricao}</p>
                       )}
+
                       <Button
                         className={`w-full transition-smooth text-xl font-bold py-7 rounded-2xl ${
                           plan.premium == "1"
                             ? "bg-gradient-to-r from-success via-primary to-success text-white"
-                            : plan.valor_promocao
-                            ? "bg-gradient-to-r from-success to-success text-white"
                             : "bg-gradient-to-r from-success to-success text-white"
                         }`}
-                        variant={
-                          plan.premium == "1" || plan.valor_promocional
-                            ? "default"
-                            : "default"
-                        }
                       >
                         Contrate agora
                       </Button>
                     </div>
                   </CardFooter>
                 </Card>
-              );
-            })}
+              </ScrollReveal>
+            ))}
           </a>
         </div>
       </section>

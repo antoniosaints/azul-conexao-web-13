@@ -3,6 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCity } from "@/contexts/CityContext";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 // Fix para o ícone padrão do Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -144,17 +145,19 @@ export function CoverageMap() {
           </p>
         </div>
 
-        <Card className="max-w-7xl mx-auto mt-4">
-          <CardContent className="p-0">
-            <div className="w-full h-[600px] rounded-b-lg overflow-hidden">
-              <div
-                ref={mapContainer}
-                className="h-full w-full z-10"
-                style={{ borderRadius: "8px" }}
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <ScrollReveal delayMs={80}>
+          <Card className="max-w-7xl mx-auto mt-4">
+            <CardContent className="p-0">
+              <div className="w-full h-[600px] rounded-b-lg overflow-hidden">
+                <div
+                  ref={mapContainer}
+                  className="h-full w-full z-10"
+                  style={{ borderRadius: "8px" }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </ScrollReveal>
       </div>
     </section>
   );

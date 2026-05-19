@@ -1,5 +1,12 @@
 # Welcome to your Lovable project
 
+## Documentação do projeto
+
+Documentação criada durante a análise técnica:
+
+- `docs/ESTUDO-PROJETO-CAS.md` — arquitetura, fluxo, páginas, componentes, integração com API, riscos e inventário técnico
+- `docs/PLANO-MELHORIAS.md` — plano priorizado de evolução do projeto
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/d070ab3e-d150-495f-a4c8-f1da6aac8cdc

@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Award, MapPin, Clock } from "lucide-react";
 import { Parametros, useCity } from "@/contexts/CityContext";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 function calcularIdade(dataNascimento: string) {
   const hoje = new Date();
@@ -30,8 +31,7 @@ export function AboutSection() {
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
-          {/* Conteúdo */}
-          <div className="space-y-8">
+          <ScrollReveal className="space-y-8">
             <div>
               <h2 className="text-4xl text-primary md:text-5xl font-bold mb-6">
                 Sobre a CAS Internet
@@ -55,64 +55,68 @@ export function AboutSection() {
                 </a>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-6">
-            <Card
-              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
-              style={{ animationDelay: `${1 * 150}ms` }}
-            >
-              <CardContent className="p-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
-                  <Users className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-white mb-2">
-                  {param.total_cliente}
-                </div>
-                <p className="text-sm text-gray-100">Clientes Satisfeitos</p>
-              </CardContent>
-            </Card>
-            <Card
-              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
-              style={{ animationDelay: `${2 * 150}ms` }}
-            >
-              <CardContent className="p-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
-                  <MapPin className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-white mb-2">
-                  {availableCities.length}
-                </div>
-                <p className="text-sm text-gray-100">Cidades atendidas</p>
-              </CardContent>
-            </Card>
-            <Card
-              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
-              style={{ animationDelay: `${3 * 150}ms` }}
-            >
-              <CardContent className="p-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
-                  <Award className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-white mb-2">
-                  {calcularIdade(param.abertura_empresa)}
-                </div>
-                <p className="text-sm text-gray-100">Anos de Experiência</p>
-              </CardContent>
-            </Card>
-            <Card
-              className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300 animate-scale-in"
-              style={{ animationDelay: `${4 * 150}ms` }}
-            >
-              <CardContent className="p-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
-                  <Clock className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-white mb-2">99%</div>
-                <p className="text-sm text-gray-100">Estabilidade garantida</p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delayMs={80}>
+              <Card
+                className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300"
+              >
+                <CardContent className="p-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                    <Users className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {param.total_cliente}
+                  </div>
+                  <p className="text-sm text-gray-100">Clientes Satisfeitos</p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+            <ScrollReveal delayMs={160}>
+              <Card
+                className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300"
+              >
+                <CardContent className="p-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                    <MapPin className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {availableCities.length}
+                  </div>
+                  <p className="text-sm text-gray-100">Cidades atendidas</p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+            <ScrollReveal delayMs={240}>
+              <Card
+                className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300"
+              >
+                <CardContent className="p-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                    <Award className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {calcularIdade(param.abertura_empresa)}
+                  </div>
+                  <p className="text-sm text-gray-100">Anos de Experiência</p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
+            <ScrollReveal delayMs={320}>
+              <Card
+                className="text-center shadow-card bg-gradient-to-l from-success/90 to-primary hover:shadow-primary/10 transition-all duration-300"
+              >
+                <CardContent className="p-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/40 rounded-full mb-4">
+                    <Clock className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">99%</div>
+                  <p className="text-sm text-gray-100">Estabilidade garantida</p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           </div>
         </div>
 
@@ -126,56 +130,62 @@ export function AboutSection() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Card className="text-center shadow-card">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
-                  <img
-                    src="/assets/icone_nano.png"
-                    alt="icone_nano"
-                    className="w-8 h-8 object-contain"
-                  />
-                </div>
-                <h4 className="text-xl font-bold mb-4">Qualidade</h4>
-                <p className="text-muted-foreground">
-                  Oferecemos sempre o melhor em tecnologia e atendimento para
-                  garantir sua satisfação.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delayMs={80} className="h-full">
+              <Card className="text-center shadow-card h-full">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
+                    <img
+                      src="/assets/icone_nano.png"
+                      alt="icone_nano"
+                      className="w-8 h-8 object-contain"
+                    />
+                  </div>
+                  <h4 className="text-xl font-bold mb-4">Qualidade</h4>
+                  <p className="text-muted-foreground">
+                    Oferecemos sempre o melhor em tecnologia e atendimento para
+                    garantir sua satisfação.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-            <Card className="text-center shadow-card">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
-                  <img
-                    src="/assets/icone_nano.png"
-                    alt="icone_nano"
-                    className="w-8 h-8 object-contain"
-                  />
-                </div>
-                <h4 className="text-xl font-bold mb-4">Transparência</h4>
-                <p className="text-muted-foreground">
-                  Sem taxas escondidas, sem surpresas. Tudo sempre muito claro e
-                  transparente.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delayMs={160} className="h-full">
+              <Card className="text-center shadow-card h-full">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
+                    <img
+                      src="/assets/icone_nano.png"
+                      alt="icone_nano"
+                      className="w-8 h-8 object-contain"
+                    />
+                  </div>
+                  <h4 className="text-xl font-bold mb-4">Transparência</h4>
+                  <p className="text-muted-foreground">
+                    Sem taxas escondidas, sem surpresas. Tudo sempre muito claro e
+                    transparente.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-            <Card className="text-center shadow-card">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
-                  <img
-                    src="/assets/icone_nano.png"
-                    alt="icone_nano"
-                    className="w-8 h-8 object-contain"
-                  />
-                </div>
-                <h4 className="text-xl font-bold mb-4">Inovação</h4>
-                <p className="text-muted-foreground">
-                  Sempre investindo em novas tecnologias para oferecer o que há
-                  de melhor.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delayMs={240} className="h-full">
+              <Card className="text-center shadow-card h-full">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-success rounded-full flex items-center justify-center mx-auto mb-6">
+                    <img
+                      src="/assets/icone_nano.png"
+                      alt="icone_nano"
+                      className="w-8 h-8 object-contain"
+                    />
+                  </div>
+                  <h4 className="text-xl font-bold mb-4">Inovação</h4>
+                  <p className="text-muted-foreground">
+                    Sempre investindo em novas tecnologias para oferecer o que há
+                    de melhor.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           </div>
         </div>
       </div>

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "db95b916",
+    "label": "site-cas-dev",
+    "command": "npm run dev -- --host 0.0.0.0",
+    "cwd": "C:\\Users\\Usuario\\Desktop\\Projetos\\Site-CAS",
+    "ownerSessionFile": "C:\\Users\\Usuario\\.gsd\\sessions\\--C--Users-Usuario-Desktop-Projetos-Site-CAS--\\2026-04-17T18-09-48-609Z_5844e5a6-9e0c-44f6-bed1-f44a8e1f9012.jsonl",
+    "persistAcrossSessions": false,
+    "startedAt": 1776449691029,
+    "processType": "server",
+    "group": "site-cas",
+    "readyPattern": null,
+    "readyPort": 8090,
+    "pid": 16772
+  }
+]

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, Shield, Headphones, Wifi, Star } from "lucide-react";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 export default function Plans() {
   const benefits = [
@@ -106,19 +107,19 @@ export default function Plans() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
               {benefits.map((benefit, index) => (
-                <Card 
-                  key={index}
-                  className="text-center p-8 shadow-card hover:shadow-primary/10 transition-all duration-300 animate-fade-up"
-                  style={{ animationDelay: `${index * 150}ms` }}
-                >
-                  <CardContent className="p-0">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <benefit.icon className="w-8 h-8 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-4">{benefit.title}</h3>
-                    <p className="text-muted-foreground">{benefit.description}</p>
-                  </CardContent>
-                </Card>
+                <ScrollReveal key={benefit.title} delayMs={index * 90} className="h-full">
+                  <Card 
+                    className="text-center p-8 shadow-card hover:shadow-primary/10 transition-all duration-300 h-full"
+                  >
+                    <CardContent className="p-0">
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <benefit.icon className="w-8 h-8 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-4">{benefit.title}</h3>
+                      <p className="text-muted-foreground">{benefit.description}</p>
+                    </CardContent>
+                  </Card>
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -209,23 +210,25 @@ export default function Plans() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {testimonials.map((testimonial, index) => (
-                <Card key={index} className="p-8">
-                  <CardContent className="p-0">
-                    <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-muted-foreground mb-6 italic">"{testimonial.comment}"</p>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-semibold">{testimonial.name}</div>
-                        <div className="text-sm text-muted-foreground">{testimonial.location}</div>
+                <ScrollReveal key={testimonial.name} delayMs={index * 120} className="h-full">
+                  <Card className="p-8 h-full">
+                    <CardContent className="p-0">
+                      <div className="flex items-center mb-4">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                        ))}
                       </div>
-                      <Badge variant="outline">{testimonial.plan}</Badge>
-                    </div>
-                  </CardContent>
-                </Card>
+                      <p className="text-muted-foreground mb-6 italic">"{testimonial.comment}"</p>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-semibold">{testimonial.name}</div>
+                          <div className="text-sm text-muted-foreground">{testimonial.location}</div>
+                        </div>
+                        <Badge variant="outline">{testimonial.plan}</Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </ScrollReveal>
               ))}
             </div>
           </div>
